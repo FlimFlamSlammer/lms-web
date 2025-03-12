@@ -1,13 +1,17 @@
-import { getAuthenticatedUser } from "./actions/auth/get-authenticated-user";
+"use client";
 
-const Home = async () => {
-  const { data: user, error } = await getAuthenticatedUser();
+import { useAuth } from "@/components/providers/auth-provider";
+import { redirect } from "next/navigation";
 
-  if (error) {
-    throw new Error(error);
+const IndexPage = () => {
+  const { isLoggedIn } = useAuth();
+  if (isLoggedIn) {
+    redirect("/profile");
+  } else {
+    redirect("/login");
   }
 
-  return <div className="text-white">{user?.name}</div>;
+  return null;
 };
 
-export default Home;
+export default IndexPage;

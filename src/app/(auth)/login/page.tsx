@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { login } from "../actions/auth/login";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/components/providers/auth-provider";
 
 const LoginPage = () => {
   const router = useRouter();
   const [errorFields, setErrorFields] = useState<Record<string, string>>({});
+
+  const { login } = useAuth();
 
   return (
     <main className="w-full min-h-screen flex flex-col justify-center items-center">
