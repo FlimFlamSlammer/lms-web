@@ -7,18 +7,18 @@ import { ReactNode, useEffect } from "react";
 type Props = { children: ReactNode };
 
 export const RedirectIfAuthenticated = ({ children }: Props) => {
-  const { isLoggedIn } = useAuth();
-  const router = useRouter();
+    const { isLoggedIn } = useAuth();
+    const router = useRouter();
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      router.replace("/profile");
+    useEffect(() => {
+        if (isLoggedIn) {
+            router.replace("/profile");
+        }
+    }, [isLoggedIn, router]);
+
+    if (!isLoggedIn) {
+        return null;
     }
-  }, [isLoggedIn, router]);
 
-  if (!isLoggedIn) {
-    return null;
-  }
-
-  return children;
+    return children;
 };

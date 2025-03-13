@@ -2,15 +2,15 @@ import { RedirectIfAuthenticated } from "@/components/shared/redirect-if-authent
 import { ReactNode } from "react";
 
 type Props = {
-  children: ReactNode;
+    children: ReactNode;
 };
 
 const AuthLayout = ({ children }: Props) => {
-  return (
-    <RedirectIfAuthenticated>
-      <main className="bg-white w-full min-h-screen">{children}</main>
-    </RedirectIfAuthenticated>
-  );
+    return (
+        <RedirectIfAuthenticated>
+            <main className="bg-white w-full min-h-screen">{children}</main>
+        </RedirectIfAuthenticated>
+    );
 };
 
 export default AuthLayout;
