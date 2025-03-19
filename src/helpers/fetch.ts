@@ -4,8 +4,7 @@ import { APIResponse } from "@/types";
 
 const API_PORT = 5000;
 
-const AVAILABLE_METHODS = ["GET", "POST", "PUT", "PATCH"] as const;
-type Method = (typeof AVAILABLE_METHODS)[number];
+type Method = "GET" | "POST" | "PUT" | "PATCH";
 
 type RequestApiDTO = {
     headers?: HeadersInit;
