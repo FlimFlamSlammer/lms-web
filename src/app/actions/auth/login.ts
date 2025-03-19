@@ -9,8 +9,12 @@ export const login = async (dto: {
     email: string;
     password: string;
 }): Promise<APIResponse> => {
-    return await request_api("/auth/login", "POST", {
+    const res = await request_api("/auth/login", "POST", {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dto),
     });
+
+    await setLoginCookie(res.data.token);
+
+    return res;
 };
