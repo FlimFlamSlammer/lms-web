@@ -1,7 +1,7 @@
 "use client";
 
-import { login as loginAction } from "@/app/actions/auth/login";
-import { logout as logoutAction } from "@/app/actions/auth/logout";
+import { login as loginAction } from "@/actions/auth/login";
+import { logout as logoutAction } from "@/actions/auth/logout";
 import { User } from "@/types";
 import { useRouter } from "next/navigation";
 import {
