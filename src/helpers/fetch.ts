@@ -12,7 +12,7 @@ type RequestApiDTO = {
     body?: BodyInit;
 };
 
-export const request_api = async (
+export const requestApi = async (
     path: string,
     method: Method,
     { headers, body }: RequestApiDTO

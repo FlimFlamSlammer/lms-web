@@ -2,14 +2,14 @@
 // means only be access by server component.
 
 import { setLoginCookie } from "@/helpers/auth/cookie";
-import { request_api } from "@/helpers/fetch";
+import { requestApi } from "@/helpers/fetch";
 import { APIResponse } from "@/types";
 
 export const login = async (dto: {
     email: string;
     password: string;
 }): Promise<APIResponse> => {
-    const res = await request_api("/auth/login", "POST", {
+    const res = await requestApi("/auth/login", "POST", {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dto),
     });
