@@ -4,14 +4,14 @@ import { useAuth } from "@/components/providers/auth-provider";
 import { redirect } from "next/navigation";
 
 const IndexPage = () => {
-  const { isLoggedIn } = useAuth();
-  if (isLoggedIn) {
-    redirect("/profile");
-  } else {
-    redirect("/login");
-  }
+    const { isLoggedIn } = useAuth();
+    if (isLoggedIn) {
+        redirect("/profile");
+    } else {
+        redirect("/login");
+    }
 
-  return null;
+    return null;
 };
 
 export default IndexPage;

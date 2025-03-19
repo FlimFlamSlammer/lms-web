@@ -11,7 +11,7 @@ const LoginPage = () => {
     const { login } = useAuth();
 
     return (
-        <main className="w-full min-h-screen flex flex-col justify-center items-center">
+        <div className="w-full min-h-screen flex flex-col justify-center items-center">
             <form
                 action={async (formData) => {
                     const data = {
@@ -42,7 +42,7 @@ const LoginPage = () => {
                 </div>
                 <button>Login</button>
             </form>
-        </main>
+        </div>
     );
 };
 

@@ -1,6 +1,7 @@
 "use server";
 
 import { APIResponse } from "@/types";
+import { getLoginCookie } from "./auth/cookie";
 
 const API_PORT = 5000;
 
@@ -42,4 +43,21 @@ export const requestApi = async (
     }
 
     return res;
+};
+
+export const requestApiWithAuthentication = async (
+    path: string,
+    method: Method,
+    { headers, body }: RequestApiDTO
+): Promise<APIResponse> => {
+    const token = await getLoginCookie();
+
+    return await requestApi(path, method, {
+        headers: {
+            ...headers,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token?.value}`,
+        },
+        body,
+    });
 };

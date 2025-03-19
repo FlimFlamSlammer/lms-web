@@ -36,7 +36,7 @@ type Props = {
     children: ReactNode;
 };
 
-export const AuthProvider = ({ children, user }: Props) => {
+export const AuthProvider = ({ user, children }: Props) => {
     const [_user, _setUser] = useState<User | null>(user);
 
     const isLoggedIn = !!_user;
@@ -58,7 +58,6 @@ export const AuthProvider = ({ children, user }: Props) => {
         },
         []
     );
-
     return (
         <AuthContext.Provider
             value={{ user: _user, isLoggedIn, login, logout }}

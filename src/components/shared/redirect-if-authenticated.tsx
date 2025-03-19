@@ -16,9 +16,5 @@ export const RedirectIfAuthenticated = ({ children }: Props) => {
         }
     }, [isLoggedIn, router]);
 
-    if (!isLoggedIn) {
-        return null;
-    }
-
     return children;
 };
