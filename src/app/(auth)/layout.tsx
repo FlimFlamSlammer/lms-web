@@ -8,7 +8,7 @@ type Props = {
 const AuthLayout = ({ children }: Props) => {
     return (
         <RedirectIfAuthenticated>
-            <main className="bg-white w-full min-h-screen">{children}</main>
+            <main className="w-full min-h-screen">{children}</main>
         </RedirectIfAuthenticated>
     );
 };

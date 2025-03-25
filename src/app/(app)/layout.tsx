@@ -1,4 +1,6 @@
+import { AppSidebar } from "@/components/app-sidebar";
 import { AuthGuard } from "@/components/providers/auth-provider";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { ReactNode } from "react";
 
 type Props = {
@@ -8,7 +10,10 @@ type Props = {
 const AppLayout = ({ children }: Props) => {
     return (
         <AuthGuard>
-            <main className="bg-white w-full min-h-screen">{children}</main>
+            <SidebarProvider>
+                <AppSidebar></AppSidebar>
+                <main className="w-full min-h-screen">{children}</main>
+            </SidebarProvider>
         </AuthGuard>
     );
 };

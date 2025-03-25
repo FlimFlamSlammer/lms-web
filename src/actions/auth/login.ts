@@ -14,7 +14,9 @@ export const login = async (dto: {
         body: JSON.stringify(dto),
     });
 
-    await setLoginCookie(res.data.token);
+    if (res.data) {
+        await setLoginCookie(res.data.token);
+    }
 
     return res;
 };

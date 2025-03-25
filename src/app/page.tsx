@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 const IndexPage = () => {
     const { isLoggedIn } = useAuth();
     if (isLoggedIn) {
-        redirect("/profile");
+        redirect("/dashboard");
     } else {
         redirect("/login");
     }
