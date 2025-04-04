@@ -16,7 +16,7 @@ import {
 type AuthContextValue = {
     user: User | null;
     isLoggedIn: boolean;
-    logout: () => void;
+    logout: () => Promise<void>;
     login: (
         params: Parameters<typeof loginAction>[0]
     ) => ReturnType<typeof loginAction>;
@@ -25,7 +25,7 @@ type AuthContextValue = {
 const AuthContext = createContext<AuthContextValue>({
     user: null,
     isLoggedIn: false,
-    logout: () => {},
+    logout: async () => {},
     login: (params) => {
         return loginAction(params);
     },
@@ -43,15 +43,17 @@ export const AuthProvider = ({ user, children }: Props) => {
 
     const logout = useCallback(async () => {
         await logoutAction();
+        return;
     }, []);
 
     const login = useCallback(
         async (params: Parameters<typeof loginAction>[0]) => {
             const response = await loginAction(params);
-            const { data: user } = response;
+            const { data } = response;
+            console.log(response);
 
-            if (user) {
-                _setUser(user);
+            if (data.user) {
+                _setUser(data.user);
             }
 
             return response;
