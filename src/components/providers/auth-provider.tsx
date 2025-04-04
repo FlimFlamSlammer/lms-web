@@ -42,6 +42,7 @@ export const AuthProvider = ({ user, children }: Props) => {
     const isLoggedIn = !!_user;
 
     const logout = useCallback(async () => {
+        _setUser(null);
         await logoutAction();
         return;
     }, []);
@@ -50,9 +51,8 @@ export const AuthProvider = ({ user, children }: Props) => {
         async (params: Parameters<typeof loginAction>[0]) => {
             const response = await loginAction(params);
             const { data } = response;
-            console.log(response);
 
-            if (data.user) {
+            if (data?.user) {
                 _setUser(data.user);
             }
 

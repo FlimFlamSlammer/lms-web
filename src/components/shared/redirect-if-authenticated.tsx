@@ -12,7 +12,7 @@ export const RedirectIfAuthenticated = ({ children }: Props) => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            router.replace("/profile");
+            router.replace("/account/profile");
         }
     }, [isLoggedIn, router]);
 

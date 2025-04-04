@@ -15,8 +15,3 @@ export type APIResponse = {
     errorFields: Record<string, string> | null;
     data: any;
 };
-
-export type SidebarMenuItem = {
-    title: string;
-    roles?: UserRole[];
-};

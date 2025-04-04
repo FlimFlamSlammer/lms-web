@@ -10,12 +10,17 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useAuth } from "./providers/auth-provider";
-import { SidebarMenuItem as MenuItem } from "@/types";
+import { UserRole } from "@/types";
+
+export type MenuItem = {
+    title: string;
+    roles?: UserRole[];
+};
 
 export function AppSidebar() {
     const menuItems: MenuItem[] = [
         {
-            title: "Profile",
+            title: "Account",
             roles: ["student", "teacher", "admin", "superadmin"],
         },
         {
