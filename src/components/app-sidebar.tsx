@@ -17,18 +17,18 @@ export type MenuItem = {
     roles?: UserRole[];
 };
 
-export function AppSidebar() {
-    const menuItems: MenuItem[] = [
-        {
-            title: "Account",
-            roles: ["student", "teacher", "admin", "superadmin"],
-        },
-        {
-            title: "Courses",
-            roles: ["student", "teacher", "admin", "superadmin"],
-        },
-    ];
+const menuItems: MenuItem[] = [
+    {
+        title: "Account",
+        roles: ["student", "teacher", "admin", "superadmin"],
+    },
+    {
+        title: "Courses",
+        roles: ["student", "teacher", "admin", "superadmin"],
+    },
+];
 
+export function AppSidebar() {
     const visibleMenuItems: MenuItem[] = [];
 
     const { user } = useAuth();

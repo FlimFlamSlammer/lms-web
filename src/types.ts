@@ -10,8 +10,8 @@ export type User = {
     profileImage: string | null;
 };
 
-export type APIResponse = {
+export type APIResponse<T = never> = {
     error: string | null;
     errorFields: Record<string, string> | null;
-    data: any;
+    data: T;
 };

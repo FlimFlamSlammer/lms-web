@@ -3,21 +3,26 @@
 import { APIResponse } from "@/types";
 import { getLoginCookie } from "./auth/cookie";
 
-const API_PORT = 5000;
-
 type Method = "GET" | "POST" | "PUT" | "PATCH";
 
 type RequestApiDTO = {
     headers?: HeadersInit;
     body?: BodyInit;
+    params?: Record<string, any>;
 };
 
 export const requestApi = async (
     path: string,
     method: Method,
-    { headers, body }: RequestApiDTO
+    { headers, body, params = {} }: RequestApiDTO
 ): Promise<APIResponse> => {
-    path = `http://localhost:${API_PORT}/api/v1${path}`;
+    const searchParams = new URLSearchParams();
+
+    Object.entries(params).forEach(([key, value]) => {
+        searchParams.append(key, value);
+    });
+
+    path = `${process.env.BASE_URL}${path}?${searchParams.toString()}`;
 
     const response = await fetch(path, {
         method,
@@ -25,7 +30,7 @@ export const requestApi = async (
         body,
     });
 
-    const res: APIResponse = {
+    const res: APIResponse<any> = {
         error: null,
         errorFields: null,
         data: null,
@@ -48,7 +53,7 @@ export const requestApi = async (
 export const requestApiWithAuthentication = async (
     path: string,
     method: Method,
-    { headers, body }: RequestApiDTO
+    { headers, body, params }: RequestApiDTO
 ): Promise<APIResponse> => {
     const token = await getLoginCookie();
 
@@ -59,5 +64,6 @@ export const requestApiWithAuthentication = async (
             Authorization: `Bearer ${token?.value}`,
         },
         body,
+        params,
     });
 };
