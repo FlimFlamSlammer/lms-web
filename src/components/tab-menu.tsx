@@ -8,10 +8,8 @@ import {
 } from "./ui/navigation-menu";
 
 export type TabMenuItem = {
-    type: "link" | "button";
     title: string;
-    href?: string;
-    onClick?: () => void;
+    href: string;
 };
 
 export type TabMenuProps = {
@@ -21,41 +19,19 @@ export type TabMenuProps = {
 export const TabMenu = ({ items }: TabMenuProps) => {
     return (
         <NavigationMenu orientation="vertical" className="items-start">
-            <NavigationMenuList className="w-32">
+            <NavigationMenuList className="w-[6rem]">
                 {items.map((item) => {
-                    if (item.type == "link") {
-                        if (!item.href) {
-                            throw Error(
-                                "Link in TabMenu does not contain href!"
-                            );
-                        }
-
-                        return (
-                            <NavigationMenuItem key={item.title}>
-                                <Link href={item.href} legacyBehavior passHref>
-                                    <NavigationMenuLink
-                                        className={`${navigationMenuTriggerStyle()} w-32`}
-                                    >
-                                        {item.title}
-                                    </NavigationMenuLink>
-                                </Link>
-                            </NavigationMenuItem>
-                        );
-                    } else {
-                        return (
-                            <NavigationMenuItem
-                                key={item.title}
-                                onClick={item.onClick}
-                            >
-                                {" "}
-                                <span
-                                    className={`${navigationMenuTriggerStyle()} w-32 hover:cursor-pointer`}
+                    return (
+                        <NavigationMenuItem key={item.title}>
+                            <Link href={item.href} legacyBehavior passHref>
+                                <NavigationMenuLink
+                                    className={`${navigationMenuTriggerStyle()} w-[6rem]`}
                                 >
                                     {item.title}
-                                </span>
-                            </NavigationMenuItem>
-                        );
-                    }
+                                </NavigationMenuLink>
+                            </Link>
+                        </NavigationMenuItem>
+                    );
                 })}
             </NavigationMenuList>
         </NavigationMenu>
