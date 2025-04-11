@@ -11,20 +11,29 @@ import {
 } from "@/components/ui/sidebar";
 import { useAuth } from "./providers/auth-provider";
 import { UserRole } from "@/types";
+import Link from "next/link";
 
 export type MenuItem = {
     title: string;
+    href: string;
     roles?: UserRole[];
 };
 
 const menuItems: MenuItem[] = [
     {
         title: "Account",
+        href: "/account/profile",
         roles: ["student", "teacher", "admin", "superadmin"],
     },
     {
         title: "Courses",
+        href: "/courses",
         roles: ["student", "teacher", "admin", "superadmin"],
+    },
+    {
+        title: "Users",
+        href: "/users",
+        roles: ["admin", "superadmin"],
     },
 ];
 
@@ -56,8 +65,10 @@ export function AppSidebar() {
                             className="flex flex-row"
                             key={menuItem.title}
                         >
-                            <SidebarMenuButton>
-                                {menuItem.title}
+                            <SidebarMenuButton asChild>
+                                <Link href={menuItem.href}>
+                                    {menuItem.title}
+                                </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     ))}
