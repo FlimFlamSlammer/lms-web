@@ -3,7 +3,6 @@
 import { useAuth } from "@/components/providers/auth-provider";
 import { TabMenu, TabMenuItem } from "@/components/tab-menu";
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
-import { useRouter } from "next/navigation";
 import { ReactNode } from "react";
 
 const tabMenuItems: TabMenuItem[] = [
@@ -29,7 +28,7 @@ const AccountLayout = ({ children }: Props) => {
             <div className="relative z-10 flex flex-col max-w-max flex-1 justify-center items-start h-fit gap-1">
                 <TabMenu items={tabMenuItems}></TabMenu>
                 <button
-                    className={`${navigationMenuTriggerStyle()} w-[6rem] hover:cursor-pointer`}
+                    className={`${navigationMenuTriggerStyle()} w-[6rem]`}
                     onClick={() => {
                         logout();
                     }}
