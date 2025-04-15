@@ -3,6 +3,11 @@
 import { requestApiWithAuthentication } from "@/helpers/fetch";
 import { APIResponse, User } from "@/types";
 
+export type ListAccountsResponse = APIResponse<{
+    users: User[];
+    total: number;
+}>;
+
 export const listAccounts = async ({
     page,
     size = 10,
@@ -15,12 +20,7 @@ export const listAccounts = async ({
     mode?: "all" | "pagination";
     search?: string;
     status: "all" | "active" | "inactive";
-}): Promise<
-    APIResponse<{
-        users: User[];
-        total: number;
-    }>
-> => {
+}): Promise<ListAccountsResponse> => {
     return await requestApiWithAuthentication(`/users`, "GET", {
         params: {
             page: String(page),

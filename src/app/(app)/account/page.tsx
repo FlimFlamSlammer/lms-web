@@ -1,4 +1,4 @@
-import { listAccounts } from "@/actions/accounts/list-accounts";
+import { listAccounts } from "@/actions/users/list-users";
 
 type Props = {
     searchParams: {
