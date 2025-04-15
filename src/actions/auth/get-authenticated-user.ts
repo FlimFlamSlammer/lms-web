@@ -1,8 +1,12 @@
 "use server";
 
 import { requestApiWithAuthentication } from "@/helpers/fetch";
-import { APIResponse } from "@/types";
+import { APIResponse, User } from "@/types";
 
-export const getAuthenticatedUser = async (): Promise<APIResponse> => {
+export type GetUserResponse = APIResponse<{
+    user: User;
+}>;
+
+export const getAuthenticatedUser = async (): Promise<GetUserResponse> => {
     return await requestApiWithAuthentication("/auth/me", "GET", {});
 };

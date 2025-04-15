@@ -1,7 +1,7 @@
 "use client";
 
 import { listAccounts, ListAccountsResponse } from "@/actions/users/list-users";
-import { ColumnDef, PaginationState } from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/data-table";
 import { User } from "@/types";
 import { useEffect, useState, use } from "react";
