@@ -44,7 +44,7 @@ export function DataTable<TData, TValue>({
         manualPagination: true,
         state: {
             pagination: {
-                pageIndex: page,
+                pageIndex: page - 1, // zero-indexing
                 pageSize,
             },
         },
@@ -113,7 +113,7 @@ export function DataTable<TData, TValue>({
                         table.previousPage();
                         onPageChange(page - 1);
                     }}
-                    //disabled={!table.getCanPreviousPage()}
+                    disabled={!table.getCanPreviousPage()}
                 >
                     Previous
                 </Button>
@@ -124,7 +124,7 @@ export function DataTable<TData, TValue>({
                         table.nextPage();
                         onPageChange(page + 1);
                     }}
-                    //disabled={!table.getCanNextPage()}
+                    disabled={!table.getCanNextPage()}
                 >
                     Next
                 </Button>
