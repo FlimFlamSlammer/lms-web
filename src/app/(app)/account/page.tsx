@@ -1,13 +1,14 @@
 import { listAccounts } from "@/actions/users/list-users";
 
 type Props = {
-    searchParams: {
+    searchParams: Promise<{
         status?: string;
         page?: string;
-    };
+    }>;
 };
 
-const AccountsPage = async ({ searchParams }: Props) => {
+const AccountsPage = async (props: Props) => {
+    const searchParams = await props.searchParams;
     const page = Math.max(parseInt(searchParams.page || "1"), 1);
 
     const {

@@ -4,14 +4,14 @@ import { listAccounts, ListAccountsResponse } from "@/actions/users/list-users";
 import { ColumnDef, PaginationState } from "@tanstack/react-table";
 import { DataTable } from "@/components/data-table";
 import { User } from "@/types";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState, use } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 type Props = {
-    searchParams: {
+    searchParams: Promise<{
         status?: string;
         page?: string;
-    };
+    }>;
 };
 
 export type UserTableData = {
@@ -40,8 +40,10 @@ export const columns: ColumnDef<User>[] = [
     },
 ];
 
-const UsersPage = ({ searchParams }: Props) => {
+const UsersPage = (props: Props) => {
+    const searchParams = use(props.searchParams);
     const router = useRouter();
+    const pathname = usePathname();
     const [
         { data: { users, total } } = {
             data: {
@@ -74,10 +76,12 @@ const UsersPage = ({ searchParams }: Props) => {
                 rowCount={total}
                 page={page}
                 pageSize={10}
-                onPaginationChange={(paginationData) => {
-                    const { pageIndex } = paginationData as PaginationState;
-                    router.query.page = pageIndex.toString();
-                    router.push(router.route);
+                onPageChange={(pageIndex) => {
+                    const params = new URLSearchParams(searchParams);
+                    if (pageIndex) {
+                        params.set("page", pageIndex.toString());
+                    }
+                    router.replace(`${pathname}?${params.toString()}`);
                 }}
             ></DataTable>
         </div>
