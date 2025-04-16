@@ -4,7 +4,7 @@ import { UserFormFilter } from "@/components/users/form-filter";
 
 type Props = {
     searchParams: Promise<{
-        status?: string;
+        status?: "all" | "active" | "inactive";
         page?: string;
         search?: string;
     }>;
@@ -18,7 +18,7 @@ const UsersPage = async ({ searchParams }: Props) => {
         error,
     } = await listAccounts({
         page,
-        status: "all",
+        status: (await searchParams).status,
         search: (await searchParams).search,
     });
 

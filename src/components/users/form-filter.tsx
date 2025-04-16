@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 export const UserFormFilter = () => {
     const searchParams = useSearchParams();
@@ -9,6 +10,7 @@ export const UserFormFilter = () => {
 
     return (
         <form
+            className="flex items-center gap-x-2"
             action={async (formData) => {
                 const params = new URLSearchParams(searchParams);
                 const searchValue = String(formData.get("search"));
@@ -28,6 +30,7 @@ export const UserFormFilter = () => {
                 id="search"
                 defaultValue={searchParams.get("search") || ""}
             />
+            <Button type="submit">Search</Button>
         </form>
     );
 };

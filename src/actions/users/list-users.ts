@@ -13,13 +13,13 @@ export const listAccounts = async ({
     size = 10,
     mode = "pagination",
     search,
-    status,
+    status = "all",
 }: {
     page: number;
     size?: number;
     mode?: "all" | "pagination";
     search?: string;
-    status: "all" | "active" | "inactive";
+    status?: "all" | "active" | "inactive";
 }): Promise<ListAccountsResponse> => {
     return await requestApiWithAuthentication(`/users`, "GET", {
         params: {
