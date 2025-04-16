@@ -5,7 +5,7 @@ import {
     NavigationMenuItem,
     NavigationMenuLink,
     navigationMenuTriggerStyle,
-} from "./ui/navigation-menu";
+} from "./navigation-menu";
 
 export type TabMenuItem = {
     title: string;

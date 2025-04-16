@@ -2,10 +2,20 @@
 
 import { listAccounts, ListAccountsResponse } from "@/actions/users/list-users";
 import { ColumnDef } from "@tanstack/react-table";
-import { DataTable } from "@/components/data-table";
+import { DataTable } from "@/components/users/data-table";
 import { User } from "@/types";
 import { useEffect, useState, use } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MoreHorizontal } from "lucide-react";
 
 type Props = {
     searchParams: Promise<{
@@ -38,6 +48,30 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: "role",
         header: "Role",
     },
+    {
+        id: "actions",
+        cell: ({ row }) => {
+            const user = row.original;
+
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                            <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <DropdownMenuItem>
+                            {user.status == "active"
+                                ? "Deactivate"
+                                : "Activate"}
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            );
+        },
+    },
 ];
 
 const UsersPage = (props: Props) => {
@@ -65,11 +99,8 @@ const UsersPage = (props: Props) => {
         });
     }, [page]);
 
-    console.log(users);
-    console.log(total);
-
     return (
-        <div>
+        <div className="flex flex-col w-full h-full p-4">
             <DataTable
                 columns={columns}
                 data={users}

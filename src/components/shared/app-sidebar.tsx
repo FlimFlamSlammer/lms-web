@@ -9,7 +9,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { useAuth } from "./providers/auth-provider";
+import { useAuth } from "../providers/auth-provider";
 import { UserRole } from "@/types";
 import Link from "next/link";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/components/providers/auth-provider";
-import { TabMenu, TabMenuItem } from "@/components/tab-menu";
+import { TabMenu, TabMenuItem } from "@/components/ui/tab-menu";
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { ReactNode } from "react";
 

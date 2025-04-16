@@ -2,10 +2,12 @@
 
 import {
     ColumnDef,
+    ColumnFiltersState,
     flexRender,
     getCoreRowModel,
     useReactTable,
     getPaginationRowModel,
+    getFilteredRowModel,
 } from "@tanstack/react-table";
 
 import {
@@ -16,7 +18,9 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -35,6 +39,8 @@ export function DataTable<TData, TValue>({
     pageSize,
     onPageChange,
 }: DataTableProps<TData, TValue>) {
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
     const table = useReactTable({
         data,
         columns,
@@ -47,11 +53,29 @@ export function DataTable<TData, TValue>({
                 pageIndex: page - 1, // zero-indexing
                 pageSize,
             },
+            columnFilters,
         },
+        onColumnFiltersChange: setColumnFilters,
+        getFilteredRowModel: getFilteredRowModel(),
     });
 
     return (
         <div>
+            <div className="flex items-center py-4">
+                <Input
+                    placeholder="Search"
+                    value={
+                        (table.getColumn("name")?.getFilterValue() as string) ??
+                        ""
+                    }
+                    onChange={(event) =>
+                        table
+                            .getColumn("name")
+                            ?.setFilterValue(event.target.value)
+                    }
+                    className="max-w-sm"
+                />
+            </div>
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
@@ -106,6 +130,9 @@ export function DataTable<TData, TValue>({
                 </Table>
             </div>
             <div className="flex items-center justify-end space-x-2 py-4">
+                <span className="text-sm">
+                    Page {page} of {Math.ceil(rowCount / pageSize)}
+                </span>
                 <Button
                     variant="outline"
                     size="sm"

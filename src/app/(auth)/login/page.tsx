@@ -11,7 +11,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FormInput } from "@/components/form-input";
+import { FormInput } from "@/components/ui/form-input";
 
 const LoginPage = () => {
     const router = useRouter();

@@ -1,4 +1,4 @@
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar } from "@/components/shared/app-sidebar";
 import { AuthGuard } from "@/components/providers/auth-provider";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { ReactNode } from "react";
