@@ -1,13 +1,9 @@
-"use client";
-
 import {
     ColumnDef,
-    ColumnFiltersState,
     flexRender,
     getCoreRowModel,
     useReactTable,
     getPaginationRowModel,
-    getFilteredRowModel,
 } from "@tanstack/react-table";
 
 import {
@@ -19,9 +15,6 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Button } from "../ui/button";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
-
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
@@ -39,8 +32,6 @@ export function DataTable<TData, TValue>({
     pageSize,
     onPageChange,
 }: DataTableProps<TData, TValue>) {
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-
     const table = useReactTable({
         data,
         columns,
@@ -53,29 +44,11 @@ export function DataTable<TData, TValue>({
                 pageIndex: page - 1, // zero-indexing
                 pageSize,
             },
-            columnFilters,
         },
-        onColumnFiltersChange: setColumnFilters,
-        getFilteredRowModel: getFilteredRowModel(),
     });
 
     return (
         <div>
-            <div className="flex items-center py-4">
-                <Input
-                    placeholder="Search"
-                    value={
-                        (table.getColumn("name")?.getFilterValue() as string) ??
-                        ""
-                    }
-                    onChange={(event) =>
-                        table
-                            .getColumn("name")
-                            ?.setFilterValue(event.target.value)
-                    }
-                    className="max-w-sm"
-                />
-            </div>
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
