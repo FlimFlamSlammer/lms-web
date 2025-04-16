@@ -1,3 +1,5 @@
+"use client";
+
 import {
     ColumnDef,
     flexRender,
@@ -15,23 +17,77 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Button } from "../ui/button";
-interface DataTableProps<TData, TValue> {
-    columns: ColumnDef<TData, TValue>[];
-    data: TData[];
+import { useRouter, useSearchParams } from "next/navigation";
+import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
+import { MoreHorizontal } from "lucide-react";
+import {
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { User } from "@/types";
+
+export type UserTableData = {
+    name: string;
+    email: string;
+    phoneNumber: string;
+    role: string;
+};
+
+export const columns: ColumnDef<User>[] = [
+    {
+        accessorKey: "name",
+        header: "Name",
+    },
+    {
+        accessorKey: "email",
+        header: "Email",
+    },
+    {
+        accessorKey: "phoneNumber",
+        header: "Phone Number",
+    },
+    {
+        accessorKey: "role",
+        header: "Role",
+    },
+    {
+        id: "actions",
+        cell: ({ row }) => {
+            const user = row.original;
+
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                            <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <DropdownMenuItem>
+                            {user.status == "active"
+                                ? "Deactivate"
+                                : "Activate"}
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            );
+        },
+    },
+];
+
+interface Props {
+    data: User[];
     rowCount: number;
     page: number;
     pageSize: number;
-    onPageChange: (page: number) => void;
 }
 
-export function DataTable<TData, TValue>({
-    columns,
-    data,
-    rowCount,
-    page,
-    pageSize,
-    onPageChange,
-}: DataTableProps<TData, TValue>) {
+export function UserDataTable({ data, rowCount, page, pageSize }: Props) {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
     const table = useReactTable({
         data,
         columns,
@@ -46,6 +102,12 @@ export function DataTable<TData, TValue>({
             },
         },
     });
+
+    const onPageChange = (pageIndex: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set("page", pageIndex.toString());
+        router.replace(`/users?${params.toString()}`);
+    };
 
     return (
         <div>
