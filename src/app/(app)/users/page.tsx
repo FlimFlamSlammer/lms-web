@@ -78,15 +78,10 @@ const UsersPage = (props: Props) => {
     const searchParams = use(props.searchParams);
     const router = useRouter();
     const pathname = usePathname();
-    const [
-        { data: { users, total } } = {
-            data: {
-                users: [],
-                total: 0,
-            },
-        },
-        setData,
-    ] = useState<ListAccountsResponse>();
+    const [{ users, total }, setData] = useState<ListAccountsResponse["data"]>({
+        users: [],
+        total: 0,
+    });
 
     const page = Math.max(parseInt(searchParams.page || "1"), 1);
 
@@ -96,7 +91,7 @@ const UsersPage = (props: Props) => {
             status: "all",
             search: searchParams.search,
         }).then((res) => {
-            setData(res);
+            setData(res.data);
         });
     }, [page, searchParams.search]);
 
