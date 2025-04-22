@@ -16,10 +16,10 @@ import { FormInput } from "@/components/ui/form-input";
 const LoginPage = () => {
     const router = useRouter();
     const [errorFields, setErrorFields] = useState<Record<string, string>>({});
-    const [optimisticErrorFields, setOptimisticErrorFields] = useOptimistic(
-        errorFields,
-        (_state, newErrorFields: Record<string, string>) => newErrorFields
-    );
+    // const [optimisticErrorFields, setOptimisticErrorFields] = useOptimistic(
+    //     errorFields,
+    //     (_state, newErrorFields: Record<string, string>) => newErrorFields
+    // );
 
     const [isSubmitting, setIsSubmitting] = useOptimistic(
         false,
@@ -34,7 +34,6 @@ const LoginPage = () => {
             email: formData.get("email") as string,
             password: formData.get("password") as string,
         };
-        setOptimisticErrorFields({});
         setErrorFields({});
 
         login(data).then(({ error, errorFields }) => {
@@ -65,7 +64,7 @@ const LoginPage = () => {
                             name="email"
                             id="email"
                             placeholder="Email"
-                            errorMessage={optimisticErrorFields.email}
+                            errorMessage={errorFields.email}
                             type="email"
                         >
                             Email
@@ -74,7 +73,7 @@ const LoginPage = () => {
                             name="password"
                             id="password"
                             placeholder="Password"
-                            errorMessage={optimisticErrorFields.password}
+                            errorMessage={errorFields.password}
                             type="password"
                         >
                             Password

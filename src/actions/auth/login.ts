@@ -3,10 +3,11 @@
 
 import { setLoginCookie } from "@/helpers/auth/cookie";
 import { requestApi } from "@/helpers/fetch";
-import { APIResponse } from "@/types";
+import { APIResponse, User } from "@/types";
 
 export type LoginResponse = APIResponse<{
     token: string;
+    user: User;
 }>;
 
 export const login = async (dto: {

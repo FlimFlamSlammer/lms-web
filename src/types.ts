@@ -1,14 +1,39 @@
 export type UserRole = "superadmin" | "teacher" | "student" | "admin";
 
 export type User = {
-    id: string;
     name: string;
+    id: string;
     email: string;
-    phoneNumber: string | null;
-    status: "active" | "inactive";
+    phoneNumber?: string;
+    status: string;
+    password: string;
     role: UserRole;
-    profileImage: string | null;
+    profileImage?: string;
+    roleData?: Student | Teacher;
 };
+export type Student = {
+    id: string;
+    birthDate: string;
+    nis: string;
+    description?: string;
+    fatherName?: string;
+    motherName?: string;
+    guardianName?: string;
+    contactPhoneNumber: string;
+};
+export type Teacher = {
+    id: string;
+    nig: string;
+    expertise?: string;
+    bachelorDegree?: string;
+    masterDegree?: string;
+    doctorateDegree?: string;
+    description?: string;
+};
+
+export type UpdateUserDTO = Partial<Omit<User, "role" | "id">>;
+export type UpdateStudentDTO = Partial<CreateStudentDTO>;
+export type UpdateTeacherDTO = Partial<CreateTeacherDTO>;
 
 export type APIResponse<T = never> = {
     error: string | null;

@@ -30,7 +30,9 @@ export const UserFormFilter = () => {
                 id="search"
                 defaultValue={searchParams.get("search") || ""}
             />
-            <Button type="submit">Search</Button>
+            <Button type="submit" variant="outline">
+                Search
+            </Button>
         </form>
     );
 };

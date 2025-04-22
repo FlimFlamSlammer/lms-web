@@ -1,6 +1,9 @@
 import { listAccounts } from "@/actions/users/list-users";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { UserDataTable } from "@/components/users/data-table";
 import { UserFormFilter } from "@/components/users/form-filter";
+import Link from "next/link";
 
 type Props = {
     searchParams: Promise<{
@@ -28,8 +31,13 @@ const UsersPage = async ({ searchParams }: Props) => {
 
     return (
         <div className="flex flex-col w-full h-full p-4">
-            <div className="flex items-center py-4">
+            <h1 className="text-4xl font-light">Users</h1>
+            <Separator className="my-2"></Separator>
+            <div className="flex items-center justify-between my-4">
                 <UserFormFilter />
+                <Button asChild>
+                    <Link href="/users/create">Add User</Link>
+                </Button>
             </div>
             <UserDataTable
                 data={users}

@@ -63,7 +63,7 @@ export const columns: ColumnDef<User>[] = [
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent>
+                    <DropdownMenuContent align="end">
                         <DropdownMenuItem>Edit</DropdownMenuItem>
                         <DropdownMenuItem>
                             {user.status == "active"
