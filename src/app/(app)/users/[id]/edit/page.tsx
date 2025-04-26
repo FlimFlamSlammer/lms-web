@@ -3,18 +3,34 @@
 import {
     CreateStudentDTO,
     CreateTeacherDTO,
-    createUser,
     CreateUserDTO,
 } from "@/actions/users/create-user";
+import { getUser } from "@/actions/users/get-user";
+import { updateUser } from "@/actions/users/update-user";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { FormButton } from "@/components/ui/form-button";
 import { Separator } from "@/components/ui/separator";
 import { CreateUserInputs } from "@/components/users/user-form";
-import { UserRole } from "@/types";
+import { User, UserRole } from "@/types";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const CreateUserPage = () => {
+    const { id }: { id: string } = useParams();
+    const [user, setUser] = useState<User | undefined>();
+
+    useEffect(() => {
+        getUser(id).then((res) => {
+            setUser(res.data);
+        });
+    }, [setUser, id]);
+
     const action = (formData: FormData) => {
+        if (!user) {
+            throw new Error("form submitted before user was gotten!");
+        }
+
         const data: {
             userData: CreateUserDTO;
             roleData: CreateStudentDTO | CreateTeacherDTO | undefined;
@@ -56,7 +72,7 @@ const CreateUserPage = () => {
             };
         }
 
-        return createUser(data);
+        return updateUser(user?.id, data);
     };
 
     return (
@@ -69,7 +85,9 @@ const CreateUserPage = () => {
                     <CardContent>
                         <Form action={action}>
                             <CreateUserInputs />
-                            <FormButton className="ml-auto">Submit</FormButton>
+                            <FormButton className="ml-auto" disabled={!user}>
+                                Submit
+                            </FormButton>
                         </Form>
                     </CardContent>
                 </Card>

@@ -1,5 +1,6 @@
 "use client";
 
+import { RedirectIfAuthenticated } from "@/components/shared/redirect-if-authenticated";
 import { useOptimistic, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/providers/auth-provider";
@@ -49,40 +50,41 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="w-full min-h-screen flex flex-col justify-center items-center">
-            <Card>
-                <CardHeader>
-                    <CardTitle>Welcome!</CardTitle>
-                    <CardDescription>Please login to continue.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <form
-                        action={submitHandler}
-                        className="flex flex-col space-y-3"
-                    >
-                        <FormInput
-                            name="email"
-                            id="email"
-                            placeholder="Email"
-                            errorMessage={errorFields.email}
-                            type="email"
-                        >
-                            Email
-                        </FormInput>
-                        <FormInput
-                            name="password"
-                            id="password"
-                            placeholder="Password"
-                            errorMessage={errorFields.password}
-                            type="password"
-                        >
-                            Password
-                        </FormInput>
-                        <Button disabled={isSubmitting}>Login</Button>
-                    </form>
-                </CardContent>
-            </Card>
-        </div>
+        <RedirectIfAuthenticated>
+            <div className="w-full min-h-screen flex flex-col justify-center items-center">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Welcome!</CardTitle>
+                        <CardDescription>
+                            Please login to continue.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <form action={submitHandler} className="form">
+                            <FormInput
+                                name="email"
+                                id="email"
+                                placeholder="Email"
+                                errorMessage={errorFields.email}
+                                type="email"
+                            >
+                                Email
+                            </FormInput>
+                            <FormInput
+                                name="password"
+                                id="password"
+                                placeholder="Password"
+                                errorMessage={errorFields.password}
+                                type="password"
+                            >
+                                Password
+                            </FormInput>
+                            <Button disabled={isSubmitting}>Login</Button>
+                        </form>
+                    </CardContent>
+                </Card>
+            </div>
+        </RedirectIfAuthenticated>
     );
 };
 

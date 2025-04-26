@@ -21,7 +21,7 @@ export const listAccounts = async ({
     search?: string;
     status?: "all" | "active" | "inactive";
 }): Promise<ListAccountsResponse> => {
-    return await requestApiWithAuthentication(`/users`, "GET", {
+    return await requestApiWithAuthentication("/users", "GET", {
         params: {
             page: String(page),
             size: String(size),

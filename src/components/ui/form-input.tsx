@@ -1,6 +1,12 @@
-import { HTMLInputTypeAttribute, useState } from "react";
+import {
+    ChangeEventHandler,
+    HTMLInputTypeAttribute,
+    useContext,
+    useState,
+} from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { FormContext } from "./form";
 
 type FormInputProps = {
     placeholder?: string;
@@ -8,8 +14,11 @@ type FormInputProps = {
     id?: string;
     type?: HTMLInputTypeAttribute;
     value?: string;
+    defaultValue?: string;
     children?: string;
     errorMessage?: string;
+    errorFieldPath?: string;
+    onChange?: ChangeEventHandler<HTMLInputElement>;
 };
 
 export const FormInput = ({
@@ -20,9 +29,15 @@ export const FormInput = ({
     value,
     children,
     errorMessage,
+    errorFieldPath,
+    onChange,
 }: FormInputProps) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [data, setData] = useState<any>("");
+    const [data, setData] = useState<string | number>("");
+    const { errorFields } = useContext(FormContext);
+
+    if (!errorMessage && errorFieldPath) {
+        errorMessage = errorFields[errorFieldPath];
+    }
 
     return (
         <div className="flex flex-col gap-1.5">
@@ -34,7 +49,11 @@ export const FormInput = ({
                 id={id}
                 type={type}
                 value={value || data}
-                onChange={!value ? (e) => setData(e.target.value) : undefined}
+                onChange={
+                    onChange
+                        ? onChange
+                        : (val) => setData(val.currentTarget.value)
+                }
                 placeholder={placeholder}
                 className={errorMessage && "border-red-500"}
             ></Input>

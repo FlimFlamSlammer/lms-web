@@ -26,6 +26,8 @@ import {
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { User } from "@/types";
+import { Input } from "../ui/input";
+import { Checkbox } from "../ui/checkbox";
 
 export type UserTableData = {
     name: string;
@@ -50,6 +52,18 @@ export const columns: ColumnDef<User>[] = [
     {
         accessorKey: "role",
         header: "Role",
+    },
+    {
+        header: "Active?",
+        cell: ({ row }) => {
+            const user = row.original;
+            return (
+                <Checkbox
+                    className="hover:cursor-default"
+                    checked={user.status == "active"}
+                />
+            );
+        },
     },
     {
         id: "actions",

@@ -7,6 +7,7 @@ export type User = {
     phoneNumber?: string;
     status: string;
     password: string;
+    needsPasswordChange: boolean;
     role: UserRole;
     profileImage?: string;
     roleData?: Student | Teacher;
@@ -30,10 +31,6 @@ export type Teacher = {
     doctorateDegree?: string;
     description?: string;
 };
-
-export type UpdateUserDTO = Partial<Omit<User, "role" | "id">>;
-export type UpdateStudentDTO = Partial<CreateStudentDTO>;
-export type UpdateTeacherDTO = Partial<CreateTeacherDTO>;
 
 export type APIResponse<T = never> = {
     error: string | null;

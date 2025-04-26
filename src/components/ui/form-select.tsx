@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useContext, useState } from "react";
 import { Label } from "@/components/ui/label";
 import {
     Select,
@@ -6,6 +6,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { FormContext } from "./form";
 
 type FormSelectProps = {
     placeholder?: string;
@@ -13,6 +14,7 @@ type FormSelectProps = {
     name?: string;
     children?: ReactNode;
     errorMessage?: string;
+    errorFieldPath?: string;
     label?: string;
     value?: string;
     onValueChange?: (value: string) => void;
@@ -24,12 +26,17 @@ export const FormSelect = ({
     name,
     children,
     errorMessage,
+    errorFieldPath,
     label,
     value,
     onValueChange,
 }: FormSelectProps) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [data, setData] = useState<any>("");
+    const [data, setData] = useState<string>("");
+    const { errorFields } = useContext(FormContext);
+
+    if (!errorMessage && errorFieldPath) {
+        errorMessage = errorFields[errorFieldPath];
+    }
 
     return (
         <div className="flex flex-col gap-1.5">
@@ -42,11 +49,18 @@ export const FormSelect = ({
                     onValueChange ? onValueChange : (val) => setData(val)
                 }
             >
-                <SelectTrigger id={id} name={name}>
+                <SelectTrigger id={id}>
                     <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
                 <SelectContent>{children}</SelectContent>
             </Select>
+            <input
+                className="hidden"
+                name={name}
+                id={id}
+                value={value || data}
+                readOnly
+            />
             <span className="text-red-500 text-sm">{errorMessage}</span>
         </div>
     );

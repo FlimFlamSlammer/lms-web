@@ -1,4 +1,3 @@
-import { RedirectIfAuthenticated } from "@/components/shared/redirect-if-authenticated";
 import { ReactNode } from "react";
 
 type Props = {
@@ -6,11 +5,7 @@ type Props = {
 };
 
 const AuthLayout = ({ children }: Props) => {
-    return (
-        <RedirectIfAuthenticated>
-            <main className="w-full min-h-screen">{children}</main>
-        </RedirectIfAuthenticated>
-    );
+    return <main className="w-full min-h-screen">{children}</main>;
 };
 
 export default AuthLayout;
