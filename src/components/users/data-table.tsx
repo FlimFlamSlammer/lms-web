@@ -66,7 +66,7 @@ const columns: ColumnDef<User>[] = [
         header: "Role",
     },
     {
-        header: "Active?",
+        header: "Active",
         cell: ({ row }) => {
             const user = row.original;
             return (
@@ -74,6 +74,20 @@ const columns: ColumnDef<User>[] = [
                     <Checkbox
                         className="hover:cursor-default"
                         checked={user.status == "active"}
+                    />
+                </div>
+            );
+        },
+    },
+    {
+        header: "Needs password change",
+        cell: ({ row }) => {
+            const user = row.original;
+            return (
+                <div className="h-full flex flex-col justify-center">
+                    <Checkbox
+                        className="hover:cursor-default"
+                        checked={user.needsPasswordChange}
                     />
                 </div>
             );
