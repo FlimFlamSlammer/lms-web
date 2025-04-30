@@ -27,12 +27,13 @@ export const FormInput = ({
     id,
     type,
     value,
+    defaultValue,
     children,
     errorMessage,
     errorFieldPath,
     onChange,
 }: FormInputProps) => {
-    const [data, setData] = useState<string | number>("");
+    const [data, setData] = useState<string | number>(defaultValue || "");
     const { errorFields } = useContext(FormContext);
 
     if (!errorMessage && errorFieldPath) {

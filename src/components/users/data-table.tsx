@@ -6,6 +6,7 @@ import {
     getCoreRowModel,
     useReactTable,
     getPaginationRowModel,
+    RowData,
 } from "@tanstack/react-table";
 
 import {
@@ -17,7 +18,13 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Button } from "../ui/button";
-import { useRouter, useSearchParams } from "next/navigation";
+import {
+    ReadonlyURLSearchParams,
+    redirect,
+    RedirectType,
+    useRouter,
+    useSearchParams,
+} from "next/navigation";
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import {
@@ -26,17 +33,22 @@ import {
     DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { User } from "@/types";
-import { Input } from "../ui/input";
 import { Checkbox } from "../ui/checkbox";
+import {
+    activateUser,
+    deactivateUser,
+} from "@/actions/users/update-user-status";
+import { updateUser } from "@/actions/users/update-user";
 
-export type UserTableData = {
-    name: string;
-    email: string;
-    phoneNumber: string;
-    role: string;
-};
+declare module "@tanstack/table-core" {
+    interface TableMeta<TData extends RowData> {
+        searchParams: ReadonlyURLSearchParams;
+        toggleUserStatus: (user: User) => void;
+        resetUserPassword: (user: User) => void;
+    }
+}
 
-export const columns: ColumnDef<User>[] = [
+const columns: ColumnDef<User>[] = [
     {
         accessorKey: "name",
         header: "Name",
@@ -58,16 +70,18 @@ export const columns: ColumnDef<User>[] = [
         cell: ({ row }) => {
             const user = row.original;
             return (
-                <Checkbox
-                    className="hover:cursor-default"
-                    checked={user.status == "active"}
-                />
+                <div className="h-full flex flex-col justify-center">
+                    <Checkbox
+                        className="hover:cursor-default"
+                        checked={user.status == "active"}
+                    />
+                </div>
             );
         },
     },
     {
         id: "actions",
-        cell: ({ row }) => {
+        cell: ({ row, table }) => {
             const user = row.original;
 
             return (
@@ -78,11 +92,34 @@ export const columns: ColumnDef<User>[] = [
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() => {
+                                redirect(
+                                    `/users/${user.id}/edit`,
+                                    RedirectType.push
+                                );
+                            }}
+                            className="hover:cursor-pointer"
+                        >
+                            Edit
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            className="hover:cursor-pointer"
+                            onClick={() =>
+                                table.options.meta?.toggleUserStatus(user)
+                            }
+                        >
                             {user.status == "active"
                                 ? "Deactivate"
                                 : "Activate"}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            className="hover:cursor-pointer text-red-500"
+                            onClick={() =>
+                                table.options.meta?.resetUserPassword(user)
+                            }
+                        >
+                            Reset Password
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -102,6 +139,11 @@ export function UserDataTable({ data, rowCount, page, pageSize }: Props) {
     const router = useRouter();
     const searchParams = useSearchParams();
 
+    const reloadTable = () => {
+        const params = new URLSearchParams(searchParams);
+        router.replace(`/users?${params.toString()}`);
+    };
+
     const table = useReactTable({
         data,
         columns,
@@ -113,6 +155,21 @@ export function UserDataTable({ data, rowCount, page, pageSize }: Props) {
             pagination: {
                 pageIndex: page - 1, // zero-indexing
                 pageSize,
+            },
+        },
+        meta: {
+            searchParams,
+            toggleUserStatus: (user: User) => {
+                if (user.status == "active") deactivateUser(user.id);
+                else activateUser(user.id).then(reloadTable);
+            },
+            resetUserPassword: (user: User) => {
+                updateUser(user.id, {
+                    userData: {
+                        password: user.email,
+                        needsPasswordChange: true,
+                    },
+                });
             },
         },
     });

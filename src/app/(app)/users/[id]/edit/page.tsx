@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { FormButton } from "@/components/ui/form-button";
 import { Separator } from "@/components/ui/separator";
-import { CreateUserInputs } from "@/components/users/user-form";
+import { UpdateUserInputs } from "@/components/users/user-form";
 import { User, UserRole } from "@/types";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -77,14 +77,14 @@ const CreateUserPage = () => {
 
     return (
         <div className="flex flex-col w-full h-full p-4">
-            <h1 className="text-4xl font-light">Create User</h1>
+            <h1 className="text-4xl font-light">Edit User</h1>
             <Separator className="my-2"></Separator>
             <div className="flex justify-center">
                 <Card>
                     <CardHeader className="pt-0"></CardHeader>
                     <CardContent>
                         <Form action={action}>
-                            <CreateUserInputs />
+                            {user && <UpdateUserInputs user={user} />}
                             <FormButton className="ml-auto" disabled={!user}>
                                 Submit
                             </FormButton>

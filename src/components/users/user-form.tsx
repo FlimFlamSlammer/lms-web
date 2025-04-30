@@ -64,7 +64,7 @@ export const UpdateUserInputs = ({ user }: { user: User }) => {
                 id="name"
                 placeholder="Full Name"
                 errorFieldPath="userData.name"
-                defaultValue={user.name}
+                defaultValue={user?.name}
             >
                 Full Name
             </FormInput>
@@ -74,7 +74,7 @@ export const UpdateUserInputs = ({ user }: { user: User }) => {
                 placeholder="Email"
                 errorFieldPath="userData.email"
                 type="email"
-                defaultValue={user.email}
+                defaultValue={user?.email}
             >
                 Email
             </FormInput>
@@ -84,12 +84,12 @@ export const UpdateUserInputs = ({ user }: { user: User }) => {
                 placeholder="081987654321"
                 errorFieldPath="userData.phoneNumber"
                 type="tel"
-                defaultValue={user.phoneNumber}
+                defaultValue={user?.phoneNumber}
             >
                 Phone Number
             </FormInput>
 
-            <RoleDataInputs role={user.role} />
+            <RoleDataInputs role={user?.role} roleData={user?.roleData} />
         </>
     );
 };
@@ -115,7 +115,12 @@ const StudentInputs = ({ roleData }: { roleData?: Student }) => {
                 name="birthDate"
                 id="birthDate"
                 errorFieldPath="roleData.birthDate"
-                defaultValue={roleData?.birthDate}
+                defaultValue={
+                    roleData?.birthDate.substring(
+                        0,
+                        10
+                    ) /* only take the date, truncate time */
+                }
             >
                 Birth Date
             </FormInput>
