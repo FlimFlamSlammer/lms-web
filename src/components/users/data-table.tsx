@@ -173,9 +173,11 @@ export function UserDataTable({ data, rowCount, page, pageSize }: Props) {
         },
         meta: {
             searchParams,
-            toggleUserStatus: (user: User) => {
-                if (user.status == "active") deactivateUser(user.id);
-                else activateUser(user.id).then(reloadTable);
+            toggleUserStatus: async (user: User) => {
+                if (user.status == "active") await deactivateUser(user.id);
+                else await activateUser(user.id);
+
+                reloadTable();
             },
             resetUserPassword: (user: User) => {
                 updateUser(user.id, {
