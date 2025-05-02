@@ -24,6 +24,7 @@ import {
 } from "@/actions/users/update-user-status";
 import { updateUser } from "@/actions/users/update-user";
 import { DataTable } from "../ui/data-table";
+import { useCallback } from "react";
 
 const columns: ColumnDef<User>[] = [
     {
@@ -95,14 +96,14 @@ export function UserDataTable(props: Props) {
         reloadTable();
     };
 
-    const resetUserPassword = (user: User) => {
+    const resetUserPassword = useCallback((user: User) => {
         updateUser(user.id, {
             userData: {
                 password: user.email,
                 needsPasswordChange: true,
             },
         });
-    };
+    }, []);
 
     const renderRowActions = (user: User) => {
         return (
@@ -140,7 +141,6 @@ export function UserDataTable(props: Props) {
             </DropdownMenu>
         );
     };
-
     return (
         <DataTable<User>
             {...props}
