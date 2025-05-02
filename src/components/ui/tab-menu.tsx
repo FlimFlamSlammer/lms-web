@@ -1,11 +1,5 @@
 import Link from "next/link";
-import {
-    NavigationMenu,
-    NavigationMenuList,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    navigationMenuTriggerStyle,
-} from "./navigation-menu";
+import { Button } from "./button";
 
 export type TabMenuItem = {
     title: string;
@@ -18,22 +12,18 @@ export type TabMenuProps = {
 
 export const TabMenu = ({ items }: TabMenuProps) => {
     return (
-        <NavigationMenu orientation="vertical" className="items-start">
-            <NavigationMenuList className="w-[6rem]">
-                {items.map((item) => {
-                    return (
-                        <NavigationMenuItem key={item.title}>
-                            <Link href={item.href} legacyBehavior passHref>
-                                <NavigationMenuLink
-                                    className={`${navigationMenuTriggerStyle()} w-[6rem]`}
-                                >
-                                    {item.title}
-                                </NavigationMenuLink>
-                            </Link>
-                        </NavigationMenuItem>
-                    );
-                })}
-            </NavigationMenuList>
-        </NavigationMenu>
+        <div className="vertical-menu">
+            {items.map((item) => {
+                return (
+                    <Button
+                        key={item.title}
+                        variant="ghost"
+                        className="w-full justify-start"
+                    >
+                        <Link href={item.href}>{item.title}</Link>
+                    </Button>
+                );
+            })}
+        </div>
     );
 };

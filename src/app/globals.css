@@ -90,4 +90,13 @@
         gap: 0.75rem;
         width: 20rem;
     }
+
+    .vertical-menu {
+        display: flex;
+        flex-direction: column;
+        width: 6rem;
+        align-items: start;
+        height: fit-content;
+        gap: 0.25rem;
+    }
 }

@@ -14,7 +14,7 @@ const NavigationMenu = React.forwardRef<
     <NavigationMenuPrimitive.Root
         ref={ref}
         className={cn(
-            "relative z-10 flex max-w-max flex-1 items-center justify-center",
+            "relative z-10 flex flex-1 items-center justify-center",
             className
         )}
         orientation={orientation}
@@ -91,7 +91,7 @@ const NavigationMenuViewport = React.forwardRef<
 >(({ className, orientation, ...props }, ref) => (
     <div
         className={cn(
-            "absolute flex justify-center",
+            "absolute flex justify-center w-full",
             orientation === "vertical"
                 ? "start-full top-0 ms-1.5"
                 : "start-0 top-full mt-1.5"
