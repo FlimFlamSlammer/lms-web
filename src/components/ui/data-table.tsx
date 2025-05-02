@@ -1,3 +1,5 @@
+"use client";
+
 import {
     ColumnDef,
     flexRender,
@@ -5,8 +7,8 @@ import {
     getPaginationRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import { Table } from "lucide-react";
 import {
+    Table,
     TableBody,
     TableCell,
     TableHead,
@@ -42,7 +44,7 @@ export function DataTable<T extends object>({
         const actionColumn: ColumnDef<T> = {
             id: "action",
             header: "Actions",
-            cell: ({ row }) => renderRowActions?.(row.original),
+            cell: ({ row }) => renderRowActions(row.original),
         };
 
         return [...columns, actionColumn];
