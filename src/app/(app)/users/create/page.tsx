@@ -9,7 +9,7 @@ import {
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { FormButton } from "@/components/ui/form-button";
-import { Separator } from "@/components/ui/separator";
+import { Header } from "@/components/ui/header";
 import { CreateUserInputs } from "@/components/users/user-form";
 import { UserRole } from "@/types";
 
@@ -60,9 +60,8 @@ const CreateUserPage = () => {
     };
 
     return (
-        <div className="flex flex-col w-full h-full p-4">
-            <h1 className="text-4xl font-light">Create User</h1>
-            <Separator className="my-2"></Separator>
+        <>
+            <Header>Create User</Header>
             <div className="flex justify-center">
                 <Card>
                     <CardHeader className="pt-0"></CardHeader>
@@ -74,7 +73,7 @@ const CreateUserPage = () => {
                     </CardContent>
                 </Card>
             </div>
-        </div>
+        </>
     );
 };
 

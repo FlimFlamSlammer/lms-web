@@ -1,6 +1,6 @@
 import { listAccounts } from "@/actions/users/list-users";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { Header } from "@/components/ui/header";
 import { UserDataTable } from "@/components/users/data-table";
 import { UserFormFilter } from "@/components/users/form-filter";
 import Link from "next/link";
@@ -30,9 +30,8 @@ const UsersPage = async ({ searchParams }: Props) => {
     }
 
     return (
-        <div className="flex flex-col w-full h-full p-4">
-            <h1 className="text-4xl font-light">Users</h1>
-            <Separator className="my-2"></Separator>
+        <>
+            <Header>Users</Header>
             <div className="flex items-center justify-between my-4">
                 <UserFormFilter />
                 <Button asChild>
@@ -45,7 +44,7 @@ const UsersPage = async ({ searchParams }: Props) => {
                 page={page}
                 pageSize={10}
             />
-        </div>
+        </>
     );
 };
 

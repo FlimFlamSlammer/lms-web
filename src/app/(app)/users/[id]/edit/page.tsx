@@ -10,7 +10,7 @@ import { updateUser } from "@/actions/users/update-user";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { FormButton } from "@/components/ui/form-button";
-import { Separator } from "@/components/ui/separator";
+import { Header } from "@/components/ui/header";
 import { UpdateUserInputs } from "@/components/users/user-form";
 import { User, UserRole } from "@/types";
 import { useParams } from "next/navigation";
@@ -76,9 +76,8 @@ const CreateUserPage = () => {
     };
 
     return (
-        <div className="flex flex-col w-full h-full p-4">
-            <h1 className="text-4xl font-light">Edit User</h1>
-            <Separator className="my-2"></Separator>
+        <>
+            <Header>Edit User</Header>
             <div className="flex justify-center">
                 <Card>
                     <CardHeader className="pt-0"></CardHeader>
@@ -92,7 +91,7 @@ const CreateUserPage = () => {
                     </CardContent>
                 </Card>
             </div>
-        </div>
+        </>
     );
 };
 

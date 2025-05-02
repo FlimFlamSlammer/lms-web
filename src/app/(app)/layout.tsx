@@ -12,7 +12,9 @@ const AppLayout = ({ children }: Props) => {
         <AuthGuard>
             <SidebarProvider>
                 <AppSidebar></AppSidebar>
-                <main className="w-full min-h-screen">{children}</main>
+                <main className="w-full min-h-screen flex flex-col p-4">
+                    {children}
+                </main>
             </SidebarProvider>
         </AuthGuard>
     );
