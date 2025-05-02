@@ -1,25 +1,9 @@
 "use client";
 
-import {
-    ColumnDef,
-    flexRender,
-    getCoreRowModel,
-    useReactTable,
-    getPaginationRowModel,
-    RowData,
-} from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table";
 
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
 import { Button } from "../ui/button";
 import {
-    ReadonlyURLSearchParams,
     redirect,
     RedirectType,
     useRouter,
@@ -39,14 +23,7 @@ import {
     deactivateUser,
 } from "@/actions/users/update-user-status";
 import { updateUser } from "@/actions/users/update-user";
-
-declare module "@tanstack/table-core" {
-    interface TableMeta<TData extends RowData> {
-        searchParams: ReadonlyURLSearchParams;
-        toggleUserStatus: (user: User) => void;
-        resetUserPassword: (user: User) => void;
-    }
-}
+import { DataTable } from "../ui/data-table";
 
 const columns: ColumnDef<User>[] = [
     {
@@ -93,53 +70,6 @@ const columns: ColumnDef<User>[] = [
             );
         },
     },
-    {
-        id: "actions",
-        cell: ({ row, table }) => {
-            const user = row.original;
-
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                            onClick={() => {
-                                redirect(
-                                    `/users/${user.id}/edit`,
-                                    RedirectType.push
-                                );
-                            }}
-                            className="hover:cursor-pointer"
-                        >
-                            Edit
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="hover:cursor-pointer"
-                            onClick={() =>
-                                table.options.meta?.toggleUserStatus(user)
-                            }
-                        >
-                            {user.status == "active"
-                                ? "Deactivate"
-                                : "Activate"}
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="hover:cursor-pointer text-red-500"
-                            onClick={() =>
-                                table.options.meta?.resetUserPassword(user)
-                            }
-                        >
-                            Reset Password
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
-        },
-    },
 ];
 
 interface Props {
@@ -149,7 +79,7 @@ interface Props {
     pageSize: number;
 }
 
-export function UserDataTable({ data, rowCount, page, pageSize }: Props) {
+export function UserDataTable(props: Props) {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -158,126 +88,64 @@ export function UserDataTable({ data, rowCount, page, pageSize }: Props) {
         router.replace(`/users?${params.toString()}`);
     };
 
-    const table = useReactTable({
-        data,
-        columns,
-        rowCount,
-        getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
-        manualPagination: true,
-        state: {
-            pagination: {
-                pageIndex: page - 1, // zero-indexing
-                pageSize,
-            },
-        },
-        meta: {
-            searchParams,
-            toggleUserStatus: async (user: User) => {
-                if (user.status == "active") await deactivateUser(user.id);
-                else await activateUser(user.id);
+    const toggleUserStatus = async (user: User) => {
+        if (user.status == "active") await deactivateUser(user.id);
+        else await activateUser(user.id);
 
-                reloadTable();
-            },
-            resetUserPassword: (user: User) => {
-                updateUser(user.id, {
-                    userData: {
-                        password: user.email,
-                        needsPasswordChange: true,
-                    },
-                });
-            },
-        },
-    });
+        reloadTable();
+    };
 
-    const onPageChange = (pageIndex: number) => {
-        const params = new URLSearchParams(searchParams);
-        params.set("page", pageIndex.toString());
-        router.replace(`/users?${params.toString()}`);
+    const resetUserPassword = (user: User) => {
+        updateUser(user.id, {
+            userData: {
+                password: user.email,
+                needsPasswordChange: true,
+            },
+        });
+    };
+
+    const renderRowActions = (user: User) => {
+        return (
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-8 w-8 p-0">
+                        <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                        onClick={() => {
+                            redirect(
+                                `/users/${user.id}/edit`,
+                                RedirectType.push
+                            );
+                        }}
+                        className="hover:cursor-pointer"
+                    >
+                        Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        className="hover:cursor-pointer"
+                        onClick={() => toggleUserStatus(user)}
+                    >
+                        {user.status == "active" ? "Deactivate" : "Activate"}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                        className="hover:cursor-pointer text-red-500"
+                        onClick={() => resetUserPassword(user)}
+                    >
+                        Reset Password
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        );
     };
 
     return (
-        <div>
-            <div className="rounded-md border">
-                <Table>
-                    <TableHeader>
-                        {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => {
-                                    return (
-                                        <TableHead key={header.id}>
-                                            {header.isPlaceholder
-                                                ? null
-                                                : flexRender(
-                                                      header.column.columnDef
-                                                          .header,
-                                                      header.getContext()
-                                                  )}
-                                        </TableHead>
-                                    );
-                                })}
-                            </TableRow>
-                        ))}
-                    </TableHeader>
-                    <TableBody>
-                        {table.getRowModel().rows?.length ? (
-                            table.getRowModel().rows.map((row) => (
-                                <TableRow
-                                    key={row.id}
-                                    data-state={
-                                        row.getIsSelected() && "selected"
-                                    }
-                                >
-                                    {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext()
-                                            )}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            ))
-                        ) : (
-                            <TableRow>
-                                <TableCell
-                                    colSpan={columns.length}
-                                    className="h-24 text-center"
-                                >
-                                    No results.
-                                </TableCell>
-                            </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
-            </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
-                <span className="text-sm">
-                    Page {page} of {Math.ceil(rowCount / pageSize)}
-                </span>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                        table.previousPage();
-                        onPageChange(page - 1);
-                    }}
-                    disabled={!table.getCanPreviousPage()}
-                >
-                    Previous
-                </Button>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                        table.nextPage();
-                        onPageChange(page + 1);
-                    }}
-                    disabled={!table.getCanNextPage()}
-                >
-                    Next
-                </Button>
-            </div>
-        </div>
+        <DataTable<User>
+            {...props}
+            columns={columns}
+            renderRowActions={renderRowActions}
+        />
     );
 }
