@@ -1,7 +1,7 @@
-import { getUsers } from "@/actions/users/get-users";
+import { getSubjects } from "@/actions/subjects/get-subjects";
+import { CourseDataTable } from "@/components/courses/data-table";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/ui/header";
-import { UserDataTable } from "@/components/users/data-table";
 import { UserFormFilter } from "@/components/users/form-filter";
 import Link from "next/link";
 
@@ -13,17 +13,19 @@ type Props = {
     }>;
 };
 
-const UsersPage = async ({ searchParams }: Props) => {
+const CoursesPage = async ({ searchParams }: Props) => {
     const page = Math.max(parseInt((await searchParams).page || "1"), 1);
 
     const {
-        data: { users, total },
+        data: { subjects, total },
         error,
-    } = await getUsers({
+    } = await getSubjects({
         page,
         status: (await searchParams).status,
         search: (await searchParams).search,
     });
+
+    console.log(subjects);
 
     if (error) {
         throw new Error(error);
@@ -31,15 +33,15 @@ const UsersPage = async ({ searchParams }: Props) => {
 
     return (
         <>
-            <Header>Users</Header>
+            <Header>Courses</Header>
             <div className="flex items-center justify-between my-4">
                 <UserFormFilter />
                 <Button asChild>
-                    <Link href="/users/create">Add User</Link>
+                    <Link href="/users/create">Add Course</Link>
                 </Button>
             </div>
-            <UserDataTable
-                data={users}
+            <CourseDataTable
+                data={subjects}
                 rowCount={total}
                 page={page}
                 pageSize={10}
@@ -48,4 +50,4 @@ const UsersPage = async ({ searchParams }: Props) => {
     );
 };
 
-export default UsersPage;
+export default CoursesPage;

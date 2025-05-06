@@ -1,14 +1,14 @@
 "use server";
 
 import { requestApiWithAuthentication } from "@/helpers/fetch";
-import { APIResponse, User } from "@/types";
+import { APIResponse, Subject } from "@/types";
 
-export type ListAccountsResponse = APIResponse<{
-    users: User[];
+export type GetSubjectsResponse = APIResponse<{
+    subjects: Subject[];
     total: number;
 }>;
 
-export const listAccounts = async ({
+export const getSubjects = async ({
     page,
     size = 10,
     mode = "pagination",
@@ -20,8 +20,8 @@ export const listAccounts = async ({
     mode?: "all" | "pagination";
     search?: string;
     status?: "all" | "active" | "inactive";
-}): Promise<ListAccountsResponse> => {
-    return await requestApiWithAuthentication("/users", "GET", {
+}): Promise<GetSubjectsResponse> => {
+    return await requestApiWithAuthentication("/subjects", "GET", {
         params: {
             page: String(page),
             size: String(size),

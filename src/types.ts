@@ -1,11 +1,12 @@
 export type UserRole = "superadmin" | "teacher" | "student" | "admin";
+export type Status = "active" | "inactive";
 
 export type User = {
     name: string;
     id: string;
     email: string;
     phoneNumber?: string;
-    status: string;
+    status: Status;
     password: string;
     needsPasswordChange: boolean;
     role: UserRole;
@@ -30,6 +31,15 @@ export type Teacher = {
     masterDegree?: string;
     doctorateDegree?: string;
     description?: string;
+};
+
+export type Subject = {
+    id: string;
+    name: string;
+    grade: number;
+    startYear: number;
+    endYear: number;
+    status: Status;
 };
 
 export type APIResponse<T = never> = {
