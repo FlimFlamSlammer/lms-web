@@ -1,16 +1,70 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { FormInput } from "../ui/form-input";
 import { FormSelect } from "../ui/form-select";
 import { Student, Teacher, User, UserRole } from "@/types";
 import { SelectItem } from "../ui/select";
+import {
+    CreateStudentDTO,
+    CreateTeacherDTO,
+    createUser,
+    CreateUserDTO,
+} from "@/actions/users/create-user";
+import { Form } from "../ui/form";
+import { FormButton } from "../ui/form-button";
+import { updateUser } from "@/actions/users/update-user";
 
-export const CreateUserInputs = () => {
+export const CreateUserForm = () => {
     const [selectedRole, setSelectedRole] = useState<UserRole | undefined>();
 
+    const action = useCallback((formData: FormData) => {
+        const data: {
+            userData: CreateUserDTO;
+            roleData: CreateStudentDTO | CreateTeacherDTO | undefined;
+        } = {
+            userData: {
+                name: formData.get("name") as string,
+                email: formData.get("email") as string,
+                password: formData.get("email") as string,
+                needsPasswordChange: true,
+                phoneNumber:
+                    (formData.get("phoneNumber") as string) || undefined,
+                role: formData.get("role") as UserRole,
+            },
+            roleData: undefined,
+        };
+
+        if (data.userData.role === "student") {
+            data.roleData = {
+                nis: formData.get("nis") as string,
+                motherName: formData.get("motherName") as string,
+                fatherName: formData.get("fatherName") as string,
+                guardianName: formData.get("guardianName") as string,
+                birthDate: formData.get("birthDate")
+                    ? new Date(
+                          formData.get("birthDate") as string
+                      ).toISOString()
+                    : "",
+                contactPhoneNumber: formData.get(
+                    "contactPhoneNumber"
+                ) as string,
+            };
+        } else if (data.userData.role === "teacher") {
+            data.roleData = {
+                nig: formData.get("nig") as string,
+                expertise: formData.get("expertise") as string,
+                bachelorDegree: formData.get("bachelorDegree") as string,
+                masterDegree: formData.get("masterDegree") as string,
+                doctorateDegree: formData.get("doctorateDegree") as string,
+            };
+        }
+
+        return createUser(data);
+    }, []);
+
     return (
-        <>
+        <Form action={action}>
             <FormInput
                 name="name"
                 id="name"
@@ -52,45 +106,107 @@ export const CreateUserInputs = () => {
             </FormSelect>
 
             <RoleDataInputs role={selectedRole} />
-        </>
+            <FormButton className="ml-auto">Submit</FormButton>
+        </Form>
     );
 };
 
-export const UpdateUserInputs = ({ user }: { user: User }) => {
-    return (
-        <>
-            <FormInput
-                name="name"
-                id="name"
-                placeholder="Full Name"
-                errorFieldPath="userData.name"
-                defaultValue={user?.name}
-            >
-                Full Name
-            </FormInput>
-            <FormInput
-                name="email"
-                id="email"
-                placeholder="Email"
-                errorFieldPath="userData.email"
-                type="email"
-                defaultValue={user?.email}
-            >
-                Email
-            </FormInput>
-            <FormInput
-                name="phoneNumber"
-                id="phoneNumber"
-                placeholder="081987654321"
-                errorFieldPath="userData.phoneNumber"
-                type="tel"
-                defaultValue={user?.phoneNumber}
-            >
-                Phone Number
-            </FormInput>
+export const UpdateUserForm = ({ user }: { user?: User }) => {
+    const UpdateUserInputs = ({ user }: { user: User }) => {
+        return (
+            <>
+                <FormInput
+                    name="name"
+                    id="name"
+                    placeholder="Full Name"
+                    errorFieldPath="userData.name"
+                    defaultValue={user?.name}
+                >
+                    Full Name
+                </FormInput>
+                <FormInput
+                    name="email"
+                    id="email"
+                    placeholder="Email"
+                    errorFieldPath="userData.email"
+                    type="email"
+                    defaultValue={user?.email}
+                >
+                    Email
+                </FormInput>
+                <FormInput
+                    name="phoneNumber"
+                    id="phoneNumber"
+                    placeholder="081987654321"
+                    errorFieldPath="userData.phoneNumber"
+                    type="tel"
+                    defaultValue={user?.phoneNumber}
+                >
+                    Phone Number
+                </FormInput>
 
-            <RoleDataInputs role={user?.role} roleData={user?.roleData} />
-        </>
+                <RoleDataInputs role={user?.role} roleData={user?.roleData} />
+            </>
+        );
+    };
+
+    const action = useCallback(
+        (formData: FormData) => {
+            if (!user) {
+                throw new Error("form submitted before user was gotten!");
+            }
+
+            const data: {
+                userData: CreateUserDTO;
+                roleData: CreateStudentDTO | CreateTeacherDTO | undefined;
+            } = {
+                userData: {
+                    name: formData.get("name") as string,
+                    email: formData.get("email") as string,
+                    password: formData.get("email") as string,
+                    needsPasswordChange: true,
+                    phoneNumber:
+                        (formData.get("phoneNumber") as string) || undefined,
+                    role: formData.get("role") as UserRole,
+                },
+                roleData: undefined,
+            };
+
+            if (data.userData.role === "student") {
+                data.roleData = {
+                    nis: formData.get("nis") as string,
+                    motherName: formData.get("motherName") as string,
+                    fatherName: formData.get("fatherName") as string,
+                    guardianName: formData.get("guardianName") as string,
+                    birthDate: formData.get("birthDate")
+                        ? new Date(
+                              formData.get("birthDate") as string
+                          ).toISOString()
+                        : "",
+                    contactPhoneNumber: formData.get(
+                        "contactPhoneNumber"
+                    ) as string,
+                };
+            } else if (data.userData.role === "teacher") {
+                data.roleData = {
+                    nig: formData.get("nig") as string,
+                    expertise: formData.get("expertise") as string,
+                    bachelorDegree: formData.get("bachelorDegree") as string,
+                    masterDegree: formData.get("masterDegree") as string,
+                    doctorateDegree: formData.get("doctorateDegree") as string,
+                };
+            }
+
+            return updateUser(user?.id, data);
+        },
+        [user]
+    );
+
+    return (
+        <Form action={action}>
+            {user && <UpdateUserInputs user={user} />}
+            <FormButton className="ml-auto">Submit</FormButton>
+        </Form>
     );
 };
 
