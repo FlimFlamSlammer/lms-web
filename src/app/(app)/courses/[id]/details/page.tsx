@@ -1,7 +1,7 @@
 "use client";
 
 import { getSubject } from "@/actions/subjects/get-subject";
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { DictTable, DictTableRow } from "@/components/ui/dict-table";
 import { Subject } from "@/types";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -16,39 +16,26 @@ const CourseAssignmentsPage = () => {
         });
     }, [id]);
 
-    const tableRows = [
+    const tableRows: DictTableRow[] = [
         {
             key: "Course",
             value: course?.name,
         },
         {
             key: "Grade",
-            value: course?.grade,
+            value: course?.grade.toString(),
         },
         {
             key: "Start year",
-            value: course?.startYear,
+            value: course?.startYear.toString(),
         },
         {
             key: "End year",
-            value: course?.endYear,
+            value: course?.endYear.toString(),
         },
     ];
 
-    return (
-        <Table>
-            <TableBody>
-                {tableRows.map((row) => {
-                    return (
-                        <TableRow key={row.key}>
-                            <TableCell>{row.key}</TableCell>
-                            <TableCell>{row.value}</TableCell>
-                        </TableRow>
-                    );
-                })}
-            </TableBody>
-        </Table>
-    );
+    return <DictTable rows={tableRows} />;
 };
 
 export default CourseAssignmentsPage;

@@ -27,7 +27,7 @@ const AccountLayout = ({ children }: Props) => {
     return (
         <>
             <Header>Account</Header>
-            <div className="flex flex-row w-full h-full">
+            <div className="flex flex-row w-full h-full gap-8">
                 <div className="vertical-menu">
                     <TabMenu items={tabMenuItems}></TabMenu>
                     <Button
