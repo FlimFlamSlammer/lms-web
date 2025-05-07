@@ -22,7 +22,7 @@ export const CreateCourseForm = () => {
     }, []);
 
     return (
-        <Form action={action}>
+        <Form action={action} redirectURL="/courses">
             <FormInput
                 name="name"
                 id="name"
