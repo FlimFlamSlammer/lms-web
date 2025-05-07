@@ -28,7 +28,7 @@ export const Form = ({ children, action, redirectURL }: FormProps) => {
         useOptimistic(errorFields);
     const [isSubmitting, setIsSubmitting] = useOptimistic(false);
 
-    const submitHandler = async (formData: FormData) => {
+    const submitHandler = (formData: FormData) => {
         setIsSubmitting(true);
         setOptimisticErrorFields({});
 
