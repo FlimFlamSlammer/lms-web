@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { FormButton } from "@/components/ui/form-button";
 import { Header } from "@/components/ui/header";
-import { UpdateUserInputs } from "@/components/users/user-form";
+import { UpdateUserInputs } from "@/components/users/form";
 import { User, UserRole } from "@/types";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";

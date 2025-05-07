@@ -5,7 +5,7 @@ export const Header = ({ children }: { children: ReactNode }) => {
     return (
         <>
             <h1 className="text-4xl font-light">{children}</h1>{" "}
-            <Separator className="my-2"></Separator>
+            <Separator className="mt-2 mb-4"></Separator>
         </>
     );
 };

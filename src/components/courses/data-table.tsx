@@ -12,7 +12,11 @@ const columns: ColumnDef<Subject>[] = [
         header: "Name",
         cell: ({ row }) => {
             const course = row.original;
-            return <Link href={`/courses/${course.id}/`} />;
+            return (
+                <Link className="link" href={`/courses/${course.id}/`}>
+                    {course.name}
+                </Link>
+            );
         },
     },
     {

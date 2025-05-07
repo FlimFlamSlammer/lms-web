@@ -94,9 +94,19 @@
     .vertical-menu {
         display: flex;
         flex-direction: column;
-        width: 6rem;
+        width: 8rem;
+        min-width: 8rem;
         align-items: start;
         height: fit-content;
         gap: 0.25rem;
+    }
+
+    .link {
+        color: #008ee2;
+    }
+
+    .link:hover {
+        color: #0080cc;
+        text-decoration: underline;
     }
 }

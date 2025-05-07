@@ -1,8 +1,8 @@
 import { getSubjects } from "@/actions/subjects/get-subjects";
 import { CourseDataTable } from "@/components/courses/data-table";
+import { CourseFormFilter } from "@/components/courses/form-filter";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/ui/header";
-import { UserFormFilter } from "@/components/users/form-filter";
 import Link from "next/link";
 
 type Props = {
@@ -34,10 +34,10 @@ const CoursesPage = async ({ searchParams }: Props) => {
     return (
         <>
             <Header>Courses</Header>
-            <div className="flex items-center justify-between my-4">
-                <UserFormFilter />
+            <div className="flex items-center justify-between mb-4">
+                <CourseFormFilter />
                 <Button asChild>
-                    <Link href="/users/create">Add Course</Link>
+                    <Link href="/courses/create">Add Course</Link>
                 </Button>
             </div>
             <CourseDataTable

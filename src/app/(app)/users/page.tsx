@@ -32,7 +32,7 @@ const UsersPage = async ({ searchParams }: Props) => {
     return (
         <>
             <Header>Users</Header>
-            <div className="flex items-center justify-between my-4">
+            <div className="flex items-center justify-between mb-4">
                 <UserFormFilter />
                 <Button asChild>
                     <Link href="/users/create">Add User</Link>

@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { FormButton } from "@/components/ui/form-button";
 import { Header } from "@/components/ui/header";
-import { CreateUserInputs } from "@/components/users/user-form";
+import { CreateUserInputs } from "@/components/users/form";
 import { UserRole } from "@/types";
 
 const CreateUserPage = () => {
