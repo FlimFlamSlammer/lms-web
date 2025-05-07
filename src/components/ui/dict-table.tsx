@@ -1,5 +1,4 @@
-import { Table } from "lucide-react";
-import { TableBody, TableRow, TableCell } from "./table";
+import { Table, TableBody, TableRow, TableCell } from "./table";
 
 export type DictTableRow = {
     key: string;
