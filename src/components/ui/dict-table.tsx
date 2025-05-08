@@ -5,14 +5,19 @@ export type DictTableRow = {
     value?: string;
 };
 
-export const DictTable = ({ rows }: { rows: DictTableRow[] }) => {
+type Props = {
+    rows: DictTableRow[];
+    className?: string;
+};
+
+export const DictTable = ({ rows, className }: Props) => {
     return (
-        <Table>
+        <Table className={className}>
             <TableBody>
                 {rows.map((row) => {
                     return (
                         <TableRow key={row.key}>
-                            <TableCell className="font-bold">
+                            <TableCell className="text-muted-foreground">
                                 {row.key}
                             </TableCell>
                             <TableCell>{row.value}</TableCell>
