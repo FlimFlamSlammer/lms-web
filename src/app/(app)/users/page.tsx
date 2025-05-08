@@ -1,8 +1,8 @@
 import { getUsers } from "@/actions/users/get-users";
 import { Button } from "@/components/ui/button";
+import { FormFilter } from "@/components/ui/form-filter";
 import { Header } from "@/components/ui/header";
 import { UserDataTable } from "@/components/users/data-table";
-import { UserFormFilter } from "@/components/users/form-filter";
 import Link from "next/link";
 
 type Props = {
@@ -33,7 +33,7 @@ const UsersPage = async ({ searchParams }: Props) => {
         <>
             <Header>Users</Header>
             <div className="flex items-center justify-between mb-4">
-                <UserFormFilter />
+                <FormFilter />
                 <Button asChild>
                     <Link href="/users/create">Add User</Link>
                 </Button>

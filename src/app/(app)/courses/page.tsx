@@ -1,7 +1,7 @@
 import { getSubjects } from "@/actions/subjects/get-subjects";
 import { CourseDataTable } from "@/components/courses/data-table";
-import { CourseFormFilter } from "@/components/courses/form-filter";
 import { Button } from "@/components/ui/button";
+import { FormFilter } from "@/components/ui/form-filter";
 import { Header } from "@/components/ui/header";
 import Link from "next/link";
 
@@ -35,7 +35,7 @@ const CoursesPage = async ({ searchParams }: Props) => {
         <>
             <Header>Courses</Header>
             <div className="flex items-center justify-between mb-4">
-                <CourseFormFilter />
+                <FormFilter />
                 <Button asChild>
                     <Link href="/courses/create">Add Course</Link>
                 </Button>

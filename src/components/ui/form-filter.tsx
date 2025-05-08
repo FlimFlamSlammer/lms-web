@@ -1,10 +1,10 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { Input } from "./input";
+import { Button } from "./button";
 
-export const CourseFormFilter = () => {
+export const FormFilter = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
 
