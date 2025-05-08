@@ -3,7 +3,6 @@
 import {
     Sidebar,
     SidebarContent,
-    SidebarFooter,
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
@@ -31,6 +30,11 @@ const menuItems: MenuItem[] = [
         roles: ["student", "teacher", "admin", "superadmin"],
     },
     {
+        title: "Classes",
+        href: "/classes",
+        roles: ["admin", "superadmin"],
+    },
+    {
         title: "Users",
         href: "/users",
         roles: ["admin", "superadmin"],
@@ -56,7 +60,7 @@ export function AppSidebar() {
     }
 
     return (
-        <Sidebar>
+        <Sidebar variant="sidebar">
             <SidebarHeader />
             <SidebarContent>
                 <SidebarMenu>
@@ -74,7 +78,6 @@ export function AppSidebar() {
                     ))}
                 </SidebarMenu>
             </SidebarContent>
-            <SidebarFooter />
         </Sidebar>
     );
 }
