@@ -18,10 +18,6 @@ const CourseAssignmentsPage = () => {
 
     const tableRows: DictTableRow[] = [
         {
-            key: "Course",
-            value: course?.name,
-        },
-        {
             key: "Grade",
             value: course?.grade.toString(),
         },
@@ -35,7 +31,12 @@ const CourseAssignmentsPage = () => {
         },
     ];
 
-    return <DictTable rows={tableRows} />;
+    return (
+        <div>
+            <h1 className="text-2xl mb-2">{course?.name}</h1>
+            <DictTable rows={tableRows} className="w-fit" />
+        </div>
+    );
 };
 
 export default CourseAssignmentsPage;

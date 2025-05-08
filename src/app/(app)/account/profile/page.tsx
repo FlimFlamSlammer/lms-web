@@ -24,8 +24,8 @@ const ProfilePage = () => {
     return (
         <div className="flex flex-row justify-start gap-8">
             <span>profile picture</span>
-            <div className="flex flex-col justify-start gap-4">
-                <h1 className="text-3xl">{user?.name}</h1>
+            <div>
+                <h1 className="text-2xl mb-2">{user?.name}</h1>
                 <DictTable rows={tableRows} />
             </div>
         </div>
