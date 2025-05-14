@@ -13,10 +13,10 @@ const columns: ColumnDef<Student>[] = [
         },
     },
     {
-        header: "Role",
+        header: "Email",
         cell: ({ row }) => {
             const student = row.original;
-            return student.user?.role;
+            return student.user?.email;
         },
     },
 ];
