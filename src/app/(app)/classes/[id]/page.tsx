@@ -7,7 +7,7 @@ const CoursePage = () => {
     const { id }: { id: string } = useParams();
     const router = useRouter();
     useEffect(() => {
-        router.replace(`/courses/${id}/assignments`);
+        router.replace(`/classes/${id}/people`);
     });
 };
 

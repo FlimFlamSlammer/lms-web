@@ -1,3 +1,5 @@
+"use client";
+
 import { getUser } from "@/actions/users/get-user";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Header } from "@/components/ui/header";

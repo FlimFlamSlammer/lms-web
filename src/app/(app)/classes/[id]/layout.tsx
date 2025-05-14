@@ -7,12 +7,8 @@ import { ReactNode } from "react";
 
 const tabMenuItems: TabMenuItem[] = [
     {
-        title: "Assignments",
-        href: "assignments",
-    },
-    {
-        title: "Classes",
-        href: "classes",
+        title: "People",
+        href: "people",
     },
     {
         title: "Details",
@@ -29,10 +25,10 @@ const CoursesLayout = ({ children }: Props) => {
     const { id }: { id: string } = useParams();
     return (
         <>
-            <Header>Course</Header>
+            <Header>Class</Header>
             <div className="flex flex-row w-full h-min-full gap-8">
                 <TabMenu
-                    URLPrefix={`/courses/${id}/`}
+                    URLPrefix={`/classes/${id}/`}
                     items={tabMenuItems}
                 ></TabMenu>
                 {children}

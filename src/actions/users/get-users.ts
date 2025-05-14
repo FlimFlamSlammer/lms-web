@@ -1,7 +1,7 @@
 "use server";
 
 import { requestApiWithAuthentication } from "@/helpers/fetch";
-import { APIResponse, User } from "@/types";
+import { APIResponse, ListQueryParams, User } from "@/types";
 
 export type GetUsersResponse = APIResponse<{
     users: User[];
@@ -9,19 +9,49 @@ export type GetUsersResponse = APIResponse<{
 }>;
 
 export const getUsers = async ({
-    page,
+    page = 1,
     size = 10,
     mode = "pagination",
     search,
     status = "all",
-}: {
-    page: number;
-    size?: number;
-    mode?: "all" | "pagination";
-    search?: string;
-    status?: "all" | "active" | "inactive";
-}): Promise<GetUsersResponse> => {
+}: ListQueryParams): Promise<GetUsersResponse> => {
     return await requestApiWithAuthentication("/users", "GET", {
+        params: {
+            page: String(page),
+            size: String(size),
+            mode,
+            search: search || "",
+            status,
+        },
+    });
+};
+
+export const getStudents = async ({
+    page = 1,
+    size = 10,
+    mode = "pagination",
+    search,
+    status = "all",
+}: ListQueryParams): Promise<GetUsersResponse> => {
+    return await requestApiWithAuthentication("/users/students", "GET", {
+        params: {
+            page: String(page),
+            size: String(size),
+            mode,
+            search: search || "",
+            status,
+        },
+    });
+};
+
+export const getTeachers = async ({
+    page = 1,
+    size = 10,
+    mode = "pagination",
+    search,
+    status = "all",
+}: ListQueryParams): Promise<GetUsersResponse> => {
+    return await requestApiWithAuthentication("/users/teacher", "GET", {
         params: {
             page: String(page),
             size: String(size),

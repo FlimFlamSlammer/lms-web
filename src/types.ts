@@ -22,6 +22,7 @@ export type Student = {
     motherName?: string;
     guardianName?: string;
     contactPhoneNumber: string;
+    user?: User;
 };
 export type Teacher = {
     id: string;
@@ -31,6 +32,7 @@ export type Teacher = {
     masterDegree?: string;
     doctorateDegree?: string;
     description?: string;
+    user?: User;
 };
 
 export type Subject = {
@@ -42,8 +44,23 @@ export type Subject = {
     status: Status;
 };
 
+export type Class = {
+    id: string;
+    name: string;
+    status: Status;
+    students?: Student[];
+};
+
 export type APIResponse<T = never> = {
     error: string | null;
     errorFields: Record<string, string> | null;
     data: T;
+};
+
+export type ListQueryParams = {
+    page?: number;
+    size?: number;
+    mode?: "all" | "pagination";
+    search?: string;
+    status?: "all" | "active" | "inactive";
 };
