@@ -1,6 +1,9 @@
 import { getUsers } from "@/actions/users/get-users";
 import { Button } from "@/components/ui/button";
-import { FormFilter } from "@/components/ui/form-filter";
+import {
+    FormFilter,
+    FormFilterField as FormFilterField,
+} from "@/components/ui/form-filter";
 import { Header } from "@/components/ui/header";
 import { UserDataTable } from "@/components/users/data-table";
 import Link from "next/link";
@@ -12,6 +15,13 @@ type Props = {
         search?: string;
     }>;
 };
+
+const filterFields: FormFilterField[] = [
+    {
+        name: "search",
+        placeholder: "Search",
+    },
+];
 
 const UsersPage = async ({ searchParams }: Props) => {
     const page = Math.max(parseInt((await searchParams).page || "1"), 1);
@@ -33,7 +43,7 @@ const UsersPage = async ({ searchParams }: Props) => {
         <>
             <Header>Users</Header>
             <div className="flex items-center justify-between mb-4">
-                <FormFilter />
+                <FormFilter fields={filterFields} />
                 <Button asChild>
                     <Link href="/users/create">Add User</Link>
                 </Button>

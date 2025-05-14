@@ -1,7 +1,7 @@
 import { getClass } from "@/actions/classes/get-class";
 import { ClassUserDataTable } from "@/components/classes/students/data-table";
 import { Button } from "@/components/ui/button";
-import { FormFilter } from "@/components/ui/form-filter";
+import { FormFilter, FormFilterField } from "@/components/ui/form-filter";
 import Link from "next/link";
 
 type Props = {
@@ -14,6 +14,13 @@ type Props = {
         id: string;
     }>;
 };
+
+const filterFields: FormFilterField[] = [
+    {
+        name: "search",
+        placeholder: "Search",
+    },
+];
 
 const UsersPage = async ({ searchParams, params }: Props) => {
     const page = Math.max(parseInt((await searchParams).page || "1"), 1);
@@ -32,7 +39,7 @@ const UsersPage = async ({ searchParams, params }: Props) => {
     return (
         <div className="w-full">
             <div className="flex items-center justify-between mb-4">
-                <FormFilter />
+                <FormFilter fields={filterFields} />
                 <Button asChild>
                     <Link href={`/classes/${(await params).id}/people/add`}>
                         Add Students

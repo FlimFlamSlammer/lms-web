@@ -1,7 +1,7 @@
 import { getSubjects } from "@/actions/subjects/get-subjects";
 import { CourseDataTable } from "@/components/courses/data-table";
 import { Button } from "@/components/ui/button";
-import { FormFilter } from "@/components/ui/form-filter";
+import { FormFilter, FormFilterField } from "@/components/ui/form-filter";
 import { Header } from "@/components/ui/header";
 import Link from "next/link";
 
@@ -12,6 +12,13 @@ type Props = {
         search?: string;
     }>;
 };
+
+const filterFields: FormFilterField[] = [
+    {
+        name: "search",
+        placeholder: "Search",
+    },
+];
 
 const CoursesPage = async ({ searchParams }: Props) => {
     const page = Math.max(parseInt((await searchParams).page || "1"), 1);
@@ -35,7 +42,7 @@ const CoursesPage = async ({ searchParams }: Props) => {
         <>
             <Header>Courses</Header>
             <div className="flex items-center justify-between mb-4">
-                <FormFilter />
+                <FormFilter fields={filterFields} />
                 <Button asChild>
                     <Link href="/courses/create">Add Course</Link>
                 </Button>

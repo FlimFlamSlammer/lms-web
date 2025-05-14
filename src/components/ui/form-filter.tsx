@@ -1,11 +1,19 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { Input } from "./input";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "./button";
+import { HTMLInputTypeAttribute } from "react";
+import { Input } from "./input";
 
-export const FormFilter = () => {
+export type FormFilterField = {
+    name: string;
+    placeholder?: string;
+    type?: HTMLInputTypeAttribute;
+};
+
+export const FormFilter = ({ fields }: { fields: FormFilterField[] }) => {
     const searchParams = useSearchParams();
+    const pathname = usePathname();
     const router = useRouter();
 
     return (
@@ -13,23 +21,28 @@ export const FormFilter = () => {
             className="flex items-center gap-x-2"
             action={async (formData) => {
                 const params = new URLSearchParams(searchParams);
-                const searchValue = String(formData.get("search"));
-                if (searchValue) {
-                    params.set("search", searchValue);
-                } else {
-                    params.delete("search");
+                for (const pair of formData.entries()) {
+                    if (pair[1]) {
+                        params.set(pair[0], pair[1].toString());
+                    } else {
+                        params.delete(pair[0]);
+                    }
                 }
 
-                router.replace(`/courses?${params.toString()}`);
+                router.replace(`${pathname}?${params.toString()}`);
             }}
         >
-            <Input
-                placeholder="Search"
-                className="max-w-sm"
-                name="search"
-                id="search"
-                defaultValue={searchParams.get("search") || ""}
-            />
+            {fields.map((field: FormFilterField) => {
+                return (
+                    <Input
+                        placeholder={field.placeholder}
+                        name={field.name}
+                        key={field.name}
+                        type={field.name}
+                        defaultValue={searchParams.get(field.name) || ""}
+                    />
+                );
+            })}
             <Button type="submit" variant="outline">
                 Search
             </Button>
