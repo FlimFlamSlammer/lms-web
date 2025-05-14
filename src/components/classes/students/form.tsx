@@ -22,6 +22,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { addStudents } from "@/actions/classes/add-students";
 import { useParams } from "next/navigation";
+import { X } from "lucide-react";
 
 export const AddStudentsToClassForm = () => {
     const [students, setStudents] = useState<User[]>([]);
@@ -57,7 +58,6 @@ export const AddStudentsToClassForm = () => {
                             <Button
                                 variant="ghost"
                                 size="icon"
-                                className="material-symbols-outlined text-xl"
                                 onClick={() => {
                                     setStudentsToAdd(
                                         studentsToAdd.difference(
@@ -66,7 +66,7 @@ export const AddStudentsToClassForm = () => {
                                     );
                                 }}
                             >
-                                close
+                                <X strokeWidth={1} />
                             </Button>
                         </div>
                         <Separator className="mt-2" />

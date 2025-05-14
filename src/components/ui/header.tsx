@@ -5,6 +5,7 @@ import { Button } from "./button";
 import { Separator } from "./separator";
 import { ReactNode } from "react";
 import { useSidebar } from "./sidebar";
+import { Menu } from "lucide-react";
 
 export const Header = ({ children }: { children: ReactNode }) => {
     const isMobile = useIsMobile();
@@ -17,12 +18,11 @@ export const Header = ({ children }: { children: ReactNode }) => {
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="material-symbols-outlined text-4xl"
                         onClick={() => {
                             toggleSidebar();
                         }}
                     >
-                        menu
+                        <Menu strokeWidth={1} />
                     </Button>
                 )}
                 <h1 className="text-4xl font-light">{children}</h1>{" "}
