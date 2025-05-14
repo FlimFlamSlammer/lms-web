@@ -48,7 +48,7 @@ export const AddStudentsToClassForm = () => {
     }, []);
 
     return (
-        <Form action={action} redirectURL="/classes">
+        <Form action={action} redirectURL={`/classes/${id}/people`}>
             {Array.from(studentsToAdd.values()).map((student) => {
                 return (
                     <div key={student.email}>
