@@ -2,20 +2,13 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { Button } from "../ui/button";
 import {
     redirect,
     RedirectType,
     useRouter,
     useSearchParams,
 } from "next/navigation";
-import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
-import {
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+import { DropdownMenuItem } from "../ui/dropdown-menu";
 import { User } from "@/types";
 import { Checkbox } from "../ui/checkbox";
 import {
@@ -25,6 +18,7 @@ import {
 import { updateUser } from "@/actions/users/update-user";
 import { DataTable } from "../ui/data-table";
 import { useCallback } from "react";
+import { ActionsDropdown } from "../ui/actions-dropdown";
 
 const columns: ColumnDef<User>[] = [
     {
@@ -107,38 +101,28 @@ export function UserDataTable(props: Props) {
 
     const renderRowActions = (user: User) => {
         return (
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
-                        <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    <DropdownMenuItem
-                        onClick={() => {
-                            redirect(
-                                `/users/${user.id}/edit`,
-                                RedirectType.push
-                            );
-                        }}
-                        className="hover:cursor-pointer"
-                    >
-                        Edit
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                        className="hover:cursor-pointer"
-                        onClick={() => toggleUserStatus(user)}
-                    >
-                        {user.status == "active" ? "Deactivate" : "Activate"}
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                        className="hover:cursor-pointer text-red-500"
-                        onClick={() => resetUserPassword(user)}
-                    >
-                        Reset Password
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+            <ActionsDropdown>
+                <DropdownMenuItem
+                    onClick={() => {
+                        redirect(`/users/${user.id}/edit`, RedirectType.push);
+                    }}
+                    className="hover:cursor-pointer"
+                >
+                    Edit
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                    className="hover:cursor-pointer"
+                    onClick={() => toggleUserStatus(user)}
+                >
+                    {user.status == "active" ? "Deactivate" : "Activate"}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                    className="hover:cursor-pointer text-red-500"
+                    onClick={() => resetUserPassword(user)}
+                >
+                    Reset Password
+                </DropdownMenuItem>
+            </ActionsDropdown>
         );
     };
     return (
