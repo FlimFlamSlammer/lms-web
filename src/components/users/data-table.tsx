@@ -5,6 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import {
     redirect,
     RedirectType,
+    usePathname,
     useRouter,
     useSearchParams,
 } from "next/navigation";
@@ -19,6 +20,7 @@ import { updateUser } from "@/actions/users/update-user";
 import { DataTable } from "../ui/data-table";
 import { useCallback } from "react";
 import { ActionsDropdown } from "../ui/actions-dropdown";
+import { reloadPage } from "@/helpers/reload-page";
 
 const columns: ColumnDef<User>[] = [
     {
@@ -77,17 +79,13 @@ interface Props {
 export function UserDataTable(props: Props) {
     const router = useRouter();
     const searchParams = useSearchParams();
-
-    const reloadTable = () => {
-        const params = new URLSearchParams(searchParams);
-        router.replace(`/users?${params.toString()}`);
-    };
+    const pathname = usePathname();
 
     const toggleUserStatus = async (user: User) => {
         if (user.status == "active") await deactivateUser(user.id);
         else await activateUser(user.id);
 
-        reloadTable();
+        reloadPage(router, pathname, searchParams);
     };
 
     const resetUserPassword = useCallback((user: User) => {
@@ -104,7 +102,7 @@ export function UserDataTable(props: Props) {
             <ActionsDropdown>
                 <DropdownMenuItem
                     onClick={() => {
-                        redirect(`/users/${user.id}/edit`, RedirectType.push);
+                        router.push(`/users/${user.id}/edit`);
                     }}
                     className="hover:cursor-pointer"
                 >

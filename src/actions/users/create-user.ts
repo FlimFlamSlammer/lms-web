@@ -12,6 +12,6 @@ export const createUser = async (dto: {
     roleData?: CreateTeacherDTO | CreateStudentDTO;
 }): Promise<APIResponse<User>> => {
     return await requestApiWithAuthentication("/users", "POST", {
-        body: JSON.stringify(dto),
+        body: dto,
     });
 };

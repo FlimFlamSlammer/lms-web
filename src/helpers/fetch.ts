@@ -7,19 +7,19 @@ type Method = "GET" | "POST" | "PUT" | "PATCH";
 
 type RequestApiDTO = {
     headers?: HeadersInit;
-    body?: BodyInit;
-    params?: Record<string, any>;
+    body?: Record<string, unknown>;
+    params?: Record<string, unknown>;
 };
 
-export const requestApi = async (
+export const requestApi = async <T>(
     path: string,
     method: Method,
     { headers, body, params = {} }: RequestApiDTO
-): Promise<APIResponse> => {
+): Promise<APIResponse<T>> => {
     const searchParams = new URLSearchParams();
 
     Object.entries(params).forEach(([key, value]) => {
-        searchParams.append(key, value);
+        searchParams.append(key, String(value));
     });
 
     path = `${process.env.BASE_URL}${path}?${searchParams.toString()}`;
@@ -27,10 +27,10 @@ export const requestApi = async (
     const response = await fetch(path, {
         method,
         headers,
-        body,
+        body: JSON.stringify(body),
     });
 
-    const res: APIResponse<any> = {
+    const res: APIResponse<T> = {
         error: null,
         errorFields: null,
         data: null,
@@ -50,11 +50,11 @@ export const requestApi = async (
     return res;
 };
 
-export const requestApiWithAuthentication = async (
+export const requestApiWithAuthentication = async <T>(
     path: string,
     method: Method,
     { headers, body, params }: RequestApiDTO
-): Promise<APIResponse> => {
+): Promise<APIResponse<T>> => {
     const token = await getLoginCookie();
 
     return await requestApi(path, method, {

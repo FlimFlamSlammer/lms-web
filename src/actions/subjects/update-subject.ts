@@ -3,12 +3,13 @@
 import { requestApiWithAuthentication } from "@/helpers/fetch";
 import { APIResponse, Subject } from "@/types";
 
-export type CreateSubjectDTO = Omit<Subject, "status" | "id">;
+export type UpdateSubjectDTO = Omit<Subject, "id">;
 
 export const createSubject = async (
-    dto: CreateSubjectDTO
+    id: string,
+    dto: UpdateSubjectDTO
 ): Promise<APIResponse<Subject>> => {
-    return await requestApiWithAuthentication("/subjects", "POST", {
+    return await requestApiWithAuthentication(`/subjects/${id}`, "PUT", {
         body: dto,
     });
 };

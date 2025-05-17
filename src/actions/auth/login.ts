@@ -16,7 +16,7 @@ export const login = async (dto: {
 }): Promise<LoginResponse> => {
     const res: LoginResponse = await requestApi("/auth/login", "POST", {
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dto),
+        body: dto,
     });
 
     if (res.data) {

@@ -7,9 +7,9 @@ export const removeStudents = async (id: string, studentIds: string[]) => {
         `/classes/${id}/remove-students`,
         "PATCH",
         {
-            body: JSON.stringify({
+            body: {
                 studentIds,
-            }),
+            },
         }
     );
 };

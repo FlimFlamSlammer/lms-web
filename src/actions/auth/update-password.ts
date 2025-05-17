@@ -8,6 +8,6 @@ export const updatePassword = async (dto: {
     newPassword: string;
 }): Promise<APIResponse<User>> => {
     return await requestApiWithAuthentication("/auth/update-password", "PUT", {
-        body: JSON.stringify(dto),
+        body: dto,
     });
 };

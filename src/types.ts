@@ -54,7 +54,7 @@ export type Class = {
 export type APIResponse<T = never> = {
     error: string | null;
     errorFields: Record<string, string> | null;
-    data: T;
+    data: T | null;
 };
 
 export type ListQueryParams = {

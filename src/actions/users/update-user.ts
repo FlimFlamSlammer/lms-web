@@ -16,6 +16,6 @@ export const updateUser = async (
     }
 ): Promise<APIResponse<User>> => {
     return await requestApiWithAuthentication(`/users/${id}`, "PUT", {
-        body: JSON.stringify(dto),
+        body: dto,
     });
 };

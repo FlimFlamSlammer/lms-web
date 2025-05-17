@@ -6,6 +6,9 @@ import { Subject } from "@/types";
 import { Checkbox } from "../ui/checkbox";
 import { DataTable } from "../ui/data-table";
 import Link from "next/link";
+import { ActionsDropdown } from "../ui/actions-dropdown";
+import { DropdownMenuItem } from "../ui/dropdown-menu";
+import { redirect, useRouter } from "next/navigation";
 
 const columns: ColumnDef<Subject>[] = [
     {
@@ -55,5 +58,32 @@ interface Props {
 }
 
 export function CourseDataTable(props: Props) {
-    return <DataTable<Subject> {...props} columns={columns} />;
+    const router = useRouter();
+
+    const toggleCourseStatus = async(course: Subject) => {
+        if (course.status == "active") await ;
+    }
+
+    const renderRowActions = (course: Subject) => {
+        return (
+            <ActionsDropdown>
+                <DropdownMenuItem
+                    onClick={() => {
+                        router.push(`/courses/${course.id}/edit`);
+                    }}
+                >
+                    Edit
+                </DropdownMenuItem>
+                <DropdownMenuItem>Delete</DropdownMenuItem>
+            </ActionsDropdown>
+        );
+    };
+
+    return (
+        <DataTable<Subject>
+            {...props}
+            columns={columns}
+            renderRowActions={renderRowActions}
+        />
+    );
 }
