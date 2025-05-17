@@ -1,20 +1,10 @@
 "use client";
 
-import { getSubject } from "@/actions/subjects/get-subject";
+import { useDataContext } from "@/components/providers/data-provider";
 import { DictTable, DictTableRow } from "@/components/ui/dict-table";
 import { Subject } from "@/types";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-
 const CourseAssignmentsPage = () => {
-    const { id } = useParams();
-    const [course, setCourse] = useState<Subject>();
-
-    useEffect(() => {
-        getSubject(id as string).then((res) => {
-            setCourse(res.data);
-        });
-    }, [id]);
+    const course = useDataContext() as Subject;
 
     const tableRows: DictTableRow[] = [
         {

@@ -23,10 +23,7 @@ const filterFields: FormFilterField[] = [
 const CoursesPage = async ({ searchParams }: Props) => {
     const page = Math.max(parseInt((await searchParams).page || "1"), 1);
 
-    const {
-        data: { classes, total },
-        error,
-    } = await getClasses({
+    const { data, error } = await getClasses({
         page,
         status: (await searchParams).status,
         search: (await searchParams).search,
@@ -35,6 +32,8 @@ const CoursesPage = async ({ searchParams }: Props) => {
     if (error) {
         throw new Error(error);
     }
+
+    if (!data) return;
 
     return (
         <>
@@ -46,8 +45,8 @@ const CoursesPage = async ({ searchParams }: Props) => {
                 </Button>
             </div>
             <ClassDataTable
-                data={classes}
-                rowCount={total}
+                data={data.classes}
+                rowCount={data.total}
                 page={page}
                 pageSize={10}
             />

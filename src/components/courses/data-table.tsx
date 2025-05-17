@@ -8,7 +8,12 @@ import { DataTable } from "../ui/data-table";
 import Link from "next/link";
 import { ActionsDropdown } from "../ui/actions-dropdown";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
-import { redirect, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+    activateSubject,
+    deactivateSubject,
+} from "@/actions/subjects/update-subject-status";
+import { reloadPage } from "@/helpers/reload-page";
 
 const columns: ColumnDef<Subject>[] = [
     {
@@ -59,20 +64,20 @@ interface Props {
 
 export function CourseDataTable(props: Props) {
     const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
 
-    const toggleCourseStatus = async(course: Subject) => {
-        if (course.status == "active") await ;
-    }
+    const toggleCourseStatus = async (course: Subject) => {
+        if (course.status == "active") await deactivateSubject(course.id);
+        else activateSubject(course.id);
+        reloadPage(router, pathname, searchParams);
+    };
 
     const renderRowActions = (course: Subject) => {
         return (
             <ActionsDropdown>
-                <DropdownMenuItem
-                    onClick={() => {
-                        router.push(`/courses/${course.id}/edit`);
-                    }}
-                >
-                    Edit
+                <DropdownMenuItem onClick={() => toggleCourseStatus(course)}>
+                    {course.status == "active" ? "Deactivate" : "Activate"}
                 </DropdownMenuItem>
                 <DropdownMenuItem>Delete</DropdownMenuItem>
             </ActionsDropdown>

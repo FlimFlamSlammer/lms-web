@@ -2,13 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import {
-    redirect,
-    RedirectType,
-    usePathname,
-    useRouter,
-    useSearchParams,
-} from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
 import { User } from "@/types";
 import { Checkbox } from "../ui/checkbox";

@@ -3,7 +3,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-const CoursePage = () => {
+const ClassPage = () => {
     const { id }: { id: string } = useParams();
     const router = useRouter();
     useEffect(() => {
@@ -11,4 +11,4 @@ const CoursePage = () => {
     });
 };
 
-export default CoursePage;
+export default ClassPage;

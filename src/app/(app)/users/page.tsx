@@ -26,10 +26,7 @@ const filterFields: FormFilterField[] = [
 const UsersPage = async ({ searchParams }: Props) => {
     const page = Math.max(parseInt((await searchParams).page || "1"), 1);
 
-    const {
-        data: { users, total },
-        error,
-    } = await getUsers({
+    const { data, error } = await getUsers({
         page,
         status: (await searchParams).status,
         search: (await searchParams).search,
@@ -38,6 +35,8 @@ const UsersPage = async ({ searchParams }: Props) => {
     if (error) {
         throw new Error(error);
     }
+
+    if (!data) return;
 
     return (
         <>
@@ -49,8 +48,8 @@ const UsersPage = async ({ searchParams }: Props) => {
                 </Button>
             </div>
             <UserDataTable
-                data={users}
-                rowCount={total}
+                data={data.users}
+                rowCount={data.total}
                 page={page}
                 pageSize={10}
             />

@@ -1,19 +1,12 @@
-import { getClass } from "@/actions/classes/get-class";
+"use client";
+
 import { ClassUserDataTable } from "@/components/classes/students/data-table";
+import { useDataContext } from "@/components/providers/data-provider";
 import { Button } from "@/components/ui/button";
 import { FormFilter, FormFilterField } from "@/components/ui/form-filter";
+import { Class } from "@/types";
 import Link from "next/link";
-
-type Props = {
-    searchParams: Promise<{
-        status?: "all" | "active" | "inactive";
-        page?: string;
-        search?: string;
-    }>;
-    params: Promise<{
-        id: string;
-    }>;
-};
+import { useSearchParams } from "next/navigation";
 
 const filterFields: FormFilterField[] = [
     {
@@ -22,16 +15,15 @@ const filterFields: FormFilterField[] = [
     },
 ];
 
-const UsersPage = async ({ searchParams, params }: Props) => {
-    const page = Math.max(parseInt((await searchParams).page || "1"), 1);
+const UsersPage = () => {
+    const page = Math.max(parseInt(useSearchParams().get("page") || "1"), 1);
+    const $class = useDataContext() as Class | null;
 
-    const { data, error } = await getClass((await params).id);
-
-    if (error) {
-        throw new Error(error);
+    if (!$class) {
+        return;
     }
 
-    if (data.students === undefined) {
+    if ($class.students === undefined) {
         alert("Something went wrong! Please try again later.");
         throw new Error("Students in Class is undefined.");
     }
@@ -41,14 +33,14 @@ const UsersPage = async ({ searchParams, params }: Props) => {
             <div className="flex items-center justify-between mb-4">
                 <FormFilter fields={filterFields} />
                 <Button asChild>
-                    <Link href={`/classes/${(await params).id}/people/add`}>
+                    <Link href={`/classes/${$class.id}/people/add`}>
                         Add Students
                     </Link>
                 </Button>
             </div>
             <ClassUserDataTable
-                data={data.students}
-                rowCount={data.students.length}
+                data={$class.students}
+                rowCount={$class.students.length}
                 page={page}
                 pageSize={10}
             />
