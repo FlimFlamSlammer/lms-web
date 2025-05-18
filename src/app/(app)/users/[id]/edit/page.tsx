@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 
 const CreateUserPage = () => {
     const { id }: { id: string } = useParams();
-    const [user, setUser] = useState<User | undefined>();
+    const [user, setUser] = useState<User | null>();
 
     useEffect(() => {
         getUser(id).then((res) => {
@@ -25,7 +25,7 @@ const CreateUserPage = () => {
                 <Card>
                     <CardHeader className="pt-0"></CardHeader>
                     <CardContent>
-                        <UpdateUserForm user={user} />
+                        <UpdateUserForm user={user || undefined} />
                     </CardContent>
                 </Card>
             </div>

@@ -1,9 +1,9 @@
 "use client";
-
-import { useAuth } from "@/components/providers/auth-provider";
+import { useDataContext } from "@/components/providers/data-provider";
+import { User } from "@/types";
 
 const ProfilePage = () => {
-    const { user } = useAuth();
+    const user = useDataContext() as User | null;
 
     return <div className="flex flex-row justify-start"></div>;
 };

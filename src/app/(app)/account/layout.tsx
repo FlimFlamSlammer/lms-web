@@ -4,16 +4,16 @@ import { useAuth } from "@/components/providers/auth-provider";
 import { TabMenu, TabMenuItem } from "@/components/ui/tab-menu";
 import { Button } from "@/components/ui/button";
 import { ReactNode } from "react";
-import { Header } from "@/components/ui/header";
+import { TabMenuLayout } from "@/components/shared/tab-menu-layout";
 
 const tabMenuItems: TabMenuItem[] = [
     {
         title: "Profile",
-        href: "/account/profile",
+        href: "profile",
     },
     {
         title: "Settings",
-        href: "/account/settings",
+        href: "settings",
     },
 ];
 
@@ -22,28 +22,25 @@ type Props = {
 };
 
 const AccountLayout = ({ children }: Props) => {
-    const { logout } = useAuth();
+    const { logout, user } = useAuth();
 
     return (
-        <>
-            <Header>Account</Header>
-            <div className="flex flex-row w-full h-full gap-8">
-                <div className="vertical-menu">
-                    <TabMenu items={tabMenuItems}></TabMenu>
-                    <Button
-                        variant="ghost"
-                        className="w-full justify-start"
-                        onClick={() => {
-                            logout();
-                        }}
-                    >
-                        Log out
-                    </Button>
-                </div>
-
-                {children}
+        <TabMenuLayout header="Account" contextData={user}>
+            <div className="vertical-menu">
+                <TabMenu items={tabMenuItems} URLPrefix="/account/"></TabMenu>
+                <Button
+                    variant="ghost"
+                    className="w-full justify-start"
+                    onClick={() => {
+                        logout();
+                    }}
+                >
+                    Log out
+                </Button>
             </div>
-        </>
+
+            {children}
+        </TabMenuLayout>
     );
 };
 

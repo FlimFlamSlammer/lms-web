@@ -1,10 +1,10 @@
 "use client";
-
-import { useAuth } from "@/components/providers/auth-provider";
+import { useDataContext } from "@/components/providers/data-provider";
 import { DictTable, DictTableRow } from "@/components/ui/dict-table";
+import { User } from "@/types";
 
 const ProfilePage = () => {
-    const { user } = useAuth();
+    const user = useDataContext() as User | null;
 
     const tableRows: DictTableRow[] = [
         {

@@ -40,7 +40,7 @@ const ChangePasswordPage = () => {
                     <CardDescription>Enter your new password.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <Form action={action}>
+                    <Form action={action} redirectURL="/account/settings">
                         <FormInput
                             name="password"
                             id="password"

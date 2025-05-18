@@ -1,12 +1,7 @@
-"use client";
-
 import { TabMenu, TabMenuItem } from "@/components/ui/tab-menu";
-import { Header } from "@/components/ui/header";
-import { useParams } from "next/navigation";
-import { ReactNode, useEffect, useState } from "react";
-import { DataProvider } from "@/components/providers/data-provider";
+import { ReactNode } from "react";
 import { getClass } from "@/actions/classes/get-class";
-import { Class } from "@/types";
+import { TabMenuLayout } from "@/components/shared/tab-menu-layout";
 
 const tabMenuItems: TabMenuItem[] = [
     {
@@ -22,29 +17,22 @@ const tabMenuItems: TabMenuItem[] = [
 
 type Props = {
     children: ReactNode;
+    params: {
+        id: string;
+    };
 };
 
-const ClassLayout = ({ children }: Props) => {
-    const { id }: { id: string } = useParams();
-    const [$class, setClass] = useState<Class | null>(null);
+const ClassLayout = async ({ params: { id }, children }: Props) => {
+    const { data: $class, error } = await getClass(id);
 
-    useEffect(() => {
-        getClass(id).then((res) => {
-            setClass(res.data);
-        });
-    }, [id]);
+    if (error) throw new Error(error);
+    if (!$class) return;
 
     return (
-        <>
-            <Header>{$class?.name}</Header>
-            <div className="flex flex-row w-full h-min-full gap-8">
-                <TabMenu
-                    URLPrefix={`/classes/${id}/`}
-                    items={tabMenuItems}
-                ></TabMenu>
-                <DataProvider value={$class}>{children}</DataProvider>
-            </div>
-        </>
+        <TabMenuLayout header={$class.name} contextData={$class}>
+            <TabMenu URLPrefix={`/classes/${id}/`} items={tabMenuItems} />
+            {children}
+        </TabMenuLayout>
     );
 };
 

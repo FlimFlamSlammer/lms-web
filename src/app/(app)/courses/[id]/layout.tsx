@@ -1,12 +1,7 @@
-"use client";
-
 import { TabMenu, TabMenuItem } from "@/components/ui/tab-menu";
-import { Header } from "@/components/ui/header";
-import { useParams } from "next/navigation";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 import { getSubject } from "@/actions/subjects/get-subject";
-import { Subject } from "@/types";
-import { DataProvider } from "@/components/providers/data-provider";
+import { TabMenuLayout } from "@/components/shared/tab-menu-layout";
 
 const tabMenuItems: TabMenuItem[] = [
     {
@@ -26,29 +21,25 @@ const tabMenuItems: TabMenuItem[] = [
 
 type Props = {
     children: ReactNode;
+    params: {
+        id: string;
+    };
 };
 
-const CourseLayout = ({ children }: Props) => {
-    const { id }: { id: string } = useParams();
-    const [course, setCourse] = useState<Subject | null>(null);
+const CourseLayout = async ({ params: { id }, children }: Props) => {
+    const { data: course, error } = await getSubject(id);
 
-    useEffect(() => {
-        getSubject(id as string).then((res) => {
-            setCourse(res.data);
-        });
-    }, [id]);
+    if (error) {
+        throw new Error(error);
+    }
+
+    if (!course) return;
 
     return (
-        <>
-            <Header>{course?.name}</Header>
-            <div className="flex flex-row w-full h-min-full gap-8">
-                <TabMenu
-                    URLPrefix={`/courses/${id}/`}
-                    items={tabMenuItems}
-                ></TabMenu>
-                <DataProvider value={course}>{children}</DataProvider>
-            </div>
-        </>
+        <TabMenuLayout header={course?.name} contextData={course}>
+            <TabMenu URLPrefix={`/courses/${id}/`} items={tabMenuItems} />
+            {children}
+        </TabMenuLayout>
     );
 };
 

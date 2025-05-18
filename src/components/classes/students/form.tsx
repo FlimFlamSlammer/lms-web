@@ -43,7 +43,6 @@ export const AddStudentsToClassForm = () => {
         getStudents({
             mode: "all",
         }).then((res) => {
-            console.log(res);
             setStudents(res.data.users);
         });
     }, []);
