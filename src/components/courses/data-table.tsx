@@ -62,7 +62,7 @@ interface Props {
     pageSize: number;
 }
 
-export function CourseDataTable(props: Props) {
+export const CourseDataTable = (props: Props) => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -79,7 +79,6 @@ export function CourseDataTable(props: Props) {
                 <DropdownMenuItem onClick={() => toggleCourseStatus(course)}>
                     {course.status == "active" ? "Deactivate" : "Activate"}
                 </DropdownMenuItem>
-                <DropdownMenuItem>Delete</DropdownMenuItem>
             </ActionsDropdown>
         );
     };
@@ -91,4 +90,4 @@ export function CourseDataTable(props: Props) {
             renderRowActions={renderRowActions}
         />
     );
-}
+};

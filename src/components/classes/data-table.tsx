@@ -6,6 +6,14 @@ import { Class } from "@/types";
 import { Checkbox } from "../ui/checkbox";
 import { DataTable } from "../ui/data-table";
 import Link from "next/link";
+import { ActionsDropdown } from "../ui/actions-dropdown";
+import { DropdownMenuItem } from "../ui/dropdown-menu";
+import {
+    activateClass,
+    deactivateClass,
+} from "@/actions/classes/update-class-status";
+import { reloadPage } from "@/helpers/reload-page";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 const columns: ColumnDef<Class>[] = [
     {
@@ -43,5 +51,34 @@ interface Props {
 }
 
 export function ClassDataTable(props: Props) {
-    return <DataTable<Class> {...props} columns={columns} />;
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+
+    const toggleClassStatus = ($class: Class) => {
+        if ($class.status == "active") {
+            deactivateClass($class.id);
+        } else {
+            activateClass($class.id);
+        }
+        reloadPage(router, pathname, searchParams);
+    };
+
+    const renderRowActions = ($class: Class) => {
+        return (
+            <ActionsDropdown>
+                <DropdownMenuItem onClick={() => toggleClassStatus($class)}>
+                    {$class.status == "active" ? "Deactivate" : "Activate"}
+                </DropdownMenuItem>
+            </ActionsDropdown>
+        );
+    };
+
+    return (
+        <DataTable<Class>
+            {...props}
+            columns={columns}
+            renderRowActions={renderRowActions}
+        />
+    );
 }
