@@ -1,11 +1,10 @@
 "use client";
 
 import { ClassUserDataTable } from "@/components/classes/students/data-table";
+import { StudentSelector } from "@/components/classes/students/selector";
 import { useDataContext } from "@/components/providers/data-provider";
-import { Button } from "@/components/ui/button";
 import { FormFilter, FormFilterField } from "@/components/ui/form-filter";
 import { Class } from "@/types";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
 const filterFields: FormFilterField[] = [
@@ -32,11 +31,7 @@ const UsersPage = () => {
         <div className="w-full">
             <div className="flex items-center justify-between mb-4">
                 <FormFilter fields={filterFields} />
-                <Button asChild>
-                    <Link href={`/classes/${$class.id}/people/add`}>
-                        Add Students
-                    </Link>
-                </Button>
+                <StudentSelector />
             </div>
             <ClassUserDataTable
                 data={$class.students}

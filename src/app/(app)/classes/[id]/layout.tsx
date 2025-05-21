@@ -22,7 +22,8 @@ type Props = {
     };
 };
 
-const ClassLayout = async ({ params: { id }, children }: Props) => {
+const ClassLayout = async ({ params, children }: Props) => {
+    const id = (await params).id;
     const { data: $class, error } = await getClass(id);
 
     if (error) throw new Error(error);
