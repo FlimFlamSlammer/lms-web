@@ -5,6 +5,7 @@ import { TabMenu, TabMenuItem } from "@/components/ui/tab-menu";
 import { Button } from "@/components/ui/button";
 import { ReactNode } from "react";
 import { TabMenuLayout } from "@/components/shared/tab-menu-layout";
+import { DataProvider } from "@/components/providers/data-provider";
 
 const tabMenuItems: TabMenuItem[] = [
     {
@@ -26,20 +27,25 @@ const AccountLayout = ({ children }: Props) => {
 
     return (
         <TabMenuLayout header="Account" contextData={user}>
-            <div className="vertical-menu">
-                <TabMenu items={tabMenuItems} URLPrefix="/account/"></TabMenu>
-                <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={() => {
-                        logout();
-                    }}
-                >
-                    Log out
-                </Button>
-            </div>
+            <DataProvider value={user}>
+                <div className="vertical-menu">
+                    <TabMenu
+                        items={tabMenuItems}
+                        URLPrefix="/account/"
+                    ></TabMenu>
+                    <Button
+                        variant="ghost"
+                        className="w-full justify-start"
+                        onClick={() => {
+                            logout();
+                        }}
+                    >
+                        Log out
+                    </Button>
+                </div>
 
-            {children}
+                {children}
+            </DataProvider>
         </TabMenuLayout>
     );
 };

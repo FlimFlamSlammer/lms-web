@@ -2,6 +2,7 @@ import { TabMenu, TabMenuItem } from "@/components/ui/tab-menu";
 import { ReactNode } from "react";
 import { getSubject } from "@/actions/subjects/get-subject";
 import { TabMenuLayout } from "@/components/shared/tab-menu-layout";
+import { DataProvider } from "@/components/providers/data-provider";
 
 const tabMenuItems: TabMenuItem[] = [
     {
@@ -37,8 +38,10 @@ const CourseLayout = async ({ params: { id }, children }: Props) => {
 
     return (
         <TabMenuLayout header={course?.name} contextData={course}>
-            <TabMenu URLPrefix={`/courses/${id}/`} items={tabMenuItems} />
-            {children}
+            <DataProvider value={course}>
+                <TabMenu URLPrefix={`/courses/${id}/`} items={tabMenuItems} />
+                {children}
+            </DataProvider>
         </TabMenuLayout>
     );
 };

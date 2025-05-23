@@ -9,7 +9,7 @@ const CoursePage = () => {
     const router = useRouter();
     useEffect(() => {
         router.replace(`/courses/${id}/details`);
-    });
+    }, [id, router]);
 };
 
 export default CoursePage;

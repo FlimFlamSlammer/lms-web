@@ -8,7 +8,7 @@ const ClassPage = () => {
     const router = useRouter();
     useEffect(() => {
         router.replace(`/classes/${id}/people`);
-    });
+    }, [id, router]);
 };
 
 export default ClassPage;

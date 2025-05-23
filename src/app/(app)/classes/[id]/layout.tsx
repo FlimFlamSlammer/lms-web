@@ -2,6 +2,7 @@ import { TabMenu, TabMenuItem } from "@/components/ui/tab-menu";
 import { ReactNode } from "react";
 import { getClass } from "@/actions/classes/get-class";
 import { TabMenuLayout } from "@/components/shared/tab-menu-layout";
+import { DataProvider } from "@/components/providers/data-provider";
 
 const tabMenuItems: TabMenuItem[] = [
     {
@@ -31,8 +32,10 @@ const ClassLayout = async ({ params, children }: Props) => {
 
     return (
         <TabMenuLayout header={$class.name} contextData={$class}>
-            <TabMenu URLPrefix={`/classes/${id}/`} items={tabMenuItems} />
-            {children}
+            <DataProvider value={$class}>
+                <TabMenu URLPrefix={`/classes/${id}/`} items={tabMenuItems} />
+                {children}
+            </DataProvider>
         </TabMenuLayout>
     );
 };
