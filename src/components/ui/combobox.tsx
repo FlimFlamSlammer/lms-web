@@ -51,7 +51,7 @@ export type ComboboxListProps = {
 
 export const ComboboxList = ({ emptyMessage, children }: ComboboxListProps) => {
     return (
-        <PopoverContent className="w-fit">
+        <PopoverContent className="w-fit p-2">
             <Command>
                 <CommandInput placeholder="Search student..." />
                 <CommandList>
