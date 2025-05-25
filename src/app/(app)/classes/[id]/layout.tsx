@@ -9,11 +9,6 @@ const tabMenuItems: TabMenuItem[] = [
         title: "People",
         href: "people",
     },
-    {
-        title: "Details",
-        href: "details",
-        roles: ["teacher", "admin", "superadmin"],
-    },
 ];
 
 type Props = {

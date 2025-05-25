@@ -5,7 +5,7 @@ import { Class, Student } from "@/types";
 import { DataTable } from "@/components/ui/data-table";
 import { ActionsDropdown } from "@/components/ui/actions-dropdown";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { removeStudents } from "@/actions/classes/remove-students";
+import { removeStudentsFromClass } from "@/actions/classes/manage-students";
 import { useDataContext } from "@/components/providers/data-provider";
 import { reloadPage } from "@/helpers/reload-page";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -45,7 +45,7 @@ export function ClassUserDataTable(props: Props) {
             throw new Error("Class to edit not found!");
         }
 
-        removeStudents($class.id, [id]);
+        removeStudentsFromClass($class.id, [id]);
         reloadPage(router, pathname, searchParams);
     };
 

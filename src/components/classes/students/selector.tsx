@@ -1,5 +1,5 @@
 "use client";
-import { addStudents } from "@/actions/classes/add-students";
+import { addStudentsToClass } from "@/actions/classes/manage-students";
 import { getStudentsNotInClass } from "@/actions/classes/get-students-not-in-class";
 import { useDataContext } from "@/components/providers/data-provider";
 import { Button } from "@/components/ui/button";
@@ -75,7 +75,7 @@ export const StudentSelector = () => {
             <Button
                 onClick={() => {
                     if (!$class) throw new Error("Class to edit not found!");
-                    addStudents($class.id, Array.from(selectedStudents));
+                    addStudentsToClass($class.id, Array.from(selectedStudents));
                     setSelectedStudents(new Set());
                     reloadPage(router, pathname, searchParams);
                 }}
