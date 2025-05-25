@@ -1,7 +1,7 @@
 "use server";
 
 import { requestApiWithAuthentication } from "@/helpers/fetch";
-import { APIResponse, User } from "@/types";
+import { User } from "@/types";
 import { CreateStudentDTO, CreateTeacherDTO } from "./create-user";
 
 export type UpdateUserDTO = Partial<Omit<User, "role" | "id">>;
@@ -14,8 +14,8 @@ export const updateUser = async (
         userData: UpdateUserDTO;
         roleData?: UpdateStudentDTO | UpdateTeacherDTO;
     }
-): Promise<APIResponse<User>> => {
-    return await requestApiWithAuthentication(`/users/${id}`, "PUT", {
+) => {
+    return await requestApiWithAuthentication<User>(`/users/${id}`, "PUT", {
         body: dto,
     });
 };

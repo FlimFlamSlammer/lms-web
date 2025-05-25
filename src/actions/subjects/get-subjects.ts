@@ -1,12 +1,12 @@
 "use server";
 
 import { requestApiWithAuthentication } from "@/helpers/fetch";
-import { APIResponse, Subject } from "@/types";
+import { Subject } from "@/types";
 
-export type GetSubjectsResponse = APIResponse<{
+export type GetSubjectsResponseData = {
     subjects: Subject[];
     total: number;
-}>;
+};
 
 export const getSubjects = async ({
     page,
@@ -20,14 +20,18 @@ export const getSubjects = async ({
     mode?: "all" | "pagination";
     search?: string;
     status?: "all" | "active" | "inactive";
-}): Promise<GetSubjectsResponse> => {
-    return await requestApiWithAuthentication("/subjects", "GET", {
-        params: {
-            page: String(page),
-            size: String(size),
-            mode,
-            search: search || "",
-            status,
-        },
-    });
+}) => {
+    return await requestApiWithAuthentication<GetSubjectsResponseData>(
+        "/subjects",
+        "GET",
+        {
+            params: {
+                page: String(page),
+                size: String(size),
+                mode,
+                search: search || "",
+                status,
+            },
+        }
+    );
 };

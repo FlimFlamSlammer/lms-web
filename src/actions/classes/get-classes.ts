@@ -1,12 +1,12 @@
 "use server";
 
 import { requestApiWithAuthentication } from "@/helpers/fetch";
-import { APIResponse, Class } from "@/types";
+import { Class } from "@/types";
 
-export type GetClassesResponse = APIResponse<{
+export type GetClassesResponseData = {
     classes: Class[];
     total: number;
-}>;
+};
 
 export const getClasses = async ({
     page = 1,
@@ -20,14 +20,18 @@ export const getClasses = async ({
     mode?: "all" | "pagination";
     search?: string;
     status?: "all" | "active" | "inactive";
-}): Promise<GetClassesResponse> => {
-    return await requestApiWithAuthentication("/classes", "GET", {
-        params: {
-            page: String(page),
-            size: String(size),
-            mode,
-            search: search || "",
-            status,
-        },
-    });
+}) => {
+    return await requestApiWithAuthentication<GetClassesResponseData>(
+        "/classes",
+        "GET",
+        {
+            params: {
+                page: String(page),
+                size: String(size),
+                mode,
+                search: search || "",
+                status,
+            },
+        }
+    );
 };
