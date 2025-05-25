@@ -2,7 +2,7 @@
 
 import { requestApiWithAuthentication } from "@/helpers/fetch";
 
-export const activateSubject = async (id: string) => {
+export const activateCourse = async (id: string) => {
     return await requestApiWithAuthentication(
         `/subjects/${id}/activate`,
         "PATCH",
@@ -10,7 +10,7 @@ export const activateSubject = async (id: string) => {
     );
 };
 
-export const deactivateSubject = async (id: string) => {
+export const deactivateCourse = async (id: string) => {
     return await requestApiWithAuthentication(
         `/subjects/${id}/deactivate`,
         "PATCH",

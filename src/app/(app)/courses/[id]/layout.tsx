@@ -1,6 +1,6 @@
 import { TabMenu, TabMenuItem } from "@/components/ui/tab-menu";
 import { ReactNode } from "react";
-import { getSubject } from "@/actions/subjects/get-subject";
+import { getCourse } from "@/actions/courses/get-course";
 import { TabMenuLayout } from "@/components/shared/tab-menu-layout";
 import { DataProvider } from "@/components/providers/data-provider";
 
@@ -28,7 +28,7 @@ type Props = {
 };
 
 const CourseLayout = async ({ params: { id }, children }: Props) => {
-    const { data: course, error } = await getSubject(id);
+    const { data: course, error } = await getCourse(id);
 
     if (error) {
         throw new Error(error);

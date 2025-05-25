@@ -1,14 +1,14 @@
 "use server";
 
 import { requestApiWithAuthentication } from "@/helpers/fetch";
-import { Subject } from "@/types";
+import { Course } from "@/types";
 
-export type GetSubjectsResponseData = {
-    subjects: Subject[];
+export type GetCoursesResponseData = {
+    subjects: Course[];
     total: number;
 };
 
-export const getSubjects = async ({
+export const getCourses = async ({
     page,
     size = 10,
     mode = "pagination",
@@ -21,7 +21,7 @@ export const getSubjects = async ({
     search?: string;
     status?: "all" | "active" | "inactive";
 }) => {
-    return await requestApiWithAuthentication<GetSubjectsResponseData>(
+    return await requestApiWithAuthentication<GetCoursesResponseData>(
         "/subjects",
         "GET",
         {

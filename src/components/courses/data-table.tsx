@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { Subject } from "@/types";
+import { Course } from "@/types";
 import { Checkbox } from "../ui/checkbox";
 import { DataTable } from "../ui/data-table";
 import Link from "next/link";
@@ -10,12 +10,12 @@ import { ActionsDropdown } from "../ui/actions-dropdown";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
-    activateSubject,
-    deactivateSubject,
-} from "@/actions/subjects/update-subject-status";
+    activateCourse,
+    deactivateCourse,
+} from "@/actions/courses/update-course-status";
 import { reloadPage } from "@/helpers/reload-page";
 
-const columns: ColumnDef<Subject>[] = [
+const columns: ColumnDef<Course>[] = [
     {
         header: "Name",
         cell: ({ row }) => {
@@ -56,7 +56,7 @@ const columns: ColumnDef<Subject>[] = [
 ];
 
 interface Props {
-    data: Subject[];
+    data: Course[];
     rowCount: number;
     page: number;
     pageSize: number;
@@ -67,13 +67,13 @@ export const CourseDataTable = (props: Props) => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    const toggleCourseStatus = async (course: Subject) => {
-        if (course.status == "active") await deactivateSubject(course.id);
-        else activateSubject(course.id);
+    const toggleCourseStatus = async (course: Course) => {
+        if (course.status == "active") await deactivateCourse(course.id);
+        else activateCourse(course.id);
         reloadPage(router, pathname, searchParams);
     };
 
-    const renderRowActions = (course: Subject) => {
+    const renderRowActions = (course: Course) => {
         return (
             <ActionsDropdown>
                 <DropdownMenuItem onClick={() => toggleCourseStatus(course)}>
@@ -84,7 +84,7 @@ export const CourseDataTable = (props: Props) => {
     };
 
     return (
-        <DataTable<Subject>
+        <DataTable<Course>
             {...props}
             columns={columns}
             renderRowActions={renderRowActions}

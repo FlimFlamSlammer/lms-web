@@ -35,7 +35,7 @@ export type Teacher = {
     user?: User;
 };
 
-export type Subject = {
+export type Course = {
     id: string;
     name: string;
     grade: number;

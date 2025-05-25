@@ -2,9 +2,9 @@
 
 import { useDataContext } from "@/components/providers/data-provider";
 import { DictTable, DictTableRow } from "@/components/ui/dict-table";
-import { Subject } from "@/types";
+import { Course } from "@/types";
 const CourseAssignmentsPage = () => {
-    const course = useDataContext() as Subject;
+    const course = useDataContext() as Course;
 
     const tableRows: DictTableRow[] = [
         {

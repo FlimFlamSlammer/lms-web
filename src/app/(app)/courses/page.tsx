@@ -1,4 +1,4 @@
-import { getSubjects } from "@/actions/subjects/get-subjects";
+import { getCourses } from "@/actions/courses/get-courses";
 import { CourseDataTable } from "@/components/courses/data-table";
 import { Button } from "@/components/ui/button";
 import { FormFilter, FormFilterField } from "@/components/ui/form-filter";
@@ -23,7 +23,7 @@ const filterFields: FormFilterField[] = [
 const CoursesPage = async ({ searchParams }: Props) => {
     const page = Math.max(parseInt((await searchParams).page || "1"), 1);
 
-    const { data, error } = await getSubjects({
+    const { data, error } = await getCourses({
         page,
         status: (await searchParams).status,
         search: (await searchParams).search,

@@ -1,10 +1,10 @@
 "use server";
 
 import { requestApiWithAuthentication } from "@/helpers/fetch";
-import { Subject } from "@/types";
+import { Course } from "@/types";
 
-export const getSubject = async (id: string) => {
-    return await requestApiWithAuthentication<Subject>(
+export const getCourse = async (id: string) => {
+    return await requestApiWithAuthentication<Course>(
         `/subjects/${id}`,
         "GET",
         {}

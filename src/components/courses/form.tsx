@@ -1,9 +1,9 @@
 "use client";
 
 import {
-    createSubject,
-    CreateSubjectDTO,
-} from "@/actions/subjects/create-subject";
+    createCourse,
+    CreateCoursetDTO,
+} from "@/actions/courses/create-course";
 import { Form } from "../ui/form";
 import { FormButton } from "../ui/form-button";
 import { FormInput } from "../ui/form-input";
@@ -11,14 +11,14 @@ import { useCallback } from "react";
 
 export const CreateCourseForm = () => {
     const action = useCallback((formData: FormData) => {
-        const data: CreateSubjectDTO = {
+        const data: CreateCoursetDTO = {
             name: formData.get("name") as string,
             grade: parseInt(formData.get("grade") as string),
             startYear: parseInt(formData.get("startYear") as string),
             endYear: parseInt(formData.get("endYear") as string),
         };
 
-        return createSubject(data);
+        return createCourse(data);
     }, []);
 
     return (
