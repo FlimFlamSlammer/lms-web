@@ -26,41 +26,26 @@ export const StudentSelector = () => {
     useEffect(() => {
         if (!$class) return;
         getStudentsNotInClass($class.id).then((res) => {
-            console.log("data:");
-            console.log(res.data);
             if (res.data) setStudents(res.data);
         });
     }, [$class]);
 
     return (
         <div className="flex gap-2">
-            <Combobox multipleSelections>
+            <Combobox
+                multipleSelections
+                selectedValues={selectedStudents}
+                onSelectedValuesChange={(selected) => {
+                    setSelectedStudents(selected);
+                }}
+            >
                 <ComboboxTrigger asChild>
                     <Button variant="outline">+ Select Students</Button>
                 </ComboboxTrigger>
                 <ComboboxList emptyMessage="No students found.">
                     {students.map((student) => {
                         return (
-                            <ComboboxItem
-                                key={student.id}
-                                value={student.id}
-                                onSelect={() => {
-                                    if (selectedStudents.has(student.id)) {
-                                        setSelectedStudents(
-                                            selectedStudents.difference(
-                                                new Set([student.id])
-                                            )
-                                        );
-                                    } else {
-                                        setSelectedStudents(
-                                            selectedStudents.union(
-                                                new Set([student.id])
-                                            )
-                                        );
-                                    }
-                                }}
-                                selected={selectedStudents.has(student.id)}
-                            >
+                            <ComboboxItem key={student.id} value={student.id}>
                                 <div className="flex justify-between gap-4 text-nowrap w-full min-w-80">
                                     <span>{student.user?.name}</span>
                                     <span className="text-muted-foreground">
