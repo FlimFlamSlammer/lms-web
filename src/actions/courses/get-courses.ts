@@ -4,7 +4,7 @@ import { requestApiWithAuthentication } from "@/helpers/fetch";
 import { Course } from "@/types";
 
 export type GetCoursesResponseData = {
-    subjects: Course[];
+    courses: Course[];
     total: number;
 };
 
@@ -22,7 +22,7 @@ export const getCourses = async ({
     status?: "all" | "active" | "inactive";
 }) => {
     return await requestApiWithAuthentication<GetCoursesResponseData>(
-        "/subjects",
+        "/courses",
         "GET",
         {
             params: {

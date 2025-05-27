@@ -5,7 +5,7 @@ import { Course } from "@/types";
 
 export const getCourse = async (id: string) => {
     return await requestApiWithAuthentication<Course>(
-        `/subjects/${id}`,
+        `/courses/${id}`,
         "GET",
         {}
     );
