@@ -1,7 +1,7 @@
 "use client";
 
-import { CourseClassDataTable } from "@/components/courses/classes/data-table";
-import { CourseClassSelector } from "@/components/courses/classes/selector";
+import { CourseTeacherDataTable } from "@/components/courses/teachers/data-table";
+import { CourseTeacherSelector } from "@/components/courses/teachers/selector";
 import { useDataContext } from "@/components/providers/data-provider";
 import { FormFilter, FormFilterField } from "@/components/ui/form-filter";
 import { Course } from "@/types";
@@ -22,20 +22,20 @@ const CourseClassesPage = () => {
         return;
     }
 
-    if (course.classes === undefined) {
+    if (course.teachers === undefined) {
         alert("Something went wrong! Please try again later.");
-        throw new Error("Classes in Course is undefined.");
+        throw new Error("Teachers in Course is undefined.");
     }
 
     return (
         <div className="w-full">
             <div className="flex items-center justify-between mb-4">
                 <FormFilter fields={filterFields} />
-                <CourseClassSelector />
+                <CourseTeacherSelector />
             </div>
-            <CourseClassDataTable
-                data={course.classes}
-                rowCount={course.classes.length}
+            <CourseTeacherDataTable
+                data={course.teachers}
+                rowCount={course.teachers.length}
                 page={page}
                 pageSize={10}
             />

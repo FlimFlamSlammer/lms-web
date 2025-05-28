@@ -42,6 +42,8 @@ export type Course = {
     startYear: number;
     endYear: number;
     status: Status;
+    classes?: Class[];
+    teachers?: Teacher[];
 };
 
 export type Class = {

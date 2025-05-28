@@ -12,11 +12,16 @@ const tabMenuItems: TabMenuItem[] = [
     {
         title: "Classes",
         href: "classes",
+        roles: ["teacher", "admin", "superadmin"],
+    },
+    {
+        title: "Teachers",
+        href: "teachers",
+        roles: ["teacher", "admin", "superadmin"],
     },
     {
         title: "Details",
         href: "details",
-        roles: ["teacher", "admin", "superadmin"],
     },
 ];
 
