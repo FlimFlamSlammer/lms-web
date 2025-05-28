@@ -45,8 +45,9 @@ export function ClassUserDataTable(props: Props) {
             throw new Error("Class to edit not found!");
         }
 
-        removeStudentsFromClass($class.id, [id]);
-        reloadPage(router, pathname, searchParams);
+        removeStudentsFromClass($class.id, [id]).then(() => {
+            reloadPage(router, pathname, searchParams);
+        });
     };
 
     const renderRowActions = (student: Student) => {

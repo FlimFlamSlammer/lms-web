@@ -55,12 +55,9 @@ export function ClassDataTable(props: Props) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    const toggleClassStatus = ($class: Class) => {
-        if ($class.status == "active") {
-            deactivateClass($class.id);
-        } else {
-            activateClass($class.id);
-        }
+    const toggleClassStatus = async ($class: Class) => {
+        if ($class.status == "active") await deactivateClass($class.id);
+        else await activateClass($class.id);
         reloadPage(router, pathname, searchParams);
     };
 

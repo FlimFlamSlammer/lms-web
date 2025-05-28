@@ -60,9 +60,13 @@ export const StudentSelector = () => {
             <Button
                 onClick={() => {
                     if (!$class) throw new Error("Class to edit not found!");
-                    addStudentsToClass($class.id, Array.from(selectedStudents));
+                    addStudentsToClass(
+                        $class.id,
+                        Array.from(selectedStudents)
+                    ).then(() => {
+                        reloadPage(router, pathname, searchParams);
+                    });
                     setSelectedStudents(new Set());
-                    reloadPage(router, pathname, searchParams);
                 }}
                 disabled={selectedStudents.size == 0}
             >
