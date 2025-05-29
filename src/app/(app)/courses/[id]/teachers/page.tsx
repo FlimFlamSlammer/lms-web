@@ -1,11 +1,20 @@
-"use client";
+"use server";
 
+import { getTeachersInCourse } from "@/actions/courses/get-teachers";
 import { CourseTeacherDataTable } from "@/components/courses/teachers/data-table";
 import { CourseTeacherSelector } from "@/components/courses/teachers/selector";
-import { useDataContext } from "@/components/providers/data-provider";
 import { FormFilter, FormFilterField } from "@/components/ui/form-filter";
-import { Course } from "@/types";
-import { useSearchParams } from "next/navigation";
+
+type Props = {
+    searchParams: Promise<{
+        status?: "all" | "active" | "inactive";
+        page?: string;
+        search?: string;
+    }>;
+    params: Promise<{
+        id: string;
+    }>;
+};
 
 const filterFields: FormFilterField[] = [
     {
@@ -14,18 +23,22 @@ const filterFields: FormFilterField[] = [
     },
 ];
 
-const CourseClassesPage = () => {
-    const page = Math.max(parseInt(useSearchParams().get("page") || "1"), 1);
-    const course = useDataContext() as Course | null;
+const CourseTeachersPage = async ({ searchParams, params }: Props) => {
+    const page = Math.max(parseInt((await searchParams).page || "1"), 1);
+    const id = (await params).id;
 
-    if (!course) {
-        return;
+    const { data, error } = await getTeachersInCourse(id, {
+        page,
+        status: (await searchParams).status,
+        search: (await searchParams).search,
+    });
+
+    if (error) {
+        throw new Error(error);
     }
 
-    if (course.teachers === undefined) {
-        alert("Something went wrong! Please try again later.");
-        throw new Error("Teachers in Course is undefined.");
-    }
+    if (!data) return;
+    console.log(data);
 
     return (
         <div className="w-full">
@@ -34,8 +47,8 @@ const CourseClassesPage = () => {
                 <CourseTeacherSelector />
             </div>
             <CourseTeacherDataTable
-                data={course.teachers}
-                rowCount={course.teachers.length}
+                data={data.data}
+                rowCount={data.total}
                 page={page}
                 pageSize={10}
             />
@@ -43,4 +56,4 @@ const CourseClassesPage = () => {
     );
 };
 
-export default CourseClassesPage;
+export default CourseTeachersPage;

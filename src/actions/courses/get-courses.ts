@@ -1,10 +1,10 @@
 "use server";
 
 import { requestApiWithAuthentication } from "@/helpers/fetch";
-import { Course } from "@/types";
+import { Course, ListQueryParams } from "@/types";
 
 export type GetCoursesResponseData = {
-    courses: Course[];
+    data: Course[];
     total: number;
 };
 
@@ -14,13 +14,7 @@ export const getCourses = async ({
     mode = "pagination",
     search,
     status = "all",
-}: {
-    page: number;
-    size?: number;
-    mode?: "all" | "pagination";
-    search?: string;
-    status?: "all" | "active" | "inactive";
-}) => {
+}: ListQueryParams) => {
     return await requestApiWithAuthentication<GetCoursesResponseData>(
         "/courses",
         "GET",

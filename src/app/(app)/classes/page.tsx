@@ -45,7 +45,7 @@ const CoursesPage = async ({ searchParams }: Props) => {
                 </Button>
             </div>
             <ClassDataTable
-                data={data.classes}
+                data={data.data}
                 rowCount={data.total}
                 page={page}
                 pageSize={10}

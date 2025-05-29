@@ -4,7 +4,7 @@ import { requestApiWithAuthentication } from "@/helpers/fetch";
 import { ListQueryParams, User } from "@/types";
 
 export type GetUsersResponseData = {
-    users: User[];
+    data: User[];
     total: number;
 };
 

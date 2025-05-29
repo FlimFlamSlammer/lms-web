@@ -48,7 +48,7 @@ const UsersPage = async ({ searchParams }: Props) => {
                 </Button>
             </div>
             <UserDataTable
-                data={data.users}
+                data={data.data}
                 rowCount={data.total}
                 page={page}
                 pageSize={10}

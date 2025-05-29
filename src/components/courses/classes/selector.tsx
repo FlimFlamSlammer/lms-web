@@ -26,6 +26,7 @@ export const CourseClassSelector = () => {
     useEffect(() => {
         if (!course) return;
         getClassesNotInCourse(course.id).then((res) => {
+            if (res.error) throw new Error(res.error);
             if (res.data) setClasses(res.data);
         });
     }, [course]);

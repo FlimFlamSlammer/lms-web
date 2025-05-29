@@ -3,20 +3,23 @@
 import { requestApiWithAuthentication } from "@/helpers/fetch";
 import { Class, ListQueryParams } from "@/types";
 
-export type GetClassesResponseData = {
+export type GetClassesInCourseResponseData = {
     data: Class[];
     total: number;
 };
 
-export const getClasses = async ({
-    page = 1,
-    size = 10,
-    mode = "pagination",
-    search,
-    status = "all",
-}: ListQueryParams) => {
-    return await requestApiWithAuthentication<GetClassesResponseData>(
-        "/classes",
+export const getClassesInCourse = async (
+    id: string,
+    {
+        page,
+        size = 10,
+        mode = "pagination",
+        search,
+        status = "all",
+    }: ListQueryParams
+) => {
+    return await requestApiWithAuthentication<GetClassesInCourseResponseData>(
+        `/courses/${id}/classes`,
         "GET",
         {
             params: {

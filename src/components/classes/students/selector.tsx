@@ -26,6 +26,7 @@ export const StudentSelector = () => {
     useEffect(() => {
         if (!$class) return;
         getStudentsNotInClass($class.id).then((res) => {
+            if (res.error) throw new Error(res.error);
             if (res.data) setStudents(res.data);
         });
     }, [$class]);

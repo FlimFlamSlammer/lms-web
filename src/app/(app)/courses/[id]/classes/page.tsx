@@ -1,11 +1,20 @@
-"use client";
+"use server";
 
+import { getClassesInCourse } from "@/actions/courses/get-classes";
 import { CourseClassDataTable } from "@/components/courses/classes/data-table";
 import { CourseClassSelector } from "@/components/courses/classes/selector";
-import { useDataContext } from "@/components/providers/data-provider";
 import { FormFilter, FormFilterField } from "@/components/ui/form-filter";
-import { Course } from "@/types";
-import { useSearchParams } from "next/navigation";
+
+type Props = {
+    searchParams: Promise<{
+        status?: "all" | "active" | "inactive";
+        page?: string;
+        search?: string;
+    }>;
+    params: Promise<{
+        id: string;
+    }>;
+};
 
 const filterFields: FormFilterField[] = [
     {
@@ -14,18 +23,21 @@ const filterFields: FormFilterField[] = [
     },
 ];
 
-const CourseClassesPage = () => {
-    const page = Math.max(parseInt(useSearchParams().get("page") || "1"), 1);
-    const course = useDataContext() as Course | null;
+const CourseClassesPage = async ({ searchParams, params }: Props) => {
+    const page = Math.max(parseInt((await searchParams).page || "1"), 1);
+    const id = (await params).id;
 
-    if (!course) {
-        return;
+    const { data, error } = await getClassesInCourse(id, {
+        page,
+        status: (await searchParams).status,
+        search: (await searchParams).search,
+    });
+
+    if (error) {
+        throw new Error(error);
     }
 
-    if (course.classes === undefined) {
-        alert("Something went wrong! Please try again later.");
-        throw new Error("Classes in Course is undefined.");
-    }
+    if (!data) return;
 
     return (
         <div className="w-full">
@@ -34,8 +46,8 @@ const CourseClassesPage = () => {
                 <CourseClassSelector />
             </div>
             <CourseClassDataTable
-                data={course.classes}
-                rowCount={course.classes.length}
+                data={data.data}
+                rowCount={data.total}
                 page={page}
                 pageSize={10}
             />

@@ -13,6 +13,7 @@ export type User = {
     profileImage?: string;
     roleData?: Student | Teacher;
 };
+
 export type Student = {
     id: string;
     birthDate: string;
@@ -24,6 +25,7 @@ export type Student = {
     contactPhoneNumber: string;
     user?: User;
 };
+
 export type Teacher = {
     id: string;
     nig: string;
@@ -51,6 +53,28 @@ export type Class = {
     name: string;
     status: Status;
     students?: Student[];
+};
+
+export type AssignmentStatus = "draft" | "posted" | "canceled";
+
+export type Assignment = {
+    id: string;
+    title: string;
+    teacherId: string;
+    courseId: string;
+    attachmentPath?: string;
+    status: AssignmentStatus;
+    startTime: Date;
+    endTime: Date;
+    maxGrade: number;
+    submissions?: Submission[];
+};
+
+export type Submission = {
+    studentId: string;
+    assignmentId: string;
+    grade?: number;
+    attachmentPath: string;
 };
 
 export type APIResponse<T = never> = {
