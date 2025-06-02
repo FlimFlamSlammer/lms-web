@@ -32,7 +32,8 @@ type Props = {
     };
 };
 
-const CourseLayout = async ({ params: { id }, children }: Props) => {
+const CourseLayout = async ({ params, children }: Props) => {
+    const id = (await params).id;
     const { data: course, error } = await getCourse(id);
 
     if (error) {

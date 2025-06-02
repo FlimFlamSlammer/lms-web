@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 import { useSidebar } from "./sidebar";
 import { Menu } from "lucide-react";
 
-export const Header = ({ children }: { children: ReactNode }) => {
+export const Header = ({ children }: { children?: ReactNode }) => {
     const isMobile = useIsMobile();
     const { toggleSidebar } = useSidebar();
 
@@ -25,7 +25,7 @@ export const Header = ({ children }: { children: ReactNode }) => {
                         <Menu strokeWidth={1} />
                     </Button>
                 )}
-                <h1 className="text-4xl font-light">{children}</h1>{" "}
+                <h2 className="text-4xl mb-0">{children}</h2>{" "}
             </div>
 
             <Separator className="mt-2 mb-4"></Separator>

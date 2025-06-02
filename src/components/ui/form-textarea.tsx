@@ -1,32 +1,29 @@
-import {
-    ChangeEventHandler,
-    HTMLInputTypeAttribute,
-    useContext,
-    useState,
-} from "react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { ChangeEventHandler, useContext, useState } from "react";
+import { Label } from "./label";
 import { FormContext } from "./form";
+import { Textarea } from "./textarea";
+import { cn } from "@/lib/utils";
 
 type FormInputProps = {
+    className?: string;
     placeholder?: string;
     name?: string;
     id?: string;
-    type?: HTMLInputTypeAttribute;
     value?: string;
     defaultValue?: string;
     children?: string;
     errorMessage?: string;
     errorFieldPath?: string;
     readOnly?: boolean;
-    onChange?: ChangeEventHandler<HTMLInputElement>;
+    rows?: number;
+    onChange?: ChangeEventHandler<HTMLTextAreaElement>;
 };
 
-export const FormInput = ({
+export const FormTextarea = ({
+    className,
     placeholder,
     name,
     id,
-    type,
     value,
     defaultValue,
     children,
@@ -34,6 +31,7 @@ export const FormInput = ({
     errorFieldPath,
     readOnly: readonly,
     onChange,
+    rows,
 }: FormInputProps) => {
     const [data, setData] = useState<string | number>(defaultValue || "");
     const { errorFields } = useContext(FormContext);
@@ -43,14 +41,13 @@ export const FormInput = ({
     }
 
     return (
-        <div className="flex flex-col gap-1.5 w-full">
+        <div className="flex flex-col gap-1.5">
             <Label htmlFor={id} className={errorMessage && "text-red-500"}>
                 {children}
             </Label>
-            <Input
+            <Textarea
                 name={name}
                 id={id}
-                type={type}
                 value={value || data}
                 onChange={
                     onChange
@@ -58,9 +55,10 @@ export const FormInput = ({
                         : (val) => setData(val.currentTarget.value)
                 }
                 placeholder={placeholder}
-                className={errorMessage && "border-red-500"}
+                className={cn(errorMessage && "border-red-500", className)}
                 readOnly={readonly}
-            ></Input>
+                rows={rows}
+            ></Textarea>
             <span className="text-red-500 text-sm">{errorMessage}</span>
         </div>
     );

@@ -23,7 +23,7 @@ const CourseAssignmentsPage = () => {
 
     return (
         <div>
-            <h1 className="text-2xl mb-2">{course?.name}</h1>
+            <h3 className="mb-2">{course?.name}</h3>
             <DictTable rows={tableRows} className="w-fit" />
         </div>
     );

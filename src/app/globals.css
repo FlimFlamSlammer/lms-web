@@ -81,12 +81,53 @@
     }
 }
 
+@layer base {
+    h1 {
+        font-size: 2.25rem;
+        line-height: 2.5rem;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        margin-bottom: 1rem;
+    }
+
+    h2 {
+        font-size: 1.875rem;
+        line-height: 2.25rem;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        margin-bottom: 1rem;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        line-height: 2rem;
+        font-weight: 600;
+        letter-spacing: -0.025em;
+        margin-bottom: 1rem;
+    }
+
+    p {
+        margin-bottom: 1rem;
+    }
+
+    code {
+        background-color: hsl(var(--muted));
+        border-radius: 0.25rem;
+        padding: 0.2rem 0.3rem;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+            "Liberation Mono", "Courier New", monospace;
+        display: inline-block;
+    }
+}
+
 @layer components {
     .form {
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
         width: 20rem;
+        min-width: 100%;
+        max-width: 100%;
     }
 
     .vertical-menu {

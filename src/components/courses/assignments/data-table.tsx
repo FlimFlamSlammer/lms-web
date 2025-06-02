@@ -6,8 +6,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { ActionsDropdown } from "@/components/ui/actions-dropdown";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useDataContext } from "@/components/providers/data-provider";
-import { reloadPage } from "@/helpers/reload-page";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const columns: ColumnDef<Assignment>[] = [
@@ -16,11 +15,17 @@ const columns: ColumnDef<Assignment>[] = [
     },
     {
         header: "Start time",
-        accessorKey: "startTime",
+        cell: ({ row }) => {
+            const assignment = row.original;
+            return new Date(assignment.startTime).toLocaleString();
+        },
     },
     {
         header: "Due date",
-        accessorKey: "endTime",
+        cell: ({ row }) => {
+            const assignment = row.original;
+            return new Date(assignment.endTime).toLocaleString();
+        },
     },
 ];
 
@@ -40,7 +45,10 @@ export function CourseAssignmentDataTable(props: Props) {
     columns[0].cell = ({ row }) => {
         const assignment = row.original;
         return (
-            <Link href={`/courses/${course?.id}/assignments/${assignment.id}`}>
+            <Link
+                className="link"
+                href={`/courses/${course?.id}/assignments/${assignment.id}`}
+            >
                 {assignment.title}
             </Link>
         );

@@ -62,10 +62,10 @@ export type Assignment = {
     title: string;
     teacherId: string;
     courseId: string;
-    attachmentPath?: string;
+    description?: string;
     status: AssignmentStatus;
-    startTime: Date;
-    endTime: Date;
+    startTime: string;
+    endTime: string;
     maxGrade: number;
     submissions?: Submission[];
 };
