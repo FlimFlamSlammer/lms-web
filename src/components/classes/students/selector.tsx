@@ -10,7 +10,7 @@ import {
     ComboboxTrigger,
 } from "@/components/ui/combobox";
 import { reloadPage } from "@/helpers/reload-page";
-import { Class, Student } from "@/types";
+import { Class, User } from "@/types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -19,7 +19,7 @@ export const StudentSelector = () => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 
-    const [students, setStudents] = useState<Student[]>([]);
+    const [students, setStudents] = useState<User[]>([]);
     const $class = useDataContext() as Class | null;
     const [selectedStudents, setSelectedStudents] = useState(new Set<string>());
 
@@ -48,9 +48,9 @@ export const StudentSelector = () => {
                         return (
                             <ComboboxItem key={student.id} value={student.id}>
                                 <div className="flex justify-between gap-4 text-nowrap w-full min-w-80">
-                                    <span>{student.user?.name}</span>
+                                    <span>{student.name}</span>
                                     <span className="text-muted-foreground">
-                                        {student.user?.email}
+                                        {student.email}
                                     </span>
                                 </div>
                             </ComboboxItem>
