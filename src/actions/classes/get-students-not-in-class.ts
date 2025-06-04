@@ -1,8 +1,8 @@
 import { requestApiWithAuthentication } from "@/helpers/fetch";
-import { Student } from "@/types";
+import { User } from "@/types";
 
 export const getStudentsNotInClass = async (id: string) => {
-    return await requestApiWithAuthentication<Student[]>(
+    return await requestApiWithAuthentication<User[]>(
         `/classes/${id}/students-not-in-class`,
         "GET",
         {}
