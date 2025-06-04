@@ -13,7 +13,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TabsContent } from "@radix-ui/react-tabs";
 import { useParams } from "next/navigation";
 import { useCallback, useState } from "react";
-import Markdown from "react-markdown";
+import { Markdown } from "@/components/ui/markdown";
 
 export const CreateAssignmentForm = () => {
     const { id: courseId } = useParams();
@@ -70,20 +70,7 @@ export const CreateAssignmentForm = () => {
                 </TabsContent>
                 <TabsContent value="preview">
                     <div className="rounded-md border w-full h-fit px-3 py-2 text-base shadow-sm md:text-sm mt-1.5">
-                        <Markdown
-                            components={{
-                                ul(props) {
-                                    return (
-                                        <ul
-                                            className="ml-6 list-disc mb-4"
-                                            {...props}
-                                        />
-                                    );
-                                },
-                            }}
-                        >
-                            {description}
-                        </Markdown>
+                        <Markdown>{description}</Markdown>
                     </div>
                 </TabsContent>
             </Tabs>
