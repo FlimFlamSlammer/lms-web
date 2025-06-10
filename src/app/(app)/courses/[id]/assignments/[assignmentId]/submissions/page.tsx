@@ -1,13 +1,16 @@
-import { getClasses } from "@/actions/classes/get-classes";
-import { ClassDataTable } from "@/components/classes/data-table";
-import { Button } from "@/components/ui/button";
+"use server";
+
+import { getSubmissions } from "@/actions/courses/assignments/get-submissions";
+import { SubmissionDataTable } from "@/components/courses/assignments/submissions/data-table";
 import { FormFilter, FormFilterField } from "@/components/ui/form-filter";
-import { Header } from "@/components/ui/header";
 import { SearchParams } from "@/types";
-import Link from "next/link";
 
 type Props = {
-    searchParams: Promise<SearchParams>;
+    searchParams: Promise<Omit<SearchParams, "status">>;
+    params: Promise<{
+        id: string;
+        assignmentId: string;
+    }>;
 };
 
 const filterFields: FormFilterField[] = [
@@ -17,38 +20,39 @@ const filterFields: FormFilterField[] = [
     },
 ];
 
-const CoursesPage = async ({ searchParams }: Props) => {
+const SubmissionsPage = async ({ searchParams, params }: Props) => {
     const page = Math.max(parseInt((await searchParams).page || "1"), 1);
+    const { id, assignmentId } = await params;
 
-    const { data, error } = await getClasses({
+    console.log("you thre");
+
+    const { data, error } = await getSubmissions(id, assignmentId, {
         page,
-        status: (await searchParams).status,
         search: (await searchParams).search,
     });
+
+    console.log(data);
 
     if (error) {
         throw new Error(error);
     }
 
     if (!data) return;
+    console.log(data);
 
     return (
-        <>
-            <Header>Classes</Header>
+        <div className="w-full">
             <div className="flex items-center justify-between mb-4">
                 <FormFilter fields={filterFields} />
-                <Button asChild>
-                    <Link href="/classes/create">Add Class</Link>
-                </Button>
             </div>
-            <ClassDataTable
+            <SubmissionDataTable
                 data={data.data}
                 rowCount={data.total}
                 page={page}
                 pageSize={10}
             />
-        </>
+        </div>
     );
 };
 
-export default CoursesPage;
+export default SubmissionsPage;

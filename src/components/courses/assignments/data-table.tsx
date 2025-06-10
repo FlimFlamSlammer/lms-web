@@ -1,12 +1,16 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Assignment, Course } from "@/types";
+import { Assignment } from "@/types";
 import { DataTable } from "@/components/ui/data-table";
 import { ActionsDropdown } from "@/components/ui/actions-dropdown";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { useDataContext } from "@/components/providers/data-provider";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {
+    useParams,
+    usePathname,
+    useRouter,
+    useSearchParams,
+} from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/components/providers/auth-provider";
 import {
@@ -44,15 +48,11 @@ interface Props {
 }
 
 export function CourseAssignmentDataTable(props: Props) {
-    const course = useDataContext() as Course | null;
+    const { id } = useParams() as { id: string };
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const { user } = useAuth();
-
-    if (!course) {
-        throw new Error("Course to edit not found!");
-    }
 
     // const pathname = usePathname();
     // const searchParams = useSearchParams();
@@ -64,7 +64,7 @@ export function CourseAssignmentDataTable(props: Props) {
         return (
             <Link
                 className="link"
-                href={`/courses/${course?.id}/assignments/${assignment.id}`}
+                href={`/courses/${id}/assignments/${assignment.id}`}
             >
                 {assignment.title}
             </Link>
@@ -79,7 +79,7 @@ export function CourseAssignmentDataTable(props: Props) {
     }
 
     const editAssignment = (id: string) => {
-        router.push(`/courses/${course.id}/assignments/${id}/edit`);
+        router.push(`/courses/${id}/assignments/${id}/edit`);
     };
 
     const renderRowActions = (assignment: Assignment) => {
@@ -89,7 +89,7 @@ export function CourseAssignmentDataTable(props: Props) {
                     onClick={async () => {
                         if (assignment.status == "posted") {
                             const { error } = await draftAssignment(
-                                course.id,
+                                id,
                                 assignment.id
                             );
                             if (error) {
@@ -97,7 +97,7 @@ export function CourseAssignmentDataTable(props: Props) {
                             }
                             reloadPage(router, pathname, searchParams);
                         } else {
-                            await postAssignment(course.id, assignment.id);
+                            await postAssignment(id, assignment.id);
                             reloadPage(router, pathname, searchParams);
                         }
                     }}
@@ -110,7 +110,7 @@ export function CourseAssignmentDataTable(props: Props) {
                 <DropdownMenuItem
                     className="text-red-500"
                     onClick={async () => {
-                        await cancelAssignment(course.id, assignment.id);
+                        await cancelAssignment(id, assignment.id);
                         reloadPage(router, pathname, searchParams);
                     }}
                 >

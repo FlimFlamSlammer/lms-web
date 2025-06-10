@@ -14,6 +14,7 @@ import {
 import { Form } from "../ui/form";
 import { FormButton } from "../ui/form-button";
 import { updateUser } from "@/actions/users/update-user";
+import { uploadFile } from "@/actions/upload-file";
 
 export const CreateUserForm = () => {
     const [selectedRole, setSelectedRole] = useState<UserRole | undefined>();
@@ -91,6 +92,14 @@ export const CreateUserForm = () => {
             >
                 Phone Number
             </FormInput>
+            <FormInput
+                name="profileImage"
+                id="profileImage"
+                errorFieldPath="userData.profileImage"
+                type="file"
+            >
+                Profile Picture
+            </FormInput>
             <FormSelect
                 id="role"
                 name="role"
@@ -144,6 +153,14 @@ export const UpdateUserForm = ({ user }: { user?: User }) => {
                 >
                     Phone Number
                 </FormInput>
+                <FormInput
+                    name="profileImage"
+                    id="profileImage"
+                    errorFieldPath="userData.profileImage"
+                    type="file"
+                >
+                    Profile Picture
+                </FormInput>
 
                 <RoleDataInputs role={user?.role} roleData={user?.roleData} />
             </>
@@ -151,10 +168,21 @@ export const UpdateUserForm = ({ user }: { user?: User }) => {
     };
 
     const action = useCallback(
-        (formData: FormData) => {
+        async (formData: FormData) => {
             if (!user) {
                 throw new Error("form submitted before user was gotten!");
             }
+
+            const fileUploadRes = await uploadFile(
+                formData.get("profileImage") as File
+            );
+
+            if (fileUploadRes.error) {
+                alert(fileUploadRes.error);
+                throw new Error();
+            }
+
+            const filePath = fileUploadRes.data?.filename;
 
             const data: {
                 userData: CreateUserDTO;
@@ -164,7 +192,8 @@ export const UpdateUserForm = ({ user }: { user?: User }) => {
                     name: formData.get("name") as string,
                     email: formData.get("email") as string,
                     password: formData.get("email") as string,
-                    needsPasswordChange: true,
+                    needsPasswordChange: user?.needsPasswordChange,
+                    profileImage: filePath,
                     phoneNumber:
                         (formData.get("phoneNumber") as string) || undefined,
                     role: formData.get("role") as UserRole,
@@ -197,7 +226,7 @@ export const UpdateUserForm = ({ user }: { user?: User }) => {
                 };
             }
 
-            return updateUser(user?.id, data);
+            return await updateUser(user?.id, data);
         },
         [user]
     );

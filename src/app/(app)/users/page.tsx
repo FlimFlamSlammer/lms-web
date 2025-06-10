@@ -6,14 +6,11 @@ import {
 } from "@/components/ui/form-filter";
 import { Header } from "@/components/ui/header";
 import { UserDataTable } from "@/components/users/data-table";
+import { SearchParams } from "@/types";
 import Link from "next/link";
 
 type Props = {
-    searchParams: Promise<{
-        status?: "all" | "active" | "inactive";
-        page?: string;
-        search?: string;
-    }>;
+    searchParams: Promise<SearchParams>;
 };
 
 const filterFields: FormFilterField[] = [

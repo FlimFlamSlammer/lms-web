@@ -90,3 +90,9 @@ export type ListQueryParams = {
     search?: string;
     status?: "all" | "active" | "inactive";
 };
+
+export type SearchParams = {
+    status?: "all" | "active" | "inactive";
+    page?: string;
+    search?: string;
+};

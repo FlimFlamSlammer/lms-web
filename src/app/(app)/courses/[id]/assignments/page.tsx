@@ -19,13 +19,6 @@ type Props = {
     }>;
 };
 
-const filterFields: FormFilterField[] = [
-    {
-        name: "search",
-        placeholder: "Search",
-    },
-];
-
 const CourseAssignmentsPage = async ({ searchParams, params }: Props) => {
     const page = Math.max(parseInt((await searchParams).page || "1"), 1);
     const id = (await params).id;
@@ -49,11 +42,10 @@ const CourseAssignmentsPage = async ({ searchParams, params }: Props) => {
     return (
         <div className="w-full">
             <div className="flex items-center justify-between mb-4">
-                {/* <FormFilter fields={filterFields} /> */}
                 <AccessControl roles={["teacher"]}>
                     <Button asChild className="ml-auto">
                         <Link href={`/courses/${id}/assignments/create`}>
-                            Add Course
+                            Add Assignment
                         </Link>
                     </Button>
                 </AccessControl>

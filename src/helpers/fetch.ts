@@ -7,7 +7,7 @@ type Method = "GET" | "POST" | "PUT" | "PATCH";
 
 type RequestApiDTO = {
     headers?: HeadersInit;
-    body?: Record<string, unknown>;
+    body?: unknown;
     params?: Record<string, unknown>;
 };
 

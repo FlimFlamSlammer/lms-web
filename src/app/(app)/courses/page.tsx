@@ -1,16 +1,14 @@
 import { getCourses } from "@/actions/courses/get-courses";
 import { CourseDataTable } from "@/components/courses/data-table";
+import { AccessControl } from "@/components/shared/access-control";
 import { Button } from "@/components/ui/button";
 import { FormFilter, FormFilterField } from "@/components/ui/form-filter";
 import { Header } from "@/components/ui/header";
+import { SearchParams } from "@/types";
 import Link from "next/link";
 
 type Props = {
-    searchParams: Promise<{
-        status?: "all" | "active" | "inactive";
-        page?: string;
-        search?: string;
-    }>;
+    searchParams: Promise<SearchParams>;
 };
 
 const filterFields: FormFilterField[] = [
@@ -40,9 +38,11 @@ const CoursesPage = async ({ searchParams }: Props) => {
             <Header>Courses</Header>
             <div className="flex items-center justify-between mb-4">
                 <FormFilter fields={filterFields} />
-                <Button asChild>
-                    <Link href="/courses/create">Add Course</Link>
-                </Button>
+                <AccessControl roles={["superadmin", "admin"]}>
+                    <Button asChild>
+                        <Link href="/courses/create">Add Course</Link>
+                    </Button>
+                </AccessControl>
             </div>
             <CourseDataTable
                 data={data.data}
