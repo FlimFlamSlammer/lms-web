@@ -13,13 +13,22 @@ import {
 } from "@/actions/users/create-user";
 import { Form } from "../ui/form";
 import { FormButton } from "../ui/form-button";
-import { updateUser } from "@/actions/users/update-user";
+import {
+    UpdateStudentDTO,
+    UpdateTeacherDTO,
+    updateUser,
+    UpdateUserDTO,
+} from "@/actions/users/update-user";
 import { uploadFile } from "@/actions/upload-file";
 
 export const CreateUserForm = () => {
     const [selectedRole, setSelectedRole] = useState<UserRole | undefined>();
 
-    const action = useCallback((formData: FormData) => {
+    const action = useCallback(async (formData: FormData) => {
+        const profileImagePath = await uploadFile(
+            formData.get("profileImage") as File
+        );
+
         const data: {
             userData: CreateUserDTO;
             roleData: CreateStudentDTO | CreateTeacherDTO | undefined;
@@ -32,6 +41,7 @@ export const CreateUserForm = () => {
                 phoneNumber:
                     (formData.get("phoneNumber") as string) || undefined,
                 role: formData.get("role") as UserRole,
+                profileImage: profileImagePath,
             },
             roleData: undefined,
         };
@@ -61,7 +71,7 @@ export const CreateUserForm = () => {
             };
         }
 
-        return createUser(data);
+        return await createUser(data);
     }, []);
 
     return (
@@ -173,35 +183,27 @@ export const UpdateUserForm = ({ user }: { user?: User }) => {
                 throw new Error("form submitted before user was gotten!");
             }
 
-            const fileUploadRes = await uploadFile(
+            const profileImagePath = await uploadFile(
                 formData.get("profileImage") as File
             );
 
-            if (fileUploadRes.error) {
-                alert(fileUploadRes.error);
-                throw new Error();
-            }
-
-            const filePath = fileUploadRes.data?.filename;
-
             const data: {
-                userData: CreateUserDTO;
-                roleData: CreateStudentDTO | CreateTeacherDTO | undefined;
+                userData: UpdateUserDTO;
+                roleData: UpdateStudentDTO | UpdateTeacherDTO | undefined;
             } = {
                 userData: {
                     name: formData.get("name") as string,
                     email: formData.get("email") as string,
                     password: formData.get("email") as string,
                     needsPasswordChange: user?.needsPasswordChange,
-                    profileImage: filePath,
+                    profileImage: profileImagePath,
                     phoneNumber:
                         (formData.get("phoneNumber") as string) || undefined,
-                    role: formData.get("role") as UserRole,
                 },
                 roleData: undefined,
             };
 
-            if (data.userData.role === "student") {
+            if (user.role === "student") {
                 data.roleData = {
                     nis: formData.get("nis") as string,
                     motherName: formData.get("motherName") as string,
@@ -216,7 +218,7 @@ export const UpdateUserForm = ({ user }: { user?: User }) => {
                         "contactPhoneNumber"
                     ) as string,
                 };
-            } else if (data.userData.role === "teacher") {
+            } else if (user.role === "teacher") {
                 data.roleData = {
                     nig: formData.get("nig") as string,
                     expertise: formData.get("expertise") as string,

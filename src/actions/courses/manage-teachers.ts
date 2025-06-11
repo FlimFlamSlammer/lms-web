@@ -7,9 +7,10 @@ export const addTeachersToCourse = async (id: string, teacherIds: string[]) => {
         `/courses/${id}/add-teachers`,
         "PATCH",
         {
-            body: {
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
                 teacherIds,
-            },
+            }),
         }
     );
 };
@@ -22,9 +23,10 @@ export const removeTeachersFromCourse = async (
         `/courses/${id}/remove-teachers`,
         "PATCH",
         {
-            body: {
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
                 teacherIds,
-            },
+            }),
         }
     );
 };

@@ -11,7 +11,8 @@ export const updatePassword = async (dto: {
         "/auth/update-password",
         "PUT",
         {
-            body: dto,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dto),
         }
     );
 };

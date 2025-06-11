@@ -7,6 +7,6 @@ export type CreateClassDTO = Omit<Class, "status" | "id">;
 
 export const createClass = async (dto: CreateClassDTO) => {
     return await requestApiWithAuthentication<Class>("/classes", "POST", {
-        body: dto,
+        body: JSON.stringify(dto),
     });
 };

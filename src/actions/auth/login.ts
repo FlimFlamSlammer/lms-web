@@ -12,7 +12,7 @@ export type LoginResponseData = {
 export const login = async (dto: { email: string; password: string }) => {
     const res = await requestApi<LoginResponseData>("/auth/login", "POST", {
         headers: { "Content-Type": "application/json" },
-        body: dto,
+        body: JSON.stringify(dto),
     });
 
     if (res.data) {

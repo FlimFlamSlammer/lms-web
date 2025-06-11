@@ -1,7 +1,7 @@
 import { getLoginCookie } from "@/helpers/auth/cookie";
 import { NextRequest } from "next/server";
 
-const GET = async (
+export const GET = async (
     req: NextRequest,
     { params }: { params: { filename: string } }
 ) => {
@@ -26,11 +26,11 @@ const GET = async (
     const contentType =
         res.headers.get("Content-Type") || "application/octet-stream";
 
+    console.log(contentType);
+
     return new Response(buffer, {
         headers: {
             "Content-Type": contentType,
         },
     });
 };
-
-export default GET;

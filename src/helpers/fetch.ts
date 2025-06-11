@@ -7,7 +7,7 @@ type Method = "GET" | "POST" | "PUT" | "PATCH";
 
 type RequestApiDTO = {
     headers?: HeadersInit;
-    body?: unknown;
+    body?: BodyInit;
     params?: Record<string, unknown>;
 };
 
@@ -27,7 +27,7 @@ export const requestApi = async <T>(
     const response = await fetch(path, {
         method,
         headers,
-        body: JSON.stringify(body),
+        body,
     });
 
     const res: APIResponse<T> = {
@@ -59,8 +59,8 @@ export const requestApiWithAuthentication = async <T>(
 
     return await requestApi(path, method, {
         headers: {
+            // "Content-Type": "application/json",
             ...headers,
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token?.value}`,
         },
         body,

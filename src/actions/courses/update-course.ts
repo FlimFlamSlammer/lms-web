@@ -7,6 +7,7 @@ export type UpdateCourseDTO = Omit<Course, "id">;
 
 export const createCourse = async (id: string, dto: UpdateCourseDTO) => {
     return await requestApiWithAuthentication<Course>(`/courses/${id}`, "PUT", {
-        body: dto,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dto),
     });
 };

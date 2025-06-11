@@ -14,7 +14,8 @@ export const createAssignment = async (
         `/courses/${courseId}/assignments`,
         "POST",
         {
-            body: { ...dto, courseId },
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...dto, courseId }),
         }
     );
 };

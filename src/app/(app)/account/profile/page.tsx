@@ -28,6 +28,9 @@ const ProfilePage = () => {
                 <Image
                     src={`/api/file/${user?.profileImage}`}
                     alt="Profile picture"
+                    width="128"
+                    height="128"
+                    className="w-[128px] h-[128px] object-cover rounded-full"
                 />
             )}
 

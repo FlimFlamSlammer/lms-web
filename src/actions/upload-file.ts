@@ -2,22 +2,27 @@
 
 import { requestApiWithAuthentication } from "@/helpers/fetch";
 
-export type UploadFileResponse = {
+type UploadFileResponse = {
     filename: string;
 };
 
-export const uploadFile = async (file: File) => {
+export const uploadFile = async (file: File, silentErrors: boolean = false) => {
+    if (file.size === 0) return undefined;
+
     const formData = new FormData();
     formData.append("file", file);
 
-    return await requestApiWithAuthentication<UploadFileResponse>(
+    const res = await requestApiWithAuthentication<UploadFileResponse>(
         "/files/upload",
         "POST",
         {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
             body: formData,
         }
     );
+
+    if (!silentErrors && res.error) {
+        alert(res.error);
+    }
+
+    return res.data?.filename;
 };

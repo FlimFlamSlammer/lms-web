@@ -10,9 +10,10 @@ export const gradeAssignment = async (
         `/courses/${courseId}/assignments/${id}/submissions/${studentId}/grade`,
         "PATCH",
         {
-            body: {
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
                 grade,
-            },
+            }),
         }
     );
 };

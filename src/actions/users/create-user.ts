@@ -12,6 +12,7 @@ export const createUser = async (dto: {
     roleData?: CreateTeacherDTO | CreateStudentDTO;
 }) => {
     return await requestApiWithAuthentication<User>("/users", "POST", {
-        body: dto,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dto),
     });
 };

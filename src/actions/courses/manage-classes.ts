@@ -7,9 +7,10 @@ export const addClassesToCourse = async (id: string, classIds: string[]) => {
         `/courses/${id}/add-classes`,
         "PATCH",
         {
-            body: {
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
                 classIds,
-            },
+            }),
         }
     );
 };
@@ -22,9 +23,10 @@ export const removeClassesFromCourse = async (
         `/courses/${id}/remove-classes`,
         "PATCH",
         {
-            body: {
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
                 classIds,
-            },
+            }),
         }
     );
 };
