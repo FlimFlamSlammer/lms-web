@@ -19,13 +19,13 @@ import {
     updateUser,
     UpdateUserDTO,
 } from "@/actions/users/update-user";
-import { uploadFile } from "@/actions/upload-file";
+import { uploadFileWithAlert } from "@/helpers/upload-with-alert";
 
 export const CreateUserForm = () => {
     const [selectedRole, setSelectedRole] = useState<UserRole | undefined>();
 
     const action = useCallback(async (formData: FormData) => {
-        const profileImagePath = await uploadFile(
+        const profileImagePath = await uploadFileWithAlert(
             formData.get("profileImage") as File
         );
 
@@ -183,7 +183,7 @@ export const UpdateUserForm = ({ user }: { user?: User }) => {
                 throw new Error("form submitted before user was gotten!");
             }
 
-            const profileImagePath = await uploadFile(
+            const profileImagePath = await uploadFileWithAlert(
                 formData.get("profileImage") as File
             );
 
