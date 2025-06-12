@@ -194,8 +194,6 @@ export const UpdateUserForm = ({ user }: { user?: User }) => {
                 userData: {
                     name: formData.get("name") as string,
                     email: formData.get("email") as string,
-                    password: formData.get("email") as string,
-                    needsPasswordChange: user?.needsPasswordChange,
                     profileImage: profileImagePath,
                     phoneNumber:
                         (formData.get("phoneNumber") as string) || undefined,
