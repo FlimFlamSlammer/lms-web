@@ -78,8 +78,8 @@ export function CourseAssignmentDataTable(props: Props) {
         });
     }
 
-    const editAssignment = (id: string) => {
-        router.push(`/courses/${id}/assignments/${id}/edit`);
+    const editAssignment = (assignmentId: string) => {
+        router.push(`/courses/${id}/assignments/${assignmentId}/edit`);
     };
 
     const renderRowActions = (assignment: Assignment) => {
