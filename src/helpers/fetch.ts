@@ -38,10 +38,12 @@ export const requestApi = async <T>(
 
     const data = await response.json();
     if (!response.ok) {
-        if (data.error.message) {
+        if (data.error?.message) {
             res.error = data.error.message;
-        } else if (data.error.fields) {
+        } else if (data.error?.fields) {
             res.errorFields = data.error.fields;
+        } else {
+            console.log(data);
         }
     } else {
         res.data = data.data;
