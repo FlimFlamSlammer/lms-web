@@ -78,8 +78,12 @@ export function CourseAssignmentDataTable(props: Props) {
         });
     }
 
-    const editAssignment = (assignmentId: string) => {
+    const editAssignmentAction = (assignmentId: string) => {
         router.push(`/courses/${id}/assignments/${assignmentId}/edit`);
+    };
+
+    const assignmentSubmissionsAction = (assignmentId: string) => {
+        router.push(`/courses/${id}/assignments/${assignmentId}/submissions`);
     };
 
     const renderRowActions = (assignment: Assignment) => {
@@ -104,8 +108,15 @@ export function CourseAssignmentDataTable(props: Props) {
                 >
                     {assignment.status == "posted" ? "Draft" : "Post"}
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => editAssignment(assignment.id)}>
+                <DropdownMenuItem
+                    onClick={() => editAssignmentAction(assignment.id)}
+                >
                     Edit
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                    onClick={() => assignmentSubmissionsAction(assignment.id)}
+                >
+                    Submissions
                 </DropdownMenuItem>
                 <DropdownMenuItem
                     className="text-red-500"
@@ -124,7 +135,11 @@ export function CourseAssignmentDataTable(props: Props) {
         <DataTable<Assignment>
             {...props}
             columns={usedColumns}
-            renderRowActions={renderRowActions}
+            renderRowActions={
+                ["teacher", "admin", "superadmin"].includes(user?.role || "")
+                    ? renderRowActions
+                    : undefined
+            }
         />
     );
 }
