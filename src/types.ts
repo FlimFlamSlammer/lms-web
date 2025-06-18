@@ -75,6 +75,8 @@ export type Submission = {
     assignmentId: string;
     grade?: number;
     attachmentPath: string;
+    student?: Student;
+    assignment?: Assignment;
 };
 
 export type APIResponse<T = never> = {

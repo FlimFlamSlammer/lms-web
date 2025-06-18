@@ -8,7 +8,6 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useDataContext } from "@/components/providers/data-provider";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/components/providers/auth-provider";
-import { reloadPage } from "@/helpers/reload-page";
 import {
     Dialog,
     DialogContent,
@@ -17,10 +16,15 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { DownloadLink } from "@/components/ui/download-link";
 
 const columns: ColumnDef<Submission>[] = [
     {
         header: "Name",
+        cell: ({ row }) => {
+            const submission = row.original;
+            return submission.student?.user?.name;
+        },
     },
     {
         header: "Grade",
@@ -28,6 +32,14 @@ const columns: ColumnDef<Submission>[] = [
     },
     {
         header: "File",
+        cell: ({ row }) => {
+            const submission = row.original;
+            return (
+                <DownloadLink href={`/api/file/${submission.attachmentPath}`}>
+                    Download
+                </DownloadLink>
+            );
+        },
     },
 ];
 
