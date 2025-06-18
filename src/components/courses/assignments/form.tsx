@@ -16,6 +16,7 @@ import { useCallback, useState } from "react";
 import { Markdown } from "@/components/ui/markdown";
 import { Assignment } from "@/types";
 import { UpdateAssignmentDTO } from "@/actions/courses/assignments/update-assignment";
+import { dateToLocalISO } from "@/helpers/date-to-local-iso";
 
 export const CreateAssignmentForm = () => {
     const { id: courseId } = useParams();
@@ -182,7 +183,9 @@ export const UpdateAssignmentForm = ({
                     type="datetime-local"
                     name="startTime"
                     errorFieldPath="startTime"
-                    defaultValue={assignment.startTime}
+                    defaultValue={dateToLocalISO(
+                        new Date(Date.parse(assignment.startTime))
+                    )}
                 >
                     Start time
                 </FormInput>
@@ -190,7 +193,9 @@ export const UpdateAssignmentForm = ({
                     type="datetime-local"
                     name="endTime"
                     errorFieldPath="endTime"
-                    defaultValue={assignment.endTime}
+                    defaultValue={dateToLocalISO(
+                        new Date(Date.parse(assignment.endTime))
+                    )}
                 >
                     Due date
                 </FormInput>
