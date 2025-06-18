@@ -14,6 +14,7 @@ import {
     deactivateCourse,
 } from "@/actions/courses/update-course-status";
 import { reloadPage } from "@/helpers/reload-page";
+import { useAuth } from "../providers/auth-provider";
 
 const columns: ColumnDef<Course>[] = [
     {
@@ -66,6 +67,7 @@ export const CourseDataTable = (props: Props) => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const { user } = useAuth();
 
     const toggleCourseStatus = async (course: Course) => {
         if (course.status == "active") await deactivateCourse(course.id);
@@ -87,7 +89,11 @@ export const CourseDataTable = (props: Props) => {
         <DataTable<Course>
             {...props}
             columns={columns}
-            renderRowActions={renderRowActions}
+            renderRowActions={
+                ["admin", "superadmin"].includes(user?.role || "")
+                    ? renderRowActions
+                    : undefined
+            }
         />
     );
 };
