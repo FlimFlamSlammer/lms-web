@@ -24,21 +24,16 @@ const SubmissionsPage = async ({ searchParams, params }: Props) => {
     const page = Math.max(parseInt((await searchParams).page || "1"), 1);
     const { id, assignmentId } = await params;
 
-    console.log("you thre");
-
     const { data, error } = await getSubmissions(id, assignmentId, {
         page,
         search: (await searchParams).search,
     });
-
-    console.log(data);
 
     if (error) {
         throw new Error(error);
     }
 
     if (!data) return;
-    console.log(data);
 
     return (
         <div className="w-full">
