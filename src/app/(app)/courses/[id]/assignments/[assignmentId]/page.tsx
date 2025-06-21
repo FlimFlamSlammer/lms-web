@@ -4,6 +4,12 @@ import { getAssignment } from "@/actions/courses/assignments/get-assignment";
 import { getMySubmissions } from "@/actions/courses/assignments/get-my-submissions";
 import { SubmitAssignmentForm } from "@/components/courses/assignments/submissions/form";
 import { DownloadLink } from "@/components/ui/download-link";
+import {
+    HorizontalDict,
+    HorizontalDictItem,
+    HorizontalDictKey,
+    HorizontalDictValue,
+} from "@/components/ui/horizontal-dict";
 import { Markdown } from "@/components/ui/markdown";
 import { Separator } from "@/components/ui/separator";
 
@@ -36,7 +42,41 @@ const AssignmentPage = async ({ params }: Props) => {
                 </div>
             </div>
 
-            <Separator className="mb-3" />
+            <Separator className="mb-2 mt-1" />
+            <HorizontalDict>
+                <HorizontalDictItem>
+                    <HorizontalDictKey>Starts at</HorizontalDictKey>
+                    <HorizontalDictValue>
+                        {new Date(
+                            assignment?.startTime as string
+                        ).toLocaleString()}
+                    </HorizontalDictValue>
+                </HorizontalDictItem>
+                <HorizontalDictItem>
+                    <HorizontalDictKey>Available until</HorizontalDictKey>
+                    <HorizontalDictValue>
+                        {new Date(
+                            assignment?.endTime as string
+                        ).toLocaleString()}
+                    </HorizontalDictValue>
+                </HorizontalDictItem>
+                {submissions && submissions[0] ? (
+                    <HorizontalDictItem>
+                        <HorizontalDictKey>Grade</HorizontalDictKey>
+                        <HorizontalDictValue>
+                            {submissions[0].grade || "-"}
+                        </HorizontalDictValue>
+                    </HorizontalDictItem>
+                ) : undefined}
+                <HorizontalDictItem>
+                    <HorizontalDictKey>Max grade</HorizontalDictKey>
+                    <HorizontalDictValue>
+                        {assignment?.maxGrade}
+                    </HorizontalDictValue>
+                </HorizontalDictItem>
+            </HorizontalDict>
+            <Separator className="mb-3 mt-2" />
+
             <Markdown>{assignment?.description}</Markdown>
         </div>
     );
