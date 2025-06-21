@@ -18,10 +18,16 @@ export const FormContext = createContext<FormContextValue>({
 type FormProps = {
     children?: ReactNode;
     action: (formData: FormData) => Promise<APIResponse<unknown>>;
-    redirectURL: string;
+    redirectURL?: string;
+    onSuccess?: () => void;
 };
 
-export const Form = ({ children, action, redirectURL }: FormProps) => {
+export const Form = ({
+    children,
+    action,
+    redirectURL,
+    onSuccess,
+}: FormProps) => {
     const router = useRouter();
     const [errorFields, setErrorFields] = useState<Record<string, string>>({});
     const [optimisticErrorFields, setOptimisticErrorFields] =
@@ -39,7 +45,8 @@ export const Form = ({ children, action, redirectURL }: FormProps) => {
                 alert("Something wrong happened. Please try again later.");
                 console.log(error);
             } else {
-                router.push(redirectURL);
+                if (redirectURL) router.push(redirectURL);
+                if (onSuccess) onSuccess();
             }
         });
     };

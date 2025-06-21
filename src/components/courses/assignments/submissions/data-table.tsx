@@ -5,18 +5,22 @@ import { Submission } from "@/types";
 import { DataTable } from "@/components/ui/data-table";
 import { ActionsDropdown } from "@/components/ui/actions-dropdown";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { useDataContext } from "@/components/providers/data-provider";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { useAuth } from "@/components/providers/auth-provider";
 import {
     Dialog,
     DialogContent,
     DialogDescription,
+    DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
 import { DownloadLink } from "@/components/ui/download-link";
+import { Form } from "@/components/ui/form";
+import { FormInput } from "@/components/ui/form-input";
+import { useState } from "react";
+import { FormButton } from "@/components/ui/form-button";
+import { gradeAssignment } from "@/actions/courses/assignments/grade-assignment";
 
 const columns: ColumnDef<Submission>[] = [
     {
@@ -51,14 +55,16 @@ interface Props {
 }
 
 export function SubmissionDataTable(props: Props) {
-    const { id, assignmentId } = useDataContext() as {
+    const { id, assignmentId } = useParams() as {
         id: string;
         assignmentId: string;
     };
-    const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const { user } = useAuth();
+
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [gradedSubmission, setGradedSubmission] = useState<Submission>();
 
     const usedColumns = [...columns];
 
@@ -66,33 +72,64 @@ export function SubmissionDataTable(props: Props) {
         return (
             <ActionsDropdown>
                 {user?.role === "teacher" && (
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <DropdownMenuItem>Grade</DropdownMenuItem>
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                                <DialogTitle>
-                                    Are you absolutely sure?
-                                </DialogTitle>
-                                <DialogDescription>
-                                    This action cannot be undone. This will
-                                    permanently delete your account and remove
-                                    your data from our servers.
-                                </DialogDescription>
-                            </DialogHeader>
-                        </DialogContent>
-                    </Dialog>
+                    <DropdownMenuItem
+                        onSelect={() => {
+                            setDialogOpen(true);
+                            setGradedSubmission(submission);
+                        }}
+                    >
+                        Grade
+                    </DropdownMenuItem>
                 )}
             </ActionsDropdown>
         );
     };
 
     return (
-        <DataTable<Submission>
-            {...props}
-            columns={usedColumns}
-            renderRowActions={renderRowActions}
-        />
+        <>
+            <DataTable<Submission>
+                {...props}
+                columns={usedColumns}
+                renderRowActions={renderRowActions}
+            />
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Grade Assignment</DialogTitle>
+                        <DialogDescription>
+                            Enter grade for{" "}
+                            {gradedSubmission?.student?.user?.name}.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <Form
+                        action={async (formData: FormData) => {
+                            console.log(formData.get("grade") as string);
+
+                            return await gradeAssignment(
+                                id,
+                                assignmentId,
+                                gradedSubmission?.studentId || "",
+                                formData.get("grade") as string
+                            );
+                        }}
+                        redirectURL={
+                            pathname + new URLSearchParams(searchParams)
+                        }
+                        onSuccess={() => setDialogOpen(false)}
+                    >
+                        <FormInput
+                            type="number"
+                            name="grade"
+                            errorFieldPath="grade"
+                        >
+                            Grade
+                        </FormInput>
+                        <DialogFooter>
+                            <FormButton>Submit</FormButton>
+                        </DialogFooter>
+                    </Form>
+                </DialogContent>
+            </Dialog>
+        </>
     );
 }
