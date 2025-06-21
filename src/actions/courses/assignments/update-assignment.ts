@@ -8,10 +8,11 @@ export type UpdateAssignmentDTO = Omit<
 
 export const updateAssignment = async (
     courseId: string,
+    id: string,
     dto: UpdateAssignmentDTO
 ) => {
     return await requestApiWithAuthentication<Assignment>(
-        `/courses/${courseId}/assignments`,
+        `/courses/${courseId}/assignments/${id}`,
         "PUT",
         {
             headers: { "Content-Type": "application/json" },
