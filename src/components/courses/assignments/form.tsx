@@ -15,7 +15,10 @@ import { useParams } from "next/navigation";
 import { useCallback, useState } from "react";
 import { Markdown } from "@/components/ui/markdown";
 import { Assignment } from "@/types";
-import { UpdateAssignmentDTO } from "@/actions/courses/assignments/update-assignment";
+import {
+    updateAssignment,
+    UpdateAssignmentDTO,
+} from "@/actions/courses/assignments/update-assignment";
 import { dateToLocalISO } from "@/helpers/date-to-local-iso";
 
 export const CreateAssignmentForm = () => {
@@ -69,7 +72,7 @@ export const CreateAssignmentForm = () => {
                         onChange={(v) => setDescription(v.currentTarget.value)}
                         className="resize-y"
                         rows={24}
-                    ></FormTextarea>
+                    />
                 </TabsContent>
                 <TabsContent value="preview">
                     <div className="rounded-md border w-full h-fit px-3 py-2 text-base shadow-sm md:text-sm mt-1.5">
@@ -113,9 +116,14 @@ export const UpdateAssignmentForm = ({
 }: {
     assignment: Assignment;
 }) => {
-    const { id: courseId } = useParams();
+    const { id, assignmentId } = useParams() as {
+        id: string;
+        assignmentId: string;
+    };
     const { user } = useAuth();
-    const [description, setDescription] = useState("");
+    const [description, setDescription] = useState(
+        assignment.description || ""
+    );
 
     const action = useCallback(
         (formData: FormData, description: string) => {
@@ -134,9 +142,9 @@ export const UpdateAssignmentForm = ({
                 teacherId: user?.id || "",
             };
 
-            return createAssignment(courseId as string, data);
+            return updateAssignment(id, assignmentId, data);
         },
-        [courseId, user]
+        [id, assignmentId, user]
     );
 
     return (
@@ -144,7 +152,7 @@ export const UpdateAssignmentForm = ({
             action={(formData: FormData) => {
                 return action(formData, description);
             }}
-            redirectURL={`/courses/${courseId}/assignments`}
+            redirectURL={`/courses/${id}/assignments`}
         >
             <FormInput
                 placeholder="Title"
@@ -168,8 +176,7 @@ export const UpdateAssignmentForm = ({
                         onChange={(v) => setDescription(v.currentTarget.value)}
                         className="resize-y"
                         rows={24}
-                        defaultValue={assignment.description}
-                    ></FormTextarea>
+                    />
                 </TabsContent>
                 <TabsContent value="preview">
                     <div className="rounded-md border w-full h-fit px-3 py-2 text-base shadow-sm md:text-sm mt-1.5">
