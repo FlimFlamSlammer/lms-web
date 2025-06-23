@@ -1,5 +1,5 @@
 import { getAssignmentsInCourse } from "@/actions/courses/assignments/get-assignments";
-import { CourseAssignmentDataTable } from "@/components/courses/assignments/data-table";
+import { CourseAssignmentsDataTable } from "@/components/courses/assignments/data-table";
 import { AccessControl } from "@/components/shared/access-control";
 import { Button } from "@/components/ui/button";
 import { AssignmentStatus } from "@/types";
@@ -37,7 +37,6 @@ const CourseAssignmentsPage = async ({ searchParams, params }: Props) => {
     }
 
     if (!data) return;
-    console.log(data);
 
     return (
         <div className="w-full">
@@ -50,7 +49,7 @@ const CourseAssignmentsPage = async ({ searchParams, params }: Props) => {
                     </Button>
                 </AccessControl>
             </div>
-            <CourseAssignmentDataTable
+            <CourseAssignmentsDataTable
                 data={data.data}
                 rowCount={data.total}
                 page={page}

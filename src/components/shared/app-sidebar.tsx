@@ -25,6 +25,11 @@ const menuItems: MenuItem[] = [
         roles: ["student", "teacher", "admin", "superadmin"],
     },
     {
+        title: "Assignments",
+        href: "/assignments",
+        roles: ["student"],
+    },
+    {
         title: "Courses",
         href: "/courses",
         roles: ["student", "teacher", "admin", "superadmin"],

@@ -47,15 +47,12 @@ interface Props {
     pageSize: number;
 }
 
-export function CourseAssignmentDataTable(props: Props) {
+export function CourseAssignmentsDataTable(props: Props) {
     const { id } = useParams() as { id: string };
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const { user } = useAuth();
-
-    // const pathname = usePathname();
-    // const searchParams = useSearchParams();
 
     const usedColumns = [...columns];
 
