@@ -5,12 +5,7 @@ import { Assignment } from "@/types";
 import { DataTable } from "@/components/ui/data-table";
 import { ActionsDropdown } from "@/components/ui/actions-dropdown";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import {
-    useParams,
-    usePathname,
-    useRouter,
-    useSearchParams,
-} from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/components/providers/auth-provider";
 import {
@@ -18,7 +13,6 @@ import {
     draftAssignment,
     postAssignment,
 } from "@/actions/courses/assignments/update-assignment-status";
-import { reloadPage } from "@/helpers/reload-page";
 
 const columns: ColumnDef<Assignment>[] = [
     {
@@ -50,8 +44,6 @@ interface Props {
 export function CourseAssignmentsDataTable(props: Props) {
     const { id } = useParams() as { id: string };
     const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
     const { user } = useAuth();
 
     const usedColumns = [...columns];
@@ -68,7 +60,7 @@ export function CourseAssignmentsDataTable(props: Props) {
         );
     };
 
-    if (user?.role == "teacher") {
+    if (["teacher", "admin", "superadmin"].includes(user?.role || "")) {
         usedColumns.push({
             header: "Status",
             accessorKey: "status",
@@ -96,10 +88,10 @@ export function CourseAssignmentsDataTable(props: Props) {
                             if (error) {
                                 alert(error);
                             }
-                            reloadPage(router, pathname, searchParams);
+                            router.refresh();
                         } else {
                             await postAssignment(id, assignment.id);
-                            reloadPage(router, pathname, searchParams);
+                            router.refresh();
                         }
                     }}
                 >
@@ -119,7 +111,7 @@ export function CourseAssignmentsDataTable(props: Props) {
                     className="text-red-500"
                     onClick={async () => {
                         await cancelAssignment(id, assignment.id);
-                        reloadPage(router, pathname, searchParams);
+                        router.refresh();
                     }}
                 >
                     Cancel

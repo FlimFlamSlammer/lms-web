@@ -79,7 +79,7 @@ export function UserDataTable(props: Props) {
         if (user.status == "active") await deactivateUser(user.id);
         else await activateUser(user.id);
 
-        reloadPage(router, pathname, searchParams);
+        router.refresh();
     };
 
     const resetUserPassword = useCallback((user: User) => {

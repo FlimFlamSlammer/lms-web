@@ -12,8 +12,7 @@ import {
     activateClass,
     deactivateClass,
 } from "@/actions/classes/update-class-status";
-import { reloadPage } from "@/helpers/reload-page";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const columns: ColumnDef<Class>[] = [
     {
@@ -52,13 +51,11 @@ interface Props {
 
 export function ClassDataTable(props: Props) {
     const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
 
     const toggleClassStatus = async ($class: Class) => {
         if ($class.status == "active") await deactivateClass($class.id);
         else await activateClass($class.id);
-        reloadPage(router, pathname, searchParams);
+        router.refresh();
     };
 
     const renderRowActions = ($class: Class) => {

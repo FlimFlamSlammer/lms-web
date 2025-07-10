@@ -62,7 +62,7 @@ export const CourseClassSelector = () => {
                         course.id,
                         Array.from(selectedClasses)
                     ).then(() => {
-                        reloadPage(router, pathname, searchParams);
+                        router.refresh();
                     });
                     setSelectedClasses(new Set());
                 }}

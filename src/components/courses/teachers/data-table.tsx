@@ -46,7 +46,7 @@ export function CourseTeacherDataTable(props: Props) {
         }
 
         removeTeachersFromCourse(course.id, [id]).then(() => {
-            reloadPage(router, pathname, searchParams);
+            router.refresh();
         });
     };
 

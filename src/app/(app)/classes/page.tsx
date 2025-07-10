@@ -1,15 +1,8 @@
 import { getClasses } from "@/actions/classes/get-classes";
 import { ClassDataTable } from "@/components/classes/data-table";
 import { Button } from "@/components/ui/button";
-import { FormFilter, FormFilterSelect } from "@/components/ui/form-filter";
+import { FormFilterWithStatus } from "@/components/ui/generic-form-filters";
 import { Header } from "@/components/ui/header";
-import { Input } from "@/components/ui/input";
-import {
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { SearchParams } from "@/types";
 import Link from "next/link";
 
@@ -36,23 +29,7 @@ const CoursesPage = async ({ searchParams }: Props) => {
         <>
             <Header>Classes</Header>
             <div className="flex items-center justify-between mb-4">
-                <FormFilter>
-                    <Input
-                        name="search"
-                        placeholder="Search"
-                        defaultValue={(await searchParams).search}
-                    />
-                    <FormFilterSelect name="status">
-                        <SelectTrigger>
-                            <SelectValue placeholder="Status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="active">Active</SelectItem>
-                            <SelectItem value="inactive">Inactive</SelectItem>
-                            <SelectItem value="all">All</SelectItem>
-                        </SelectContent>
-                    </FormFilterSelect>
-                </FormFilter>
+                <FormFilterWithStatus />
                 <Button asChild>
                     <Link href="/classes/create">Add Class</Link>
                 </Button>

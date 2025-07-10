@@ -44,7 +44,7 @@ export function CourseClassDataTable(props: Props) {
         }
 
         removeClassesFromCourse(course.id, [id]).then(() => {
-            reloadPage(router, pathname, searchParams);
+            router.refresh();
         });
     };
 

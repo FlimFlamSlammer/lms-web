@@ -65,7 +65,7 @@ export const CourseTeacherSelector = () => {
                         course.id,
                         Array.from(selectedTeachers)
                     ).then(() => {
-                        reloadPage(router, pathname, searchParams);
+                        router.refresh();
                     });
                     setSelectedTeachers(new Set());
                 }}

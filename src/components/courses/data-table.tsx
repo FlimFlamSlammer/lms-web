@@ -72,7 +72,7 @@ export const CourseDataTable = (props: Props) => {
     const toggleCourseStatus = async (course: Course) => {
         if (course.status == "active") await deactivateCourse(course.id);
         else await activateCourse(course.id);
-        reloadPage(router, pathname, searchParams);
+        router.refresh();
     };
 
     const renderRowActions = (course: Course) => {

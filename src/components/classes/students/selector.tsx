@@ -65,7 +65,7 @@ export const StudentSelector = () => {
                         $class.id,
                         Array.from(selectedStudents)
                     ).then(() => {
-                        reloadPage(router, pathname, searchParams);
+                        router.refresh();
                     });
                     setSelectedStudents(new Set());
                 }}

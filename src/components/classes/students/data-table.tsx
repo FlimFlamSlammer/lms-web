@@ -1,34 +1,33 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Class, Student } from "@/types";
+import { Class, User } from "@/types";
 import { DataTable } from "@/components/ui/data-table";
 import { ActionsDropdown } from "@/components/ui/actions-dropdown";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { removeStudentsFromClass } from "@/actions/classes/manage-students";
 import { useDataContext } from "@/components/providers/data-provider";
-import { reloadPage } from "@/helpers/reload-page";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-const columns: ColumnDef<Student>[] = [
+const columns: ColumnDef<User>[] = [
     {
         header: "Name",
         cell: ({ row }) => {
             const student = row.original;
-            return student.user?.name;
+            return student.name;
         },
     },
     {
         header: "Email",
         cell: ({ row }) => {
             const student = row.original;
-            return student.user?.email;
+            return student.email;
         },
     },
 ];
 
 interface Props {
-    data: Student[];
+    data: User[];
     rowCount: number;
     page: number;
     pageSize: number;
@@ -37,8 +36,6 @@ interface Props {
 export function ClassUserDataTable(props: Props) {
     const $class = useDataContext() as Class | null;
     const router = useRouter();
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
 
     const removeStudent = (id: string) => {
         if (!$class) {
@@ -46,11 +43,11 @@ export function ClassUserDataTable(props: Props) {
         }
 
         removeStudentsFromClass($class.id, [id]).then(() => {
-            reloadPage(router, pathname, searchParams);
+            router.refresh();
         });
     };
 
-    const renderRowActions = (student: Student) => {
+    const renderRowActions = (student: User) => {
         return (
             <ActionsDropdown>
                 <DropdownMenuItem
@@ -64,7 +61,7 @@ export function ClassUserDataTable(props: Props) {
     };
 
     return (
-        <DataTable<Student>
+        <DataTable<User>
             {...props}
             columns={columns}
             renderRowActions={renderRowActions}

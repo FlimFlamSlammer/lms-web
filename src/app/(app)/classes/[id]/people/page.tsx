@@ -1,41 +1,41 @@
-"use client";
-
+import { getStudentsInClass } from "@/actions/classes/get-students";
 import { ClassUserDataTable } from "@/components/classes/students/data-table";
 import { StudentSelector } from "@/components/classes/students/selector";
-import { useDataContext } from "@/components/providers/data-provider";
-import { FormFilter, FormFilterField } from "@/components/ui/form-filter";
-import { Class } from "@/types";
-import { useSearchParams } from "next/navigation";
+import { FormFilterWithSearch } from "@/components/ui/generic-form-filters";
 
-const filterFields: FormFilterField[] = [
-    {
-        name: "search",
-        placeholder: "Search",
-    },
-];
+type Props = {
+    searchParams: Promise<{
+        page?: string;
+        search?: string;
+    }>;
+    params: Promise<{
+        id: string;
+    }>;
+};
 
-const UsersPage = () => {
-    const page = Math.max(parseInt(useSearchParams().get("page") || "1"), 1);
-    const $class = useDataContext() as Class | null;
+const UsersPage = async ({ params, searchParams }: Props) => {
+    const page = Math.max(parseInt((await searchParams).page || "1"), 1);
+    const { data, error } = await getStudentsInClass((await params).id, {
+        page,
+        search: (await searchParams).search,
+        status: "active",
+    });
 
-    if (!$class) {
-        return;
+    if (error) {
+        throw new Error(error);
     }
 
-    if ($class.students === undefined) {
-        alert("Something went wrong! Please try again later.");
-        throw new Error("Students in Class is undefined.");
-    }
+    if (!data) return;
 
     return (
         <div className="w-full">
             <div className="flex items-center justify-between mb-4">
-                <FormFilter fields={filterFields} />
+                <FormFilterWithSearch />
                 <StudentSelector />
             </div>
             <ClassUserDataTable
-                data={$class.students}
-                rowCount={$class.students.length}
+                data={data.data}
+                rowCount={data.total}
                 page={page}
                 pageSize={10}
             />

@@ -3,7 +3,7 @@
 import { getClassesInCourse } from "@/actions/courses/get-classes";
 import { CourseClassDataTable } from "@/components/courses/classes/data-table";
 import { CourseClassSelector } from "@/components/courses/classes/selector";
-import { FormFilter, FormFilterField } from "@/components/ui/form-filter";
+import { FormFilterWithSearch } from "@/components/ui/generic-form-filters";
 
 type Props = {
     searchParams: Promise<{
@@ -16,20 +16,13 @@ type Props = {
     }>;
 };
 
-const filterFields: FormFilterField[] = [
-    {
-        name: "search",
-        placeholder: "Search",
-    },
-];
-
 const CourseClassesPage = async ({ searchParams, params }: Props) => {
     const page = Math.max(parseInt((await searchParams).page || "1"), 1);
     const id = (await params).id;
 
     const { data, error } = await getClassesInCourse(id, {
         page,
-        status: (await searchParams).status,
+        status: "active",
         search: (await searchParams).search,
     });
 
@@ -42,7 +35,7 @@ const CourseClassesPage = async ({ searchParams, params }: Props) => {
     return (
         <div className="w-full">
             <div className="flex items-center justify-between mb-4">
-                <FormFilter fields={filterFields} />
+                <FormFilterWithSearch />
                 <CourseClassSelector />
             </div>
             <CourseClassDataTable
