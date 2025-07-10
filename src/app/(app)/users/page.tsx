@@ -1,24 +1,25 @@
 import { getUsers } from "@/actions/users/get-users";
 import { Button } from "@/components/ui/button";
-import {
-    FormFilter,
-    FormFilterField as FormFilterField,
-} from "@/components/ui/form-filter";
+import { FormFilter, FormFilterSelect } from "@/components/ui/form-filter";
 import { Header } from "@/components/ui/header";
+import { Input } from "@/components/ui/input";
+import {
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import { UserDataTable } from "@/components/users/data-table";
-import { SearchParams } from "@/types";
+import { SearchParams, UserRole } from "@/types";
 import Link from "next/link";
 
 type Props = {
-    searchParams: Promise<SearchParams>;
+    searchParams: Promise<
+        SearchParams & {
+            role?: UserRole | "all";
+        }
+    >;
 };
-
-const filterFields: FormFilterField[] = [
-    {
-        name: "search",
-        placeholder: "Search",
-    },
-];
 
 const UsersPage = async ({ searchParams }: Props) => {
     const page = Math.max(parseInt((await searchParams).page || "1"), 1);
@@ -27,6 +28,7 @@ const UsersPage = async ({ searchParams }: Props) => {
         page,
         status: (await searchParams).status,
         search: (await searchParams).search,
+        role: (await searchParams).role,
     });
 
     if (error) {
@@ -39,7 +41,37 @@ const UsersPage = async ({ searchParams }: Props) => {
         <>
             <Header>Users</Header>
             <div className="flex items-center justify-between mb-4">
-                <FormFilter fields={filterFields} />
+                <FormFilter>
+                    <Input
+                        name="search"
+                        placeholder="Search"
+                        defaultValue={(await searchParams).search}
+                    />
+                    <FormFilterSelect name="role">
+                        <SelectTrigger>
+                            <SelectValue placeholder="Role" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="student">Student</SelectItem>
+                            <SelectItem value="teacher">Teacher</SelectItem>
+                            <SelectItem value="admin">Admin</SelectItem>
+                            <SelectItem value="superadmin">
+                                Super Admin
+                            </SelectItem>{" "}
+                            <SelectItem value="all">All</SelectItem>
+                        </SelectContent>
+                    </FormFilterSelect>
+                    <FormFilterSelect name="status">
+                        <SelectTrigger>
+                            <SelectValue placeholder="Status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="active">Active</SelectItem>
+                            <SelectItem value="inactive">Inactive</SelectItem>
+                            <SelectItem value="all">All</SelectItem>
+                        </SelectContent>
+                    </FormFilterSelect>
+                </FormFilter>
                 <Button asChild>
                     <Link href="/users/create">Add User</Link>
                 </Button>

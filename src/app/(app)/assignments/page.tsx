@@ -1,6 +1,5 @@
 import { getTodoAssignments } from "@/actions/assignments/get-todo-assignments";
 import { AssignmentDataTable } from "@/components/assignments/data-table";
-import { CourseAssignmentsDataTable } from "@/components/courses/assignments/data-table";
 import { Header } from "@/components/ui/header";
 import { AssignmentStatus } from "@/types";
 

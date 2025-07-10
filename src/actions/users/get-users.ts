@@ -1,11 +1,15 @@
 "use server";
 
 import { requestApiWithAuthentication } from "@/helpers/fetch";
-import { ListQueryParams, User } from "@/types";
+import { ListQueryParams, User, UserRole } from "@/types";
 
 export type GetUsersResponseData = {
     data: User[];
     total: number;
+};
+
+type UserListQueryParams = ListQueryParams & {
+    role?: UserRole | "all";
 };
 
 export const getUsers = async ({
@@ -14,7 +18,8 @@ export const getUsers = async ({
     mode = "pagination",
     search,
     status = "all",
-}: ListQueryParams) => {
+    role = "all",
+}: UserListQueryParams) => {
     return await requestApiWithAuthentication<GetUsersResponseData>(
         "/users",
         "GET",
@@ -25,6 +30,7 @@ export const getUsers = async ({
                 mode,
                 search: search || "",
                 status,
+                role,
             },
         }
     );
