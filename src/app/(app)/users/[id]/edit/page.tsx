@@ -1,14 +1,19 @@
 "use client";
 
 import { getUser } from "@/actions/users/get-user";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Header } from "@/components/ui/header";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 import { UpdateUserForm } from "@/components/users/form";
 import { User } from "@/types";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const CreateUserPage = () => {
+const EditUserPage = () => {
     const { id }: { id: string } = useParams();
     const [user, setUser] = useState<User | null>();
 
@@ -19,18 +24,20 @@ const CreateUserPage = () => {
     }, [setUser, id]);
 
     return (
-        <>
-            <Header>Edit User</Header>
-            <div className="flex justify-center">
-                <Card>
-                    <CardHeader className="pt-0"></CardHeader>
-                    <CardContent>
-                        <UpdateUserForm user={user || undefined} />
-                    </CardContent>
-                </Card>
-            </div>
-        </>
+        <div className="flex justify-center w-full">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Edit User</CardTitle>
+                    <CardDescription>
+                        Update this user&apos;s data.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <UpdateUserForm user={user || undefined} />
+                </CardContent>
+            </Card>
+        </div>
     );
 };
 
-export default CreateUserPage;
+export default EditUserPage;

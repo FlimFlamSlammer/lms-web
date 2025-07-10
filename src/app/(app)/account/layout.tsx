@@ -13,8 +13,8 @@ const tabMenuItems: TabMenuItem[] = [
         href: "profile",
     },
     {
-        title: "Settings",
-        href: "settings",
+        title: "Password Reset",
+        href: "settings/change-password",
     },
 ];
 

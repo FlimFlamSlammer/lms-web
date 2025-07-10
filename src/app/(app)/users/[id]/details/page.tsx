@@ -1,14 +1,15 @@
 "use client";
+
 import { useDataContext } from "@/components/providers/data-provider";
 import { DictTable, DictTableRow } from "@/components/ui/dict-table";
 import { Student, Teacher, User } from "@/types";
 import Image from "next/image";
 
-const ProfilePage = () => {
-    const user = useDataContext() as User | null;
+const UserDetailsPage = () => {
+    const user = useDataContext() as User;
 
     if (!user) {
-        throw new Error("User not found!");
+        throw new Error("User not found");
     }
 
     const tableRows: DictTableRow[] = [
@@ -102,10 +103,10 @@ const ProfilePage = () => {
 
             <div>
                 <h3 className="mb-2">{user.name}</h3>
-                <DictTable rows={tableRows} />
+                <DictTable rows={tableRows} className="w-fit" />
             </div>
         </div>
     );
 };
 
-export default ProfilePage;
+export default UserDetailsPage;

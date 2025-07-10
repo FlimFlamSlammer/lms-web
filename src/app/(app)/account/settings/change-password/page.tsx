@@ -33,7 +33,7 @@ const ChangePasswordPage = () => {
     };
 
     return (
-        <div className="w-full min-h-screen flex flex-col justify-center items-center">
+        <div className="w-full flex flex-col justify-center items-center">
             <Card>
                 <CardHeader>
                     <CardTitle>Change Password</CardTitle>
@@ -68,7 +68,7 @@ const ChangePasswordPage = () => {
                         >
                             Re-Enter new password
                         </FormInput>
-                        <Button>Update Password</Button>
+                        <Button className="ml-auto">Update Password</Button>
                     </Form>
                 </CardContent>
             </Card>

@@ -3,7 +3,7 @@
 import { useDataContext } from "@/components/providers/data-provider";
 import { DictTable, DictTableRow } from "@/components/ui/dict-table";
 import { Course } from "@/types";
-const CourseAssignmentsPage = () => {
+const CourseDetailsPage = () => {
     const course = useDataContext() as Course;
 
     const tableRows: DictTableRow[] = [
@@ -29,4 +29,4 @@ const CourseAssignmentsPage = () => {
     );
 };
 
-export default CourseAssignmentsPage;
+export default CourseDetailsPage;

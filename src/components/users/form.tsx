@@ -234,7 +234,7 @@ export const UpdateUserForm = ({ user }: { user?: User }) => {
     return (
         <Form action={action} redirectURL="/users">
             {user && <UpdateUserInputs user={user} />}
-            <FormButton className="ml-auto">Submit</FormButton>
+            <FormButton className="ml-auto">Save</FormButton>
         </Form>
     );
 };

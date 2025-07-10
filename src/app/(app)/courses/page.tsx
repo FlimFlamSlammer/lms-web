@@ -30,7 +30,7 @@ const CoursesPage = async ({ searchParams }: Props) => {
         <>
             <Header>Courses</Header>
             <div className="flex items-center justify-between mb-4">
-                <FormFilterWithStatus searchParams={searchParams} />
+                <FormFilterWithStatus />
                 <AccessControl roles={["superadmin", "admin"]}>
                     <Button asChild>
                         <Link href="/courses/create">Add Course</Link>
