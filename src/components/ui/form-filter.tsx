@@ -58,7 +58,8 @@ export const FormFilter = ({ children }: { children: ReactNode }) => {
             <Button variant="outline">Search</Button>
             <Button
                 variant="outline"
-                onClick={() => {
+                onClick={(e) => {
+                    e.preventDefault();
                     if (formRef?.current) {
                         formRef.current.reset();
                     }
@@ -66,6 +67,8 @@ export const FormFilter = ({ children }: { children: ReactNode }) => {
                     clearActions.forEach((clearAction) => {
                         clearAction();
                     });
+
+                    router.replace(pathname);
                 }}
             >
                 Clear Filters
@@ -77,11 +80,18 @@ export const FormFilter = ({ children }: { children: ReactNode }) => {
 export type FormFilterSelectProps = {
     children: ReactNode;
     name: string;
+    defaultValue?: string;
 };
 
-export const FormFilterSelect = ({ children, name }: FormFilterSelectProps) => {
+export const FormFilterSelect = ({
+    children,
+    name,
+    defaultValue,
+}: FormFilterSelectProps) => {
     const inputRef = useRef<HTMLInputElement>(null);
-    const [visibleValue, setVisibleValue] = useState<string>("");
+    const [visibleValue, setVisibleValue] = useState<string>(
+        defaultValue || ""
+    );
     const { registerInputClearAction } = useContext(FormFilterContext);
 
     useEffect(() => {
@@ -101,7 +111,13 @@ export const FormFilterSelect = ({ children, name }: FormFilterSelectProps) => {
             >
                 {children}
             </Select>
-            <input name={name} readOnly className="hidden" ref={inputRef} />
+            <input
+                name={name}
+                readOnly
+                className="hidden"
+                ref={inputRef}
+                defaultValue={defaultValue}
+            />
         </>
     );
 };
