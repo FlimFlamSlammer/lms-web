@@ -57,7 +57,7 @@ export const UpdateClassForm = ({ $class }: { $class?: Class }) => {
                 </>
             )}
 
-            <FormButton className="ml-auto">Submit</FormButton>
+            <FormButton className="ml-auto">Save</FormButton>
         </Form>
     );
 };

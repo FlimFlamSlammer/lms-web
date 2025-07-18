@@ -123,7 +123,7 @@ export const UpdateCourseForm = ({ course }: { course?: Course }) => {
                 </>
             )}
 
-            <FormButton className="ml-auto">Submit</FormButton>
+            <FormButton className="ml-auto">Save</FormButton>
         </Form>
     );
 };

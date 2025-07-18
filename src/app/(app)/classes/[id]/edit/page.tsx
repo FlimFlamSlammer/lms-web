@@ -29,7 +29,7 @@ const EditClassPage = () => {
                 <CardHeader>
                     <CardTitle>Edit Class</CardTitle>
                     <CardDescription>
-                        Update this class&apos;s data.
+                        Update this class&apos; data.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
