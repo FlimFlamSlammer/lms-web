@@ -3,6 +3,7 @@
 import { getAssignment } from "@/actions/courses/assignments/get-assignment";
 import { getMySubmissions } from "@/actions/courses/assignments/get-my-submissions";
 import { SubmitAssignmentForm } from "@/components/courses/assignments/submissions/form";
+import { AccessControl } from "@/components/shared/access-control";
 import { DownloadLink } from "@/components/ui/download-link";
 import {
     HorizontalDict,
@@ -29,17 +30,19 @@ const AssignmentPage = async ({ params }: Props) => {
         <div className="w-full">
             <div className="flex justify-between">
                 <h2 className="mb-1">{assignment?.title}</h2>
-                <div className="flex gap-x-2">
-                    {submissions && submissions[0] ? (
-                        <DownloadLink
-                            href={`/api/file/${submissions[0].attachmentPath}`}
-                        >
-                            Download Sumission
-                        </DownloadLink>
-                    ) : (
-                        <SubmitAssignmentForm />
-                    )}
-                </div>
+                <AccessControl roles={["student"]}>
+                    <div className="flex gap-x-2">
+                        {submissions && submissions[0] ? (
+                            <DownloadLink
+                                href={`/api/file/${submissions[0].attachmentPath}`}
+                            >
+                                Download Sumission
+                            </DownloadLink>
+                        ) : (
+                            <SubmitAssignmentForm />
+                        )}
+                    </div>
+                </AccessControl>
             </div>
 
             <Separator className="mb-2 mt-1" />
