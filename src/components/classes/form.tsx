@@ -42,15 +42,20 @@ export const UpdateClassForm = ({ $class }: { $class?: Class }) => {
 
     return (
         <Form action={action} redirectURL="/classes">
-            <FormInput
-                name="name"
-                id="name"
-                placeholder="Class Name"
-                errorFieldPath="name"
-                defaultValue={$class?.name}
-            >
-                Class Name
-            </FormInput>
+            {$class && (
+                <>
+                    <FormInput
+                        name="name"
+                        id="name"
+                        placeholder="Class Name"
+                        errorFieldPath="name"
+                        defaultValue={$class?.name}
+                    >
+                        Class Name
+                    </FormInput>
+                </>
+            )}
+
             <FormButton className="ml-auto">Submit</FormButton>
         </Form>
     );

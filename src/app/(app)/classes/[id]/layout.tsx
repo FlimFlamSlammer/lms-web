@@ -9,6 +9,10 @@ const tabMenuItems: TabMenuItem[] = [
         title: "People",
         href: "people",
     },
+    {
+        title: "Edit",
+        href: "edit",
+    },
 ];
 
 type Props = {

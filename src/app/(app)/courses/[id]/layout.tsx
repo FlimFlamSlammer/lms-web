@@ -23,6 +23,10 @@ const tabMenuItems: TabMenuItem[] = [
         title: "Details",
         href: "details",
     },
+    {
+        title: "Edit",
+        href: "edit",
+    },
 ];
 
 type Props = {

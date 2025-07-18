@@ -78,45 +78,50 @@ export const UpdateCourseForm = ({ course }: { course?: Course }) => {
 
     return (
         <Form action={action} redirectURL="/courses">
-            <FormInput
-                name="name"
-                id="name"
-                placeholder="Course Name"
-                defaultValue={course?.name}
-                errorFieldPath="name"
-            >
-                Course Name
-            </FormInput>
-            <FormInput
-                name="grade"
-                id="grade"
-                placeholder="Grade"
-                defaultValue={course?.grade?.toString()}
-                errorFieldPath="grade"
-                type="number"
-            >
-                Grade
-            </FormInput>
-            <FormInput
-                name="startYear"
-                id="startYear"
-                placeholder="2024"
-                defaultValue={course?.startYear?.toString()}
-                errorFieldPath="startYear"
-                type="number"
-            >
-                Start Year
-            </FormInput>
-            <FormInput
-                name="endYear"
-                id="endYear"
-                placeholder="2025"
-                defaultValue={course?.endYear?.toString()}
-                errorFieldPath="endYear"
-                type="number"
-            >
-                End Year
-            </FormInput>
+            {course && (
+                <>
+                    <FormInput
+                        name="name"
+                        id="name"
+                        placeholder="Course Name"
+                        defaultValue={course?.name}
+                        errorFieldPath="name"
+                    >
+                        Course Name
+                    </FormInput>
+                    <FormInput
+                        name="grade"
+                        id="grade"
+                        placeholder="Grade"
+                        defaultValue={course?.grade?.toString()}
+                        errorFieldPath="grade"
+                        type="number"
+                    >
+                        Grade
+                    </FormInput>
+                    <FormInput
+                        name="startYear"
+                        id="startYear"
+                        placeholder="2024"
+                        defaultValue={course?.startYear?.toString()}
+                        errorFieldPath="startYear"
+                        type="number"
+                    >
+                        Start Year
+                    </FormInput>
+                    <FormInput
+                        name="endYear"
+                        id="endYear"
+                        placeholder="2025"
+                        defaultValue={course?.endYear?.toString()}
+                        errorFieldPath="endYear"
+                        type="number"
+                    >
+                        End Year
+                    </FormInput>
+                </>
+            )}
+
             <FormButton className="ml-auto">Submit</FormButton>
         </Form>
     );
