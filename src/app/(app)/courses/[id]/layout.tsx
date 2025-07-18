@@ -26,6 +26,7 @@ const tabMenuItems: TabMenuItem[] = [
     {
         title: "Edit",
         href: "edit",
+        roles: ["admin", "superadmin"],
     },
 ];
 
