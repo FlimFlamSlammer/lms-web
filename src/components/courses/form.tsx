@@ -9,6 +9,7 @@ import { FormButton } from "../ui/form-button";
 import { FormInput } from "../ui/form-input";
 import { useCallback } from "react";
 import { Course } from "@/types";
+import { updateCourse, UpdateCourseDTO } from "@/actions/courses/update-course";
 
 export const CreateCourseForm = () => {
     const action = useCallback((formData: FormData) => {
@@ -65,16 +66,16 @@ export const CreateCourseForm = () => {
 };
 
 export const UpdateCourseForm = ({ course }: { course?: Course }) => {
-    const action = useCallback((formData: FormData) => {
-        const data: CreateCoursetDTO = {
+    const action = (formData: FormData) => {
+        const data: UpdateCourseDTO = {
             name: formData.get("name") as string,
             grade: parseInt(formData.get("grade") as string),
             startYear: parseInt(formData.get("startYear") as string),
             endYear: parseInt(formData.get("endYear") as string),
         };
 
-        return createCourse(data);
-    }, []);
+        return updateCourse(course?.id || "", data);
+    };
 
     return (
         <Form action={action} redirectURL="/courses">

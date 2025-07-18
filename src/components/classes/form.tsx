@@ -6,6 +6,7 @@ import { FormInput } from "../ui/form-input";
 import { useCallback } from "react";
 import { createClass, CreateClassDTO } from "@/actions/classes/create-class";
 import { Class } from "@/types";
+import { updateClass } from "@/actions/classes/update-class";
 
 export const CreateClassForm = () => {
     const action = useCallback((formData: FormData) => {
@@ -32,13 +33,13 @@ export const CreateClassForm = () => {
 };
 
 export const UpdateClassForm = ({ $class }: { $class?: Class }) => {
-    const action = useCallback((formData: FormData) => {
+    const action = (formData: FormData) => {
         const data: CreateClassDTO = {
             name: formData.get("name") as string,
         };
 
-        return createClass(data);
-    }, []);
+        return updateClass($class?.id || "", data);
+    };
 
     return (
         <Form action={action} redirectURL="/classes">
