@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
 import { User } from "@/types";
 import { Checkbox } from "../ui/checkbox";
@@ -14,12 +14,19 @@ import { updateUser } from "@/actions/users/update-user";
 import { DataTable } from "../ui/data-table";
 import { useCallback } from "react";
 import { ActionsDropdown } from "../ui/actions-dropdown";
-import { reloadPage } from "@/helpers/reload-page";
+import Link from "next/link";
 
 const columns: ColumnDef<User>[] = [
     {
-        accessorKey: "name",
         header: "Name",
+        cell: ({ row }) => {
+            const user = row.original;
+            return (
+                <Link href={`/users/${user.id}/details`} className="link">
+                    {user.name}
+                </Link>
+            );
+        },
     },
     {
         accessorKey: "email",
@@ -72,8 +79,6 @@ interface Props {
 
 export function UserDataTable(props: Props) {
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const pathname = usePathname();
 
     const toggleUserStatus = async (user: User) => {
         if (user.status == "active") await deactivateUser(user.id);
